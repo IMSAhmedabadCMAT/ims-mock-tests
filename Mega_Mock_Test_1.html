@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMS Mega Mock Test 1 — Quantitative Aptitude</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0f2556;--navy2:#1a3a7c;--navy3:#2851a3;--gold:#e8a020;--green:#1a7a3c;--red:#b91c1c;--purple:#7c3aed;--teal:#0d7a6e;--orange:#c45000;--gray:#9ca3af;--lightbg:#f3f4f8;--border:#d1d5db;--text:#1e293b;--subtext:#64748b}
+html,body{height:100%;font-family:&apos;IBM Plex Sans&apos;,sans-serif;background:var(--lightbg);color:var(--text);font-size:14px}
+.header{background:var(--navy);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:52px;position:fixed;top:0;left:0;right:0;z-index:200;border-bottom:3px solid var(--gold)}
+.logo{font-size:15px;font-weight:700;color:white}.logo span{color:var(--gold)}
+.hc{display:flex;align-items:center;gap:10px}
+.sec-badge{background:var(--navy3);padding:3px 9px;border-radius:4px;font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.h-info{font-size:11px;color:#aac}
+.timer-wrap{display:flex;align-items:center;gap:8px}
+.timer-label{font-size:10px;color:#99b;letter-spacing:1px;text-transform:uppercase}
+.timer{font-family:&apos;IBM Plex Mono&apos;,monospace;font-size:22px;font-weight:500;color:#fff;background:var(--navy2);border:1.5px solid #4466aa;padding:3px 14px;border-radius:6px;min-width:90px;text-align:center;letter-spacing:2px}
+.timer.warn{color:var(--gold);border-color:var(--gold);animation:pulse 1s ease-in-out infinite}
+.timer.danger{color:#ff6b6b;border-color:#ff6b6b;animation:pulse .5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.h-student{font-size:11px;color:#ccddff;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.section-tabs{position:fixed;top:52px;left:0;right:0;z-index:190;background:var(--navy2);display:flex;align-items:center;padding:4px 16px;gap:2px;border-bottom:1px solid #2a4a9a;overflow-x:auto}
+.tab{padding:5px 10px;border-radius:4px 4px 0 0;font-size:10.5px;font-weight:600;cursor:pointer;color:#99b;background:transparent;border:none;white-space:nowrap;transition:all .15s}
+.tab.active{background:white;color:var(--navy)}
+.q-ctr{margin-left:auto;font-size:12px;color:#aac;white-space:nowrap;padding-left:10px;font-weight:600}
+.main{display:flex;height:100vh;padding-top:90px;padding-bottom:56px}
+.q-panel{flex:1;overflow-y:auto;background:white;border-right:1px solid var(--border)}
+.q-inner{padding:20px 26px;max-width:860px}
+/* CASELET / DIRECTIONS BOX */
+.passage-box{background:#fdf9f0;border:1px solid #d4b896;border-left:4px solid var(--gold);border-radius:6px;padding:14px 18px;margin-bottom:14px;font-family:&apos;Lora&apos;,serif;font-size:13.5px;line-height:1.85;color:#2d3748}
+.passage-label{font-family:&apos;IBM Plex Sans&apos;,sans-serif;font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8a6a40;margin-bottom:7px}
+/* QUESTION */
+.q-meta{display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-size:15px;font-weight:700;color:var(--navy)}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:600}
+.b-s1{background:#e0eaff;color:var(--navy3)}.b-s2{background:#fdf0e0;color:#8a4500}
+.b-s3{background:#e6f7f4;color:var(--teal)}.b-s4{background:#f3e8ff;color:var(--purple)}
+.b-mcq{background:#fce4ec;color:#b91c6a}
+.q-text{font-size:14px;line-height:1.8;margin-bottom:12px;font-weight:500;color:var(--text)}
+.instr{background:#fffbe6;border:1px solid #f0d060;border-radius:5px;padding:6px 11px;font-size:11.5px;color:#7a5c00;margin-bottom:11px}
+/* OPTIONS */
+.options{list-style:none;display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;border:1.5px solid var(--border);border-radius:7px;cursor:pointer;transition:border-color .15s,background .15s;font-size:13.5px;line-height:1.65;user-select:none}
+.option:hover{border-color:var(--navy3);background:#f0f4ff}
+.option.selected{border-color:var(--navy3);background:#e8eeff}
+.opt-circle{width:17px;height:17px;border:2px solid var(--border);border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center}
+.option.selected .opt-circle{border-color:var(--navy3)}
+.opt-dot{width:8px;height:8px;border-radius:50%;background:var(--navy3);display:none}
+.option.selected .opt-dot{display:block}
+.opt-lbl{font-weight:700;color:var(--navy3);margin-right:4px;flex-shrink:0;min-width:18px}
+/* RIGHT PANEL */
+.r-panel{width:218px;background:#f8f9fc;border-left:1px solid var(--border);overflow-y:auto;padding:11px;flex-shrink:0}
+.r-title{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--subtext);margin-bottom:7px}
+.score-info{background:white;border:1px solid var(--border);border-radius:6px;padding:9px 11px;margin-bottom:11px}
+.si-row{display:flex;justify-content:space-between;font-size:12px;padding:2px 0}
+.si-row .v{font-weight:700}.si-row.g .v{color:var(--green)}.si-row.r .v{color:var(--red)}
+.legend{margin-bottom:11px}
+.leg-item{display:flex;align-items:center;gap:5px;margin:3px 0;font-size:10px;color:var(--subtext)}
+.leg-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.sj-wrap{display:flex;gap:3px;margin-bottom:11px;flex-wrap:wrap}
+.sj-btn{padding:3px 7px;border:1.5px solid var(--border);border-radius:12px;font-size:9.5px;font-weight:600;cursor:pointer;color:var(--subtext);background:white;transition:all .15s}
+.sj-btn:hover,.sj-btn.active{background:var(--navy3);color:white;border-color:var(--navy3)}
+.pal-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.pb{width:100%;height:30px;border:none;border-radius:3px;font-size:10px;font-weight:700;cursor:pointer;color:white;transition:transform .1s}
+.pb:hover{transform:scale(1.12)}.pb.cur{box-shadow:0 0 0 2px var(--gold)}
+.pb.p-nv{background:#9ca3af}.pb.p-na{background:#ef4444}.pb.p-ans{background:#16a34a}.pb.p-mrv{background:var(--purple)}
+.pb.p-amrv{background:var(--purple)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:#eef0f5;border-top:1px solid var(--border);padding:9px 16px;display:flex;justify-content:space-between;align-items:center}
+.nav-left,.nav-right{display:flex;gap:8px}
+.btn{padding:7px 14px;border:none;border-radius:5px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:&apos;IBM Plex Sans&apos;,sans-serif;transition:opacity .15s,transform .1s}
+.btn:hover{opacity:.88;transform:translateY(-1px)}
+.btn-prev{background:#64748b;color:white}.btn-mark{background:var(--purple);color:white}
+.btn-clear{background:#f97316;color:white}.btn-save{background:var(--green);color:white}
+.btn-submit{background:var(--navy);color:white;border:2px solid var(--gold)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;justify-content:center;align-items:center}
+.overlay.show{display:flex}
+.modal{background:white;border-radius:12px;padding:26px 30px;max-width:720px;width:94%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal::-webkit-scrollbar{width:6px}.modal::-webkit-scrollbar-thumb{background:#c0c8d8;border-radius:3px}
+.modal-title{font-size:19px;font-weight:700;color:var(--navy);margin-bottom:4px;text-align:center}
+.modal-sub{font-size:12px;color:var(--subtext);text-align:center;margin-bottom:16px}
+.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px}
+.sc{background:var(--lightbg);border-radius:8px;padding:12px 8px;text-align:center;border:1px solid var(--border)}
+.sc-label{font-size:9.5px;color:var(--subtext);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+.sc-val{font-size:24px;font-weight:700;line-height:1}
+.sc-val.blue{color:var(--navy3)}.sc-val.grn{color:var(--green)}.sc-val.gld{color:var(--gold)}
+.sep{height:1px;background:var(--border);margin:12px 0}
+.a-title{font-size:13px;font-weight:700;color:var(--navy);margin:12px 0 8px}
+table.atbl{width:100%;border-collapse:collapse;font-size:12px}
+table.atbl th{background:var(--navy);color:white;padding:7px 8px;text-align:center;font-weight:600;font-size:10.5px}
+table.atbl td{padding:6px 8px;text-align:center;border-bottom:1px solid #f0f0f0}
+table.atbl tr:nth-child(even) td{background:#f8f9fc}
+.rtabs{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap}
+.rtab{padding:5px 11px;border-radius:5px;font-size:11.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:white;color:var(--subtext)}
+.rtab.active{background:var(--navy);color:white;border-color:var(--navy)}
+.rq{padding:8px 0;border-bottom:1px solid #f0f0f0}
+.rq-hdr{display:flex;align-items:center;gap:5px;margin-bottom:3px;flex-wrap:wrap}
+.rq-num{font-weight:700;font-size:12px;color:var(--navy3)}
+.rq-st{font-size:11px;margin-left:auto;font-weight:600}
+.rq-st.ok{color:var(--green)}.rq-st.no{color:var(--red)}.rq-st.sk{color:var(--gray)}
+.rq-ans{font-size:11.5px;margin-top:2px}.rq-your{color:#555}.rq-correct{color:var(--green);font-weight:600}
+.s-strip{background:var(--lightbg);border:1px solid var(--border);border-radius:6px;padding:7px 13px;margin-bottom:12px;font-size:12px;color:var(--subtext);display:flex;flex-wrap:wrap;gap:5px 16px}
+.s-strip strong{color:var(--navy);font-weight:700}
+.confirm-box{background:white;border-radius:12px;padding:26px;max-width:380px;text-align:center}
+.confirm-box h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.confirm-box p{font-size:13px;color:var(--subtext);margin-bottom:8px;line-height:1.6}
+.c-stats{background:var(--lightbg);border-radius:6px;padding:11px;margin:11px 0;font-size:13px;display:flex;flex-direction:column;gap:4px}
+.cs-row{display:flex;justify-content:space-between}
+.c-btns{display:flex;gap:10px;margin-top:14px;justify-content:center}
+.btn-cancel{background:#e5e7eb;color:var(--text)}
+.entry-ov{position:fixed;inset:0;background:linear-gradient(145deg,#070f24 0%,#0f2556 55%,#1a3a7c 100%);z-index:1000;display:flex;align-items:center;justify-content:center}
+.entry-card{background:white;border-radius:16px;padding:34px 38px;width:450px;max-width:93vw;box-shadow:0 28px 80px rgba(0,0,0,.5)}
+.entry-logo{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:4px}.entry-logo span{color:var(--gold)}
+.entry-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.entry-sub{font-size:11.5px;color:var(--subtext);margin-bottom:16px;line-height:1.5}
+.entry-divider{height:1px;background:var(--border);margin-bottom:16px}
+.entry-field{margin-bottom:11px}
+.entry-label{display:block;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--subtext);margin-bottom:4px}
+.entry-input{width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-family:&apos;IBM Plex Sans&apos;,sans-serif;color:var(--text);transition:border-color .15s}
+.entry-input:focus{outline:none;border-color:var(--navy3);box-shadow:0 0 0 3px rgba(40,81,163,.15)}
+.entry-input::placeholder{color:#b0b8c8}
+select.entry-input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2364748b' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:30px}
+.entry-err{color:#b91c1c;font-size:12px;font-weight:600;margin-bottom:9px;min-height:18px}
+.entry-btn{width:100%;padding:10px;background:var(--navy);color:white;border:2px solid var(--gold);border-radius:7px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:&apos;IBM Plex Sans&apos;,sans-serif}
+.entry-btn:hover{background:var(--navy2)}
+.entry-note{font-size:10.5px;color:var(--subtext);text-align:center;margin-top:9px;line-height:1.5}
+.toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#1a7a3c;color:white;padding:7px 20px;border-radius:20px;font-size:12px;font-weight:600;opacity:0;transition:opacity .4s;z-index:800;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}.toast.err{background:#b91c1c}
+@keyframes progbar{from{width:0%}to{width:100%}}
+.prog-bar{height:100%;background:var(--green);border-radius:2px;animation:progbar 2.8s linear forwards}
+</style>
+</head>
+<body>
+<div class="entry-ov" id="entry-ov">
+  <div class="entry-card">
+    <div class="entry-logo">IMS <span>Mega Mock Test 1</span></div>
+    <div class="entry-title">Quantitative Aptitude &mdash; Arithmetic</div>
+    <div class="entry-sub">25 mixed arithmetic questions in random order &middot; attempt in any sequence you like<br>The 30-minute timer starts after you click <strong>Begin Test</strong>.</div>
+    <div class="entry-divider"></div>
+    <div class="entry-field"><label class="entry-label">Student Name *</label><input class="entry-input" id="inp-name" type="text" placeholder="Your full name" autocomplete="off"/></div>
+    <div class="entry-field">
+      <label class="entry-label">Center *</label>
+      <select class="entry-input" id="inp-center">
+        <option value="">&mdash; Select your center &mdash;</option>
+        <option>Ahmedabad</option><option>Gandhinagar</option><option>Vadodara</option><option>Surat</option><option>Gujarat Online</option>
+      </select>
+    </div>
+    <div class="entry-field">
+      <label class="entry-label">Batch *</label>
+      <select class="entry-input" id="inp-batch">
+        <option value="">&mdash; Select your batch &mdash;</option>
+        <option>27CNS01</option><option>27CNS02</option><option>27CNS03</option>
+        <option>27CNS04</option><option>27CNS05</option><option>27CNS06</option>
+      </select>
+    </div>
+    <div class="entry-err" id="entry-err"></div>
+    <button class="entry-btn" onclick="startTest()">Begin Test &#9654;</button>
+    <div class="entry-note">25 Questions &middot; 30 Minutes &middot; +4 correct &middot; &minus;1 wrong &middot; Max 100 marks</div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<div class="header">
+  <div class="logo">IMS <span>Mega Mock Test 1</span></div>
+  <div class="hc"><div class="sec-badge">Quantitative Aptitude</div><div class="h-info">25 Qs &nbsp;&middot;&nbsp; 30 Min &nbsp;&middot;&nbsp; +4/&minus;1</div></div>
+  <div style="display:flex;align-items:center;gap:13px">
+    <div class="h-student" id="h-student"></div>
+    <div class="timer-wrap"><div class="timer-label">Time Left</div><div class="timer" id="timer">30:00</div></div>
+  </div>
+</div>
+<div class="section-tabs">
+  <div class="tab active">Quantitative Aptitude &mdash; Q1 to Q25</div>
+  <div class="q-ctr">Q&nbsp;<span id="cur-q">1</span>&nbsp;/&nbsp;25</div>
+</div>
+<div class="main">
+  <div class="q-panel"><div class="q-inner" id="q-inner"></div></div>
+  <div class="r-panel">
+    <div class="score-info">
+      <div class="r-title">Marking</div>
+      <div class="si-row g"><span>Correct</span><span class="v">+4</span></div>
+      <div class="si-row r"><span>Wrong</span><span class="v">&minus;1</span></div>
+      <div class="si-row"><span style="color:#888">Skip</span><span class="v" style="color:#888">0</span></div>
+    </div>
+    <div class="legend">
+      <div class="r-title">Status</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#9ca3af"></div>Not Visited</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Not Answered</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#16a34a"></div>Answered</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--purple)"></div>Marked</div>
+    </div>
+    <div class="r-title">Palette</div>
+    <div class="pal-grid" id="palette"></div>
+  </div>
+</div>
+<div class="bottom-nav">
+  <div class="nav-left">
+    <button class="btn btn-prev" onclick="navigate(-1)">&#9664; Prev</button>
+    <button class="btn btn-mark" onclick="markForReview()">&#9873; Mark</button>
+    <button class="btn btn-clear" onclick="clearResp()">&#10005; Clear</button>
+  </div>
+  <div class="nav-right">
+    <button class="btn btn-save" onclick="saveAndNext()">Save &amp; Next &#9654;</button>
+    <button class="btn btn-submit" onclick="showConfirm()">Submit Test</button>
+  </div>
+</div>
+<div class="overlay" id="confirm-ov">
+  <div class="confirm-box">
+    <h3>Submit Test?</h3>
+    <p>IMS Mega Mock Test 1 &middot; 25 Questions</p>
+    <div class="c-stats" id="c-stats"></div>
+    <div class="c-btns">
+      <button class="btn btn-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="btn btn-submit" onclick="doSubmit()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="timeup-ov">
+  <div style="background:white;border-radius:16px;padding:36px 44px;text-align:center;max-width:340px;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div style="font-size:34px;margin-bottom:11px">&#9201;</div>
+    <div style="font-size:19px;font-weight:700;color:var(--red);margin-bottom:8px">Time's Up!</div>
+    <div style="font-size:13px;color:var(--subtext);margin-bottom:18px">30 minutes elapsed. Submitting now.</div>
+    <button class="btn btn-submit" style="width:100%" onclick="doSubmit()">View Results</button>
+  </div>
+</div>
+<div class="overlay" id="submitting-ov">
+  <div style="background:white;border-radius:16px;padding:36px 44px;text-align:center;max-width:340px">
+    <div style="font-size:44px;margin-bottom:14px">&#9989;</div>
+    <div style="font-size:18px;font-weight:700;color:var(--navy);margin-bottom:9px">Responses Submitted!</div>
+    <div style="font-size:13px;color:var(--subtext);line-height:1.6">Calculating your score&hellip;</div>
+    <div style="margin-top:18px;height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden"><div class="prog-bar"></div></div>
+  </div>
+</div>
+<div class="overlay" id="results-ov">
+  <div class="modal">
+    <div class="modal-title">&#128202; IMS Mega Mock Test 1 &mdash; Results</div>
+    <div class="modal-sub">Quantitative Aptitude &middot; 25 MCQ &middot; +4 correct &middot; &minus;1 wrong</div>
+    <div class="s-strip" id="s-strip"></div>
+    <div class="score-grid" id="score-cards"></div>
+    <div class="sep"></div>
+    <div class="a-title">Topic-wise Analysis</div>
+    <table class="atbl" id="atbl"></table>
+    <div class="sep"></div>
+    <div class="a-title">Question-wise Review</div>
+    <div class="rtabs">
+      <button class="rtab active" onclick="filterReview('all',this)">All (25)</button>
+      <button class="rtab" onclick="filterReview('correct',this)">&#10003; Correct</button>
+      <button class="rtab" onclick="filterReview('wrong',this)">&#10007; Wrong</button>
+      <button class="rtab" onclick="filterReview('skip',this)">&mdash; Skipped</button>
+    </div>
+    <div id="review-list"></div>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button onclick="downloadPDF()" style="flex:1;padding:9px;background:var(--navy);color:white;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:&apos;IBM Plex Sans&apos;,sans-serif">&#128196; Download Answer Key</button>
+      <button onclick="closeResults()" style="flex:1;padding:9px;background:#64748b;color:white;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:&apos;IBM Plex Sans&apos;,sans-serif">Close</button>
+    </div>
+  </div>
+</div>
+<script>
+/* ── Google Form target. These entry IDs are carried over from the DET Mock 5 file.
+      Swap `url` and the `f` entry IDs for the IMS Mega Mock Test 1 form before going live,
+      otherwise responses land in the DET Mock 5 sheet. ── */
+const GF={
+  url:'https://docs.google.com/forms/d/e/1FAIpQLSe8Vl90F1OhZ5vAvOhBzPDef6AooDftfprR5g9Pd8IKopRttQ/formResponse',
+  f:{name:'entry.821793197',center:'entry.718554192',batch:'entry.1677067231',
+     total:'entry.394084461',correct:'entry.221833569',wrong:'entry.1128942083',
+     skip:'entry.643971374',time:'entry.1634701790',resp:'entry.2004208374'}
+};
+const L=['A','B','C','D'];
+
+const Q=[
+// ─── §1 Ratio & Variation · §2 Percentage, P&L, Discount · §3 Mixtures & Alligation · §4 Interest & Misc ───
+{id:1,sec:1,
+ text:'A merchant makes a cocktail punch containing fruit extract, soda, and water. The ratio of fruit extract to soda is 3:2, and the ratio of soda to water is 4:5. If 15 liters of water are added to the punch, the new ratio of soda to water becomes 2:3. Find the original quantity of pure fruit extract used.',
+ options:['90 liters','36 liters','45 liters','24 liters'],answer:0},
+
+{id:2,sec:1,
+ text:'A student got as many marks in Physics as he got in Maths. The ratio of his marks in Biology and Chemistry was 5:7. The ratio of his marks in Biology and Maths is 3:2. If he gets an aggregate of 64% in all four papers and each subject had equal maximum marks, in how many subjects has he scored more than 50% marks?',
+ options:['1','2','3','4'],answer:1},
+
+{id:3,sec:2,
+ text:'A shopkeeper offers the following two discount schemes on the sale of a watch having marked price &#8377;3,600.<br>&nbsp;&nbsp;(1) Two successive discounts of 15%.<br>&nbsp;&nbsp;(2) A discount of 10% followed by a discount of 20%.<br>What is the difference between the selling price of the watch in case (1) and case (2)?',
+ options:['&#8377;8','&#8377;9','&#8377;10','&#8377;11'],answer:1},
+
+{id:4,sec:1,
+ text:'Prerna, Karna and Swarna together have Rs. 5,678 with them such that if the amount with each is reduced by Rs. 26, the amounts with them would be in the ratio 6:5:3. What are the amounts (in Rs.) with Prerna, Karna, and Swarna respectively?',
+ options:['2400, 2000, 1200','2426, 2026, 1226','2436, 2024, 1218','None of these'],answer:1},
+
+{id:5,sec:3,
+ text:'Fresh fruit contains 68% water and dry fruit contains 20% water. How much dry fruit can be obtained from 100 kg of fresh fruits?',
+ options:['32 kg','40 kg','52 kg','80 kg'],answer:1},
+
+{id:6,sec:2,
+ text:'A man sells two cows for Rs. 15,640 each, gaining 15% on one and losing 15% on the other. Find his total gain or loss.',
+ options:['Rs. 720 loss','Rs. 360 loss','Rs. 720 gain','Rs. 360 gain'],answer:0},
+
+{id:7,sec:2,
+ text:'A can of juice was 80% full. 80% of the contents were emptied into a glass and 84 ml of juice was added to the can. The can then became full to the brim. What is the capacity of the can (in ml)?',
+ options:['90 ml','95 ml','100 ml','105 ml'],answer:2},
+
+{id:8,sec:2,
+ text:'Kapil sells a mobile to Sachin at a gain of 15% and Sachin again sells it to Rohit at a profit of 12%. If Rohit pays Rs. 322, what is the cost price of the mobile for Kapil?',
+ options:['Rs. 350','Rs. 450','Rs. 250','Rs. 325'],answer:2},
+
+{id:9,sec:3,
+ text:'A dairy outlet mixes three varieties of milk costing &#8377;40/liter, &#8377;50/liter, and &#8377;70/liter in the ratio 1:2:3 respectively. If the dealer adds 1 liter of pure water (costing &#8377;0) to every 6 liters of this batch, at what price per liter must he sell the final watered solution to earn a net 40% profit margin?',
+ options:['&#8377;70/liter','&#8377;72/liter','&#8377;68/liter','&#8377;74/liter'],answer:0},
+
+{id:10,sec:2,
+ text:'A dishonest dealer professes to sell his goods at cost price but uses a false weight and thus gains 15%. For a kilogram, he uses a weight of __________ (rounded off to one digit after decimal).',
+ options:['833.3 gm','876.7 gm','869.6 gm','898.33 gm'],answer:2},
+
+{id:11,sec:2,
+ text:'In the election for the post of CM of Jhumri Telaiya, 50% of the voters favoured Progress and the rest favoured MMS. But after a few days, 20% of Progress&rsquo; supporters shifted their support to MMS, and 10% of MMS&rsquo; supporters shifted their support to Progress. What is the minimum percentage of the total voters that Progress must now attract in order to tie with MMS?',
+ options:['2.5%','8%','5%','10%'],answer:2},
+
+{id:12,sec:3,
+ text:'Gold is 19 times as heavy as water and copper is 9 times as heavy as water. In what ratio should these metals be mixed so that the alloy is 15 times as heavy as water?',
+ options:['3:2','2:3','1:2','3:1'],answer:0},
+
+{id:13,sec:1,
+ text:'At constant temperature, the pressure of a gas is inversely proportional to its volume. 1140 litres of a certain gas exerts a pressure of 750 units. If the pressure is increased by 10 units keeping the temperature constant, by how many litres will its volume decrease?',
+ options:['10 litres','12 litres','15 litres','20 litres'],answer:2},
+
+{id:14,sec:3,
+ text:'A chemist has a 60-liter solution containing 80% concentrated sulfuric acid. He dilutes it by drawing out a fixed volume V of the solution and replacing it with pure water. He repeats this exact process a second time. If the final concentration of acid settles at 45%, find the value of V.',
+ options:['12 liters','15 liters','10 liters','20 liters'],answer:1},
+
+{id:15,sec:4,
+ text:'An investor divides &#8377;7,400 into three schemes earning 4%, 5%, and 6% per annum simple interest. At the end of one year, the interest earned from all three schemes is identical. What is the amount allocated to the 6% scheme?',
+ options:['&#8377;3,243','&#8377;2,000','&#8377;2,200','&#8377;3,500'],answer:1},
+
+{id:16,sec:2,
+ text:'A dealer buys an old cooler listed at &#8377;650 and gets successive discounts of 20% and 10%. He spends &#8377;38 on its repairs and sells it at a profit of 20%. Find the selling price of the cooler.',
+ options:['&#8377;780','&#8377;700','&#8377;790','&#8377;607.2'],answer:3},
+
+{id:17,sec:4,
+ text:'A sum of &#8377;7,800 is split into two parts such that the simple interest on the first part for 3 years at 5% matches the simple interest on the second part for 4 years at 6%. Find the smaller principal part.',
+ options:['&#8377;2,600','&#8377;2,800','&#8377;3,000','&#8377;3,200'],answer:2},
+
+{id:18,sec:2,
+ text:'An item is sold on three successive discounts of 10%, 20% and 25%. If the selling price of the item is &#8377;2,592, then what is the marked price of the item?',
+ options:['&#8377;5,200','&#8377;4,900','&#8377;5,000','&#8377;4,800'],answer:3},
+
+{id:19,sec:2,
+ text:'In a country, only 20% of the population eat rice. Of the remaining, one-third eat only wheat. Of the remaining, 25% eat only jowar and the remaining 492 persons eat only bajra. Find the number of people in the country who eat only wheat.',
+ options:['328','312','382','272'],answer:0},
+
+{id:20,sec:4,
+ text:'If a principal sum triples itself in 6 years at simple interest, in how many years will it grow to 7 times itself at the same rate?',
+ options:['12 years','15 years','18 years','24 years'],answer:2},
+
+{id:21,sec:4,
+ text:'Anand settled a loan of &#8377;10,000 by paying back &#8377;2,000 at the end of year 1, &#8377;4,000 at the end of year 2, and a final payment at the end of year 3. If the simple interest rate is 10% per annum on the outstanding balance, what was the value of the final payment?',
+ options:['&#8377;6,400','&#8377;6,940','&#8377;5,800','&#8377;6,490'],answer:3},
+
+{id:22,sec:3,
+ text:'Two vessels X and Y contain juice and water mixed in the ratios 5:2 and 8:5 respectively. In what ratio should these mixtures be blended together to form a new mixture containing juice and water in the ratio 9:4?',
+ options:['2:7','7:2','3:5','5:3'],answer:1},
+
+{id:23,sec:4,
+ text:'On Sunday morning, a bookstore has an opening stock of 480 copies of a best-selling book. Every day that week, during the day, exactly half the opening stock gets sold. Also, every day, at closing time, 16 additional copies arrive from the publisher. As soon as the stock goes below 50, the computer system gives a warning and a new bulk order is placed. On which day will the warning be given?',
+ options:['Wednesday','Thursday','Friday','Tuesday'],answer:0},
+
+{id:24,sec:1,
+ text:'I have one-rupee coins, 50-paisa coins, and 25-paisa coins. The number of coins are in the ratio 2.5:3:4. If the total amount with me is Rs. 210, find the number of one-rupee coins.',
+ options:['90','85','100','105'],answer:3},
+
+{id:25,sec:1,
+ text:'The cost of a diamond varies directly as the square of its weight. This diamond broke into four pieces with weights in the ratio 1:2:3:4. When the pieces were sold, the merchant got Rs. 70,000 less than the original price. Find the original price of the diamond.',
+ options:['Rs. 90,000','Rs. 2 lakh','Rs. 1 lakh','Rs. 2.1 lakh'],answer:2}
+];
+
+const TOTAL=25,SECS=30*60;
+let cur=1,timeLeft=SECS,timerInt=null,submitted=false;
+let student={name:'',center:'',batch:''};
+const state={};
+for(let i=1;i<=TOTAL;i++)state[i]={status:'nv',response:null};
+state[1].status='na';
+const secLabel=['','Ratio & Variation','Percentage, P&L, Discount','Mixtures & Alligation','Interest & Misc'];
+const bClass=['','b-s1','b-s2','b-s3','b-s4'];
+
+function startTest(){
+  const name=document.getElementById('inp-name').value.trim();
+  const center=document.getElementById('inp-center').value;
+  const batch=document.getElementById('inp-batch').value;
+  const err=document.getElementById('entry-err');
+  if(!name){err.textContent='Please enter your name.';return;}
+  if(!center){err.textContent='Please select your center.';return;}
+  if(!batch){err.textContent='Please select your batch.';return;}
+  student={name,center,batch};
+  document.getElementById('entry-ov').style.display='none';
+  document.getElementById('h-student').textContent=name;
+  renderQ(1);updatePalette();startTimer();
+}
+function startTimer(){
+  timerInt=setInterval(()=>{
+    timeLeft--;
+    const m=Math.floor(timeLeft/60),s=timeLeft%60;
+    const el=document.getElementById('timer');
+    el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    el.className='timer'+(timeLeft<=300?' warn':'')+(timeLeft<=60?' danger':'');
+    if(timeLeft<=0){clearInterval(timerInt);document.getElementById('timeup-ov').classList.add('show');}
+  },1000);
+}
+function timeTaken(){const e=SECS-timeLeft,m=Math.floor(e/60),s=e%60;return`${m}m ${s}s`;}
+
+function renderQ(qid){
+  const q=Q[qid-1],st=state[qid];
+  let html=`<div class="q-meta"><span class="q-num">Q.${q.id}</span><span class="badge b-s1">Quantitative Aptitude</span><span class="badge b-mcq">MCQ &middot; &minus;1</span></div>`;
+  if(q.caselet){html+=`<div class="passage-box"><div class="passage-label">&#128196; ${q.caseletLabel||'Read the following'}</div>${q.caselet}</div>`;}
+  html+=`<div class="instr">&#128309; Select the correct option. <strong style="color:#b91c1c">&minus;1 for wrong answer.</strong></div>`;
+  html+=`<div class="q-text">${q.text}</div><ul class="options">`;
+  q.options.forEach((opt,i)=>{
+    const sel=st.response===i?'selected':'';
+    html+=`<li class="option ${sel}" onclick="selectOpt(${qid},${i})"><div class="opt-circle"><div class="opt-dot"></div></div><span class="opt-lbl">${L[i]}.</span><span>${opt}</span></li>`;
+  });
+  html+=`</ul>`;
+  document.getElementById('q-inner').innerHTML=html;
+  document.querySelector('.q-panel').scrollTop=0;
+  document.getElementById('cur-q').textContent=qid;
+  updatePalette();
+}
+function selectOpt(qid,idx){state[qid].response=idx;state[qid].status=(state[qid].status==='mrv'?'amrv':'ans');renderQ(qid);}
+function updatePalette(){
+  document.getElementById('palette').innerHTML=Q.map(q=>{
+    const s=state[q.id];let cls='pb p-'+s.status;if(q.id===cur)cls+=' cur';
+    return`<button class="${cls}" onclick="goToQ(${q.id})">${q.id}</button>`;
+  }).join('');
+}
+function goToQ(qid){if(state[qid].status==='nv')state[qid].status='na';cur=qid;renderQ(qid);}
+function navigate(d){const n=cur+d;if(n<1||n>TOTAL)return;goToQ(n);}
+function saveAndNext(){if(cur<TOTAL)goToQ(cur+1);}
+function markForReview(){const s=state[cur];s.status=s.status==='ans'?'amrv':(s.status==='amrv'?'ans':(s.status==='mrv'?'na':'mrv'));renderQ(cur);updatePalette();}
+function clearResp(){state[cur].response=null;state[cur].status='na';renderQ(cur);updatePalette();}
+function showConfirm(){
+  let ans=0,na=0,mrv=0;
+  for(let i=1;i<=TOTAL;i++){const s=state[i].status;if(s==='ans'||s==='amrv')ans++;else if(s==='mrv')mrv++;else na++;}
+  document.getElementById('c-stats').innerHTML=`<div class="cs-row"><span>&#10003; Answered</span><span><strong>${ans}</strong></span></div><div class="cs-row"><span>&#10007; Not Answered</span><span><strong>${na}</strong></span></div><div class="cs-row"><span>&#9873; Marked</span><span><strong>${mrv}</strong></span></div>`;
+  document.getElementById('confirm-ov').classList.add('show');
+}
+function closeConfirm(){document.getElementById('confirm-ov').classList.remove('show');}
+function doSubmit(){
+  if(submitted)return;submitted=true;clearInterval(timerInt);
+  ['confirm-ov','timeup-ov'].forEach(id=>document.getElementById(id).classList.remove('show'));
+  document.getElementById('submitting-ov').classList.add('show');
+  setTimeout(()=>{document.getElementById('submitting-ov').classList.remove('show');showResults();},2800);
+}
+function evalQ(q){
+  const resp=state[q.id].response;
+  if(resp===null||resp===undefined)return{result:'skip',marks:0};
+  return parseInt(resp)===q.answer?{result:'correct',marks:4}:{result:'wrong',marks:-1};
+}
+function showResults(){
+  let total=0,correct=0,wrong=0,skip=0;
+  const secD=[{q:0,c:0,w:0,s:0,m:0},{q:0,c:0,w:0,s:0,m:0},{q:0,c:0,w:0,s:0,m:0},{q:0,c:0,w:0,s:0,m:0}];
+  Q.forEach(q=>{const{result,marks}=evalQ(q);total+=marks;const sd=secD[q.sec-1];sd.q++;sd.m+=marks;if(result==='correct'){correct++;sd.c++;}else if(result==='wrong'){wrong++;sd.w++;}else{skip++;sd.s++;}});
+  const acc=correct+wrong>0?Math.round(correct/(correct+wrong)*100):0;
+  document.getElementById('s-strip').innerHTML=`<span>&#128100; <strong>${student.name||'&mdash;'}</strong></span><span>Center: <strong>${student.center||'&mdash;'}</strong></span><span>Batch: <strong>${student.batch||'&mdash;'}</strong></span><span>Time: <strong>${timeTaken()}</strong></span>`;
+  document.getElementById('score-cards').innerHTML=`<div class="sc"><div class="sc-label">Net Score</div><div class="sc-val blue">${total}</div><div style="font-size:10px;color:#888;margin-top:4px">out of 100</div></div><div class="sc"><div class="sc-label">Accuracy</div><div class="sc-val gld">${acc}%</div><div style="font-size:10px;color:#888;margin-top:4px">${correct} of ${correct+wrong}</div></div><div class="sc"><div class="sc-label">Correct</div><div class="sc-val grn">+${correct*4}</div><div style="font-size:10px;color:#888;margin-top:4px">${correct} questions</div></div><div class="sc"><div class="sc-label">Wrong</div><div class="sc-val" style="color:var(--red)">&minus;${wrong}</div><div style="font-size:10px;color:#888;margin-top:4px">${wrong} questions</div></div>`;
+  const sNames=['&#167;1 Ratio &amp; Variation','&#167;2 Percentage, P&amp;L, Discount','&#167;3 Mixtures &amp; Alligation','&#167;4 Interest &amp; Misc'];
+  const sMax=[24,36,20,20];
+  document.getElementById('atbl').innerHTML=`<tr><th>Topic</th><th>Qs</th><th>Attempted</th><th>Correct</th><th>Wrong</th><th>Skipped</th><th>Net Score</th><th>Max</th></tr>`+secD.map((sd,i)=>`<tr><td><strong>${sNames[i]}</strong></td><td>${sd.q}</td><td>${sd.c+sd.w}</td><td>${sd.c}</td><td>${sd.w}</td><td>${sd.s}</td><td style="font-weight:700;color:${sd.m>0?'#16a34a':sd.m<0?'#b91c1c':'#555'}">${sd.m}</td><td style="color:#888">${sMax[i]}</td></tr>`).join('')+`<tr style="background:#e0eaff"><td><strong>TOTAL</strong></td><td><strong>25</strong></td><td><strong>${correct+wrong}</strong></td><td><strong>${correct}</strong></td><td><strong>${wrong}</strong></td><td><strong>${skip}</strong></td><td style="font-weight:700;font-size:15px;color:${total>=0?'var(--navy)':'var(--red)'}">${total}</td><td style="font-weight:700;color:#888">100</td></tr>`;
+  submitToGF({total,correct,wrong,skip});renderReview('all');document.getElementById('results-ov').classList.add('show');
+}
+function renderReview(filter){
+  let html='';
+  Q.forEach(q=>{
+    const{result}=evalQ(q);if(filter!=='all'&&result!==filter)return;
+    const resp=state[q.id].response,has=resp!==null&&resp!==undefined;
+    const stHtml=result==='correct'?`<span class="rq-st ok">&#10003; Correct (+4)</span>`:result==='wrong'?`<span class="rq-st no">&#10007; Wrong (&minus;1)</span>`:`<span class="rq-st sk">&mdash; Skipped</span>`;
+    const yi=has?parseInt(resp):-1,ci=q.answer;
+    let ansHtml='';
+    if(yi===-1)ansHtml=`<div class="rq-ans"><span class="rq-your">Your: <strong>&mdash;</strong></span>&nbsp;&nbsp;<span class="rq-correct">&#10003; ${L[ci]}. ${q.options[ci].replace(/<[^>]+>/g,'').substring(0,50)}</span></div>`;
+    else if(yi===ci)ansHtml=`<div class="rq-ans"><span class="rq-correct">&#10003; ${L[ci]}. ${q.options[ci].replace(/<[^>]+>/g,'').substring(0,50)}</span></div>`;
+    else ansHtml=`<div class="rq-ans"><span class="rq-your">Your: <strong>${L[yi]}</strong></span>&nbsp;&nbsp;<span class="rq-correct">&#10003; ${L[ci]}. ${q.options[ci].replace(/<[^>]+>/g,'').substring(0,50)}</span></div>`;
+    html+=`<div class="rq"><div class="rq-hdr"><span class="rq-num">Q.${q.id}</span><span class="badge ${bClass[q.sec]}" style="font-size:9.5px">${secLabel[q.sec]}</span>${stHtml}</div><div style="font-size:12px;color:var(--text);margin-bottom:3px">${q.text.replace(/<[^>]+>/g,'').substring(0,90)}&hellip;</div>${ansHtml}</div>`;
+  });
+  if(!html)html='<div style="padding:18px;text-align:center;color:#999">No questions in this category.</div>';
+  document.getElementById('review-list').innerHTML=html;
+}
+function filterReview(f,btn){document.querySelectorAll('.rtab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderReview(f);}
+function closeResults(){document.getElementById('results-ov').classList.remove('show');}
+function buildRespStr(){return Q.map(q=>{const resp=state[q.id].response;if(resp===null||resp===undefined)return`Q${q.id}:-`;const{result}=evalQ(q);return`Q${q.id}:${L[parseInt(resp)]}(${result==='correct'?'V':'X'})`;}).join(' ');}
+async function submitToGF(scores){
+  const p=new URLSearchParams(),f=GF.f;
+  p.append(f.name,student.name);p.append(f.center,student.center);p.append(f.batch,student.batch);p.append(f.total,scores.total);p.append(f.correct,scores.correct);p.append(f.wrong,scores.wrong);p.append(f.skip,scores.skip);p.append(f.time,timeTaken());p.append(f.resp,buildRespStr());
+  try{await fetch(GF.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:p.toString()});showToast('Responses submitted to IMS');}catch(e){showToast('Could not reach Google Forms',true);}
+}
+function downloadPDF(){
+  const sNames=['S1 Ratio & Variation','S2 Percentage, P&L, Discount','S3 Mixtures & Alligation','S4 Interest & Misc'];
+  let body='';
+  Q.forEach(q=>{
+    body+=`<div class="qb"><div class="qr"><span class="qn">Q.${q.id}</span><span class="qt">${q.text.replace(/<br>/g,' ').replace(/<[^>]+>/g,'').substring(0,220)}</span></div><div class="opts">${q.options.map((o,i)=>`<span class="${i===q.answer?'oc':''}">${L[i]}. ${o.replace(/<[^>]+>/g,'')}</span>`).join(' | ')}</div><div class="ans">Ans: ${L[q.answer]} &nbsp;&middot;&nbsp; <span class="tp">${sNames[q.sec-1]}</span></div></div>`;
+  });
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>IMS Mega Mock Test 1 Key</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;font-size:10px;padding:15px 20px}h1{font-size:13px;font-weight:700;color:#0f2556;margin-bottom:3px}.meta{font-size:9px;color:#555;margin-bottom:4px}.note{font-size:9px;color:#888;border-bottom:1px solid #eee;padding-bottom:6px;margin-bottom:10px}.qb{margin-bottom:5px;padding:5px 8px;border:1px solid #ddd;border-radius:3px;page-break-inside:avoid}.qr{display:flex;gap:5px;margin-bottom:2px}.qn{font-weight:700;color:#2851a3;min-width:30px;font-size:9.5px}.qt{font-size:9.5px;color:#111;line-height:1.4}.opts{font-size:9px;color:#555;margin:2px 0}.oc{font-weight:700;color:#1a7a3c}.ans{font-size:10px;font-weight:700;color:#1a7a3c;margin-top:2px}.tp{font-weight:400;color:#888}</style></head><body><h1>IMS Mega Mock Test 1 &ndash; Quantitative Aptitude &ndash; Answer Key</h1><div class="meta">Student: <strong>${student.name||'&mdash;'}</strong> | Center: <strong>${student.center||'&mdash;'}</strong> | Batch: <strong>${student.batch||'&mdash;'}</strong> | Date: ${new Date().toLocaleDateString('en-IN')}</div><div class="note">25 MCQ | +4 correct | &minus;1 wrong | Max 100 | Topics: Ratio &amp; Variation, Percentage/P&amp;L/Discount, Mixtures &amp; Alligation, Interest &amp; Misc</div>${body}</body></html>`);
+  win.document.close();win.onload=()=>{win.focus();win.print();};
+}
+function showToast(msg,isErr=false){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(isErr?' err':'')+' show';setTimeout(()=>t.classList.remove('show'),4000);}
+renderQ(1);updatePalette();
+</script>
+</body>
+</html>
