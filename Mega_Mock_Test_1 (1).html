@@ -125,6 +125,7 @@ table.atbl tr:nth-child(even) td{background:#f8f9fc}
 .entry-input:focus{outline:none;border-color:var(--navy3);box-shadow:0 0 0 3px rgba(40,81,163,.15)}
 .entry-input::placeholder{color:#b0b8c8}
 select.entry-input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2364748b' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:30px}
+.pin-box{padding:8px 11px;background:#eef2fb;border:1.5px dashed #b8c4de;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:var(--navy);letter-spacing:.5px}
 .entry-err{color:#b91c1c;font-size:12px;font-weight:600;margin-bottom:9px;min-height:18px}
 .entry-btn{width:100%;padding:10px;background:var(--navy);color:white;border:2px solid var(--gold);border-radius:7px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:&apos;IBM Plex Sans&apos;,sans-serif}
 .entry-btn:hover{background:var(--navy2)}
@@ -142,21 +143,23 @@ select.entry-input{cursor:pointer;appearance:none;background-image:url("data:ima
     <div class="entry-title">Quantitative Aptitude &mdash; Arithmetic</div>
     <div class="entry-sub">25 mixed arithmetic questions in random order &middot; attempt in any sequence you like<br>The 30-minute timer starts after you click <strong>Begin Test</strong>.</div>
     <div class="entry-divider"></div>
-    <div class="entry-field"><label class="entry-label">Student Name *</label><input class="entry-input" id="inp-name" type="text" placeholder="Your full name" autocomplete="off"/></div>
     <div class="entry-field">
-      <label class="entry-label">Center *</label>
-      <select class="entry-input" id="inp-center">
-        <option value="">&mdash; Select your center &mdash;</option>
-        <option>Ahmedabad</option><option>Gandhinagar</option><option>Vadodara</option><option>Surat</option><option>Gujarat Online</option>
+      <label class="entry-label">Batch *</label>
+      <select class="entry-input" id="inp-batch" onchange="fillNames()">
+        <option value="">&mdash; Select your batch &mdash;</option>
+        <option>27CNS01</option><option>27CNS02</option><option>27CNS03</option><option>27CNS04</option>
+        <option>27CNS05</option><option>27CNS06</option><option>27CNS07</option>
       </select>
     </div>
     <div class="entry-field">
-      <label class="entry-label">Batch *</label>
-      <select class="entry-input" id="inp-batch">
-        <option value="">&mdash; Select your batch &mdash;</option>
-        <option>27CNS01</option><option>27CNS02</option><option>27CNS03</option>
-        <option>27CNS04</option><option>27CNS05</option><option>27CNS06</option>
+      <label class="entry-label">Your Name *</label>
+      <select class="entry-input" id="inp-name" onchange="fillId()" disabled>
+        <option value="">&mdash; Select your batch first &mdash;</option>
       </select>
+    </div>
+    <div class="entry-field">
+      <label class="entry-label">IMS Pin</label>
+      <div class="pin-box" id="pin-box">&mdash;</div>
     </div>
     <div class="entry-err" id="entry-err"></div>
     <button class="entry-btn" onclick="startTest()">Begin Test &#9654;</button>
@@ -256,7 +259,8 @@ const GF={
   url:'https://docs.google.com/forms/d/e/1FAIpQLSdh1NEqRi4uRxsQiIXt2QKUULK3oG8oiHt8J6rf2xblj-aVsA/formResponse',
   f:{name:'entry.649418675',center:'entry.1868639403',batch:'entry.1105152055',
      total:'entry.1743053678',correct:'entry.320592361',wrong:'entry.1650516329',
-     skip:'entry.1108338024',time:'entry.2056503236',resp:'entry.744818504'}
+     skip:'entry.1108338024',time:'entry.2056503236',resp:'entry.744818504',
+     pin:'entry.1926993698'}
 };
 const L=['A','B','C','D'];
 
@@ -374,17 +378,28 @@ state[1].status='na';
 const secLabel=['','Ratio & Variation','Percentage, P&L, Discount','Mixtures & Alligation','Interest & Misc'];
 const bClass=['','b-s1','b-s2','b-s3','b-s4'];
 
+const ROSTER={"27CNS01":[["Anirudh Bhattacharjee","STU0001205810","1205810"],["Dev Desai","STU0001209449","1209449"],["Devarsh Dalal","STU0001222508","1222508"],["Dhwanit Shah","STU0001222832","1222832"],["Dwij Doshi","STU0001209450","1209450"],["Het Jani","STU0001227314","1227314"],["Mahak Kotak","STU0001222510","1222510"],["Mahi Akani","STU0001223020","1223020"],["Manasvi Patel","IMS0001135414","1135414"],["Mansi Gohel","STU0001218565","1218565"],["Mohit Shah","STU0001209448","1209448"],["Nidhish Patel","STU0001227441","1227441"],["Nilay Parmar","STU0001223488","1223488"],["Nisha Chokhavala","STU0001223269","1223269"],["Parv khatri","STU0001227552","1227552"],["Pratham Jain","STU0001227553","1227553"],["Prinse Trapasiya","STU0001189645","1189645"],["Pushti Parikh","STU0001223019","1223019"],["Pushti shah","STU0001227549","1227549"],["Sakib Haradwala","STU0001210938","1210938"],["Samarthi Jain","STU0001217365","1217365"],["Soban Malek","STU0001224146","1224146"],["Ved Patel","STU0001223013","1223013"]],"27CNS02":[["Archi Nai","STU0001222562","1222562"],["Bhagya Bhadra","STU0001217245","1217245"],["Dev Gopalani","STU0001217244","1217244"],["Dhruv Nesadiya","STU0001202521","1202521"],["Feni Belani","STU0001222563","1222563"],["Jiya Katharotia","STU0001222803","1222803"],["Karan Raval","STU0001181017","1181017"],["Manan Desai","STU0001218607","1218607"],["Meet Kapse","STU0001233768","1233768"],["Nirmit Vaja","STU0001222791","1222791"],["PRASHANT YADAV","STU0001231491","1231491"],["Prasham Gotecha","STU0001217002","1217002"],["Pratik Jivrajani","STU0001222806","1222806"],["Pratyaksh Dharukawala","STU0001230861","1230861"],["Prit Jivrajani","STU0001223481","1223481"],["Richa Patel","STU0001235243","1235243"],["Ruchita Rawal","STU0001185346","1185346"],["Vaibhavi Boliya","STU0001219884","1219884"],["herit parikh","STU0001230032","1230032"]],"27CNS03":[["Aalay Shah","STU0001229890","1229890"],["Aman Patel","STU0001171228","1171228"],["Amrita Rajput","STU0001235490","1235490"],["Dhruv Soni","STU0001232052","1232052"],["Harpreet Nanra","STU0001235569","1235569"],["Kenil Kareliya","STU0001243680","1243680"],["Krish Kareliya","STU0001229216","1229216"],["Meet Dave","STU0001237667","1237667"],["Meet Ravaliya","STU0001235590","1235590"],["Parshva shah","STU0001239002","1239002"],["Prapti Bhavsar","STU0001240572","1240572"],["Raj Patat","STU0001235591","1235591"],["Rishva Patel","STU0001234723","1234723"],["Sanjay Baldaniya","STU0001235986","1235986"],["Shrut Patel","STU0001204149","1204149"],["Yash Bhuva","STU0001222509","1222509"]],"27CNS04":[["Dhruv Ugharejiya","STU0001237932","1237932"],["Harsh Thakur","STU0001240801","1240801"],["Hrishit Godiawala","STU0001243748","1243748"],["Kavya Patel","IMS0001158957","1158957"],["Mansi Satikuvar","STU0001251643","1251643"],["Meet Kayasth","STU0001240449","1240449"],["Meet Sachadiya","STU0001240799","1240799"],["Nihar Vyas","STU0001244657","1244657"],["Parth Parmar","STU0001245719","1245719"],["Pratham Saiwal","STU0001239620","1239620"]],"27CNS05":[["Ariha Sheth","IMS0001128259","1128259"],["Aryan Sheth","STU0001243755","1243755"],["Aryan Vaishnani","STU0001246851","1246851"],["Dhwani Prajapati","STU0001243753","1243753"],["Het Patel","STU0001252313","1252313"],["Hiya Mehta","STU0001242538","1242538"],["Khushboo Lakhyani","STU0001243437","1243437"],["Mohammed Kathiwala","STU0001240302","1240302"],["Neer Mehta","STU0001233429","1233429"],["Parth Jesani","STU0001245162","1245162"],["Rudra Patel","STU0001250697","1250697"],["Ruhi Prajapati","STU0001244711","1244711"],["Shrimad Patel","STU0001241978","1241978"],["Tirth Shah","STU0001245281","1245281"],["Vraj Jasani","STU0001246852","1246852"],["Vraj Shah","IMS0001086929","1086929"],["Vrushank Prajapati","STU0001247283","1247283"]],"27CNS06":[["Aarya Patel","STU0001251804","1251804"],["Aaryan Shilajiya","STU0001254625","1254625"],["Anshu Rohra","IMS0001112339","1112339"],["Anushka Patel","STU0001266296","1266296"],["Arpita Parmar","STU0001243006","1243006"],["Dhairya Patadiya","STU0001269301","1269301"],["Dhimahi Thakkar","STU0001261490","1261490"],["Dhwanit Makwana","STU0001242521","1242521"],["Helly Shah","STU0001257561","1257561"],["Kanika Mistry","STU0001262535","1262535"],["Karan Pandey","STU0001244928","1244928"],["Keyuri Joshi","STU0001265523","1265523"],["Krisha Kotak","STU0001268287","1268287"],["Kush Panchal","STU0001269177","1269177"],["MANDEEP GADHVI","STU0001260136","1260136"],["Mahi Patel","STU0001267640","1267640"],["Mandip Parmar","STU0001186480","1186480"],["Mayank Shukla","STU0001262833","1262833"],["Navin Prajapati","STU0001261821","1261821"],["Neal Soni","STU0001262836","1262836"],["Neel Tank","STU0001233068","1233068"],["Nimisha Joshi","STU0001261238","1261238"],["Om Patel","STU0001242520","1242520"],["Prachi Thakkar","STU0001257179","1257179"],["Priyal lalpuriya","STU0001242197","1242197"],["Prutha Brahmkshatriya","STU0001258713","1258713"],["Ragnya Dangi","IMS0001092303","1092303"],["Riya Tripathi","STU0001261308","1261308"],["Sandeep Singh Rathore","STU0001270390","1270390"],["Saurabh Yadav","STU0001261397","1261397"],["Urva Kadia","STU0001259260","1259260"],["rutik shiroya","STU0001266019","1266019"]],"27CNS07":[["Dhruvi Mehta","STU0001262726","1262726"],["Drashti Patel","STU0001271414","1271414"],["Hardavi Talpara .","IMS0001162886","1162886"],["Heer Patel","STU0001271416","1271416"],["Het Panchal","STU0001217680","1217680"],["Janvi Karmatiya","STU0001272576","1272576"],["Jiya Modi","STU0001280269","1280269"],["KAUSHAL RATHOD","STU0001273293","1273293"],["Kathan Patel","STU0001271417","1271417"],["Khushal Yadav","STU0001276892","1276892"],["Khushee Bhatt","STU0001276484","1276484"],["MANSI KASUNDRA","STU0001276910","1276910"],["Prince Patel","STU0001279292","1279292"],["Raj Savaliya","STU0001275668","1275668"],["Rutvi Thakkar","STU0001276465","1276465"],["Satyam Chauhan","STU0001276997","1276997"],["Shivraj Singh","STU0001273693","1273693"],["Shubhavi Maloo","STU0001280626","1280626"],["Sidhant chevda","STU0001270972","1270972"],["Urvi Jethva","STU0001274314","1274314"],["Vishwas Shah","STU0001273591","1273591"],["Vrinda Chhabria","STU0001276324","1276324"]]};
+function fillNames(){
+  const b=document.getElementById('inp-batch').value, sel=document.getElementById('inp-name');
+  document.getElementById('pin-box').textContent='\u2014';
+  if(!b||!ROSTER[b]){sel.innerHTML='<option value="">&mdash; Select your batch first &mdash;</option>';sel.disabled=true;return;}
+  sel.disabled=false;
+  sel.innerHTML='<option value="">&mdash; Select your name &mdash;</option>'+ROSTER[b].map((r,i)=>`<option value="${i}">${r[0]}</option>`).join('');
+}
+function fillId(){
+  const b=document.getElementById('inp-batch').value, i=document.getElementById('inp-name').value;
+  document.getElementById('pin-box').textContent=(b&&i!=='')?ROSTER[b][i][1]:'\u2014';
+}
 function startTest(){
-  const name=document.getElementById('inp-name').value.trim();
-  const center=document.getElementById('inp-center').value;
   const batch=document.getElementById('inp-batch').value;
+  const idx=document.getElementById('inp-name').value;
   const err=document.getElementById('entry-err');
-  if(!name){err.textContent='Please enter your name.';return;}
-  if(!center){err.textContent='Please select your center.';return;}
   if(!batch){err.textContent='Please select your batch.';return;}
-  student={name,center,batch};
+  if(idx===''){err.textContent='Please select your name from the list.';return;}
+  const r=ROSTER[batch][idx];
+  student={name:r[0],pin:r[1],tail:r[2],center:'Ahmedabad',batch};
   document.getElementById('entry-ov').style.display='none';
-  document.getElementById('h-student').textContent=name;
+  document.getElementById('h-student').textContent=student.name;
   renderQ(1);updatePalette();startTimer();
 }
 function startTimer(){
@@ -458,13 +473,14 @@ function closeResults(){document.getElementById('results-ov').classList.remove('
 function buildRespStr(){return Q.map(q=>{const resp=state[q.id].response;if(resp===null||resp===undefined)return`Q${q.id}:-`;const{result}=evalQ(q);return`Q${q.id}:${L[parseInt(resp)]}(${result==='correct'?'V':'X'})`;}).join(' ');}
 async function submitToGF(scores){
   const p=new URLSearchParams(),f=GF.f;
-  p.append(f.name,student.name);p.append(f.center,student.center);p.append(f.batch,student.batch);p.append(f.total,scores.total);p.append(f.correct,scores.correct);p.append(f.wrong,scores.wrong);p.append(f.skip,scores.skip);p.append(f.time,timeTaken());p.append(f.resp,buildRespStr());
+  p.append(f.name,student.name);p.append(f.center,student.center);p.append(f.batch,student.batch);p.append(f.total,scores.total);p.append(f.correct,scores.correct);p.append(f.wrong,scores.wrong);p.append(f.skip,scores.skip);p.append(f.time,timeTaken());p.append(f.resp,buildRespStr());p.append(f.pin,student.pin);
   try{await fetch(GF.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:p.toString()});showToast('Responses submitted to IMS');}catch(e){showToast('Could not reach Google Forms',true);}
 }
-function myCode(){return Q.map(q=>{const r=state[q.id].response;return(r===null||r===undefined)?'-':L[parseInt(r)];}).join('');}
+function letters(){return Q.map(q=>{const r=state[q.id].response;return(r===null||r===undefined)?'-':L[parseInt(r)];}).join('');}
+function myCode(){return student.tail+'-'+letters();}
 function showCode(){document.getElementById('resp-code').textContent=myCode();}
 function copyCode(){const c=myCode();navigator.clipboard.writeText(c).then(()=>showToast('Response code copied')).catch(()=>{const t=document.createElement('textarea');t.value=c;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();showToast('Response code copied');});}
-function saveLocal(sc){try{localStorage.setItem('imsMM1',JSON.stringify({n:student.name,c:student.center,b:student.batch,code:myCode(),t:timeTaken(),s:sc,d:new Date().toISOString()}));}catch(e){}}
+function saveLocal(sc){try{localStorage.setItem('imsMM1',JSON.stringify({n:student.name,p:student.pin,c:student.center,b:student.batch,code:myCode(),t:timeTaken(),s:sc,d:new Date().toISOString()}));}catch(e){}}
 function showToast(msg,isErr=false){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(isErr?' err':'')+' show';setTimeout(()=>t.classList.remove('show'),4000);}
 renderQ(1);updatePalette();
 </script>
