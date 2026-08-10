@@ -103,6 +103,10 @@ table.atbl tr:nth-child(even) td{background:#f8f9fc}
 .s-strip{background:var(--lightbg);border:1px solid var(--border);border-radius:6px;padding:7px 13px;margin-bottom:12px;font-size:12px;color:var(--subtext);display:flex;flex-wrap:wrap;gap:5px 16px}
 .s-strip strong{color:var(--navy);font-weight:700}
 .confirm-box{background:white;border-radius:12px;padding:26px;max-width:380px;text-align:center}
+.code-box{background:#0f2556;border-radius:8px;padding:13px 15px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.code-str{font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:2.5px;color:#ffd979;font-weight:500;word-break:break-all;flex:1;min-width:200px}
+.code-btn{background:var(--gold);color:#3d2800;border:none;border-radius:5px;padding:7px 13px;font-size:12px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;white-space:nowrap}
+.code-btn:hover{opacity:.88}
 .confirm-box h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:10px}
 .confirm-box p{font-size:13px;color:var(--subtext);margin-bottom:8px;line-height:1.6}
 .c-stats{background:var(--lightbg);border-radius:6px;padding:11px;margin:11px 0;font-size:13px;display:flex;flex-direction:column;gap:4px}
@@ -237,19 +241,11 @@ select.entry-input{cursor:pointer;appearance:none;background-image:url("data:ima
     <div class="s-strip" id="s-strip"></div>
     <div class="score-grid" id="score-cards"></div>
     <div class="sep"></div>
-    <div class="a-title">Topic-wise Analysis</div>
-    <table class="atbl" id="atbl"></table>
-    <div class="sep"></div>
-    <div class="a-title">Question-wise Review</div>
-    <div class="rtabs">
-      <button class="rtab active" onclick="filterReview('all',this)">All (25)</button>
-      <button class="rtab" onclick="filterReview('correct',this)">&#10003; Correct</button>
-      <button class="rtab" onclick="filterReview('wrong',this)">&#10007; Wrong</button>
-      <button class="rtab" onclick="filterReview('skip',this)">&mdash; Skipped</button>
-    </div>
-    <div id="review-list"></div>
-    <div style="display:flex;gap:10px;margin-top:14px">
-      <button onclick="downloadPDF()" style="flex:1;padding:9px;background:var(--navy);color:white;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:&apos;IBM Plex Sans&apos;,sans-serif">&#128196; Download Answer Key</button>
+    <div class="a-title">&#128273; Save Your Response Code</div>
+    <div style="font-size:12px;color:var(--subtext);line-height:1.65;margin-bottom:9px">Solutions will be released in 2 days. To view your detailed review then, you must save this code now &mdash; screenshot it or send it to yourself on WhatsApp.</div>
+    <div class="code-box"><div class="code-str" id="resp-code"></div><button class="code-btn" onclick="copyCode()">&#128203; Copy Code</button></div>
+    <div style="font-size:11px;color:#94a3b8;margin-top:7px;line-height:1.5">This code stores only which options you marked. It does not contain the answer key.</div>
+    <div style="display:flex;gap:10px;margin-top:16px">
       <button onclick="closeResults()" style="flex:1;padding:9px;background:#64748b;color:white;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:&apos;IBM Plex Sans&apos;,sans-serif">Close</button>
     </div>
   </div>
@@ -268,105 +264,107 @@ const Q=[
 // ─── §1 Ratio & Variation · §2 Percentage, P&L, Discount · §3 Mixtures & Alligation · §4 Interest & Misc ───
 {id:1,sec:1,
  text:'A merchant makes a cocktail punch containing fruit extract, soda, and water. The ratio of fruit extract to soda is 3:2, and the ratio of soda to water is 4:5. If 15 liters of water are added to the punch, the new ratio of soda to water becomes 2:3. Find the original quantity of pure fruit extract used.',
- options:['90 liters','36 liters','45 liters','24 liters'],answer:0},
+ options:['90 liters','36 liters','45 liters','24 liters']},
 
 {id:2,sec:1,
  text:'A student got as many marks in Physics as he got in Maths. The ratio of his marks in Biology and Chemistry was 5:7. The ratio of his marks in Biology and Maths is 3:2. If he gets an aggregate of 64% in all four papers and each subject had equal maximum marks, in how many subjects has he scored more than 50% marks?',
- options:['1','2','3','4'],answer:1},
+ options:['1','2','3','4']},
 
 {id:3,sec:2,
  text:'A shopkeeper offers the following two discount schemes on the sale of a watch having marked price &#8377;3,600.<br>&nbsp;&nbsp;(1) Two successive discounts of 15%.<br>&nbsp;&nbsp;(2) A discount of 10% followed by a discount of 20%.<br>What is the difference between the selling price of the watch in case (1) and case (2)?',
- options:['&#8377;8','&#8377;9','&#8377;10','&#8377;11'],answer:1},
+ options:['&#8377;8','&#8377;9','&#8377;10','&#8377;11']},
 
 {id:4,sec:1,
  text:'Prerna, Karna and Swarna together have Rs. 5,678 with them such that if the amount with each is reduced by Rs. 26, the amounts with them would be in the ratio 6:5:3. What are the amounts (in Rs.) with Prerna, Karna, and Swarna respectively?',
- options:['2400, 2000, 1200','2426, 2026, 1226','2436, 2024, 1218','None of these'],answer:1},
+ options:['2400, 2000, 1200','2426, 2026, 1226','2436, 2024, 1218','None of these']},
 
 {id:5,sec:3,
  text:'Fresh fruit contains 68% water and dry fruit contains 20% water. How much dry fruit can be obtained from 100 kg of fresh fruits?',
- options:['32 kg','40 kg','52 kg','80 kg'],answer:1},
+ options:['32 kg','40 kg','52 kg','80 kg']},
 
 {id:6,sec:2,
  text:'A man sells two cows for Rs. 15,640 each, gaining 15% on one and losing 15% on the other. Find his total gain or loss.',
- options:['Rs. 720 loss','Rs. 360 loss','Rs. 720 gain','Rs. 360 gain'],answer:0},
+ options:['Rs. 720 loss','Rs. 360 loss','Rs. 720 gain','Rs. 360 gain']},
 
 {id:7,sec:2,
  text:'A can of juice was 80% full. 80% of the contents were emptied into a glass and 84 ml of juice was added to the can. The can then became full to the brim. What is the capacity of the can (in ml)?',
- options:['90 ml','95 ml','100 ml','105 ml'],answer:2},
+ options:['90 ml','95 ml','100 ml','105 ml']},
 
 {id:8,sec:2,
  text:'Kapil sells a mobile to Sachin at a gain of 15% and Sachin again sells it to Rohit at a profit of 12%. If Rohit pays Rs. 322, what is the cost price of the mobile for Kapil?',
- options:['Rs. 350','Rs. 450','Rs. 250','Rs. 325'],answer:2},
+ options:['Rs. 350','Rs. 450','Rs. 250','Rs. 325']},
 
 {id:9,sec:3,
  text:'A dairy outlet mixes three varieties of milk costing &#8377;40/liter, &#8377;50/liter, and &#8377;70/liter in the ratio 1:2:3 respectively. If the dealer adds 1 liter of pure water (costing &#8377;0) to every 6 liters of this batch, at what price per liter must he sell the final watered solution to earn a net 40% profit margin?',
- options:['&#8377;70/liter','&#8377;72/liter','&#8377;68/liter','&#8377;74/liter'],answer:0},
+ options:['&#8377;70/liter','&#8377;72/liter','&#8377;68/liter','&#8377;74/liter']},
 
 {id:10,sec:2,
  text:'A dishonest dealer professes to sell his goods at cost price but uses a false weight and thus gains 15%. For a kilogram, he uses a weight of __________ (rounded off to one digit after decimal).',
- options:['833.3 gm','876.7 gm','869.6 gm','898.33 gm'],answer:2},
+ options:['833.3 gm','876.7 gm','869.6 gm','898.33 gm']},
 
 {id:11,sec:2,
  text:'In the election for the post of CM of Jhumri Telaiya, 50% of the voters favoured Progress and the rest favoured MMS. But after a few days, 20% of Progress&rsquo; supporters shifted their support to MMS, and 10% of MMS&rsquo; supporters shifted their support to Progress. What is the minimum percentage of the total voters that Progress must now attract in order to tie with MMS?',
- options:['2.5%','8%','5%','10%'],answer:2},
+ options:['2.5%','8%','5%','10%']},
 
 {id:12,sec:3,
  text:'Gold is 19 times as heavy as water and copper is 9 times as heavy as water. In what ratio should these metals be mixed so that the alloy is 15 times as heavy as water?',
- options:['3:2','2:3','1:2','3:1'],answer:0},
+ options:['3:2','2:3','1:2','3:1']},
 
 {id:13,sec:1,
  text:'At constant temperature, the pressure of a gas is inversely proportional to its volume. 1140 litres of a certain gas exerts a pressure of 750 units. If the pressure is increased by 10 units keeping the temperature constant, by how many litres will its volume decrease?',
- options:['10 litres','12 litres','15 litres','20 litres'],answer:2},
+ options:['10 litres','12 litres','15 litres','20 litres']},
 
 {id:14,sec:3,
  text:'A chemist has a 60-liter solution containing 80% concentrated sulfuric acid. He dilutes it by drawing out a fixed volume V of the solution and replacing it with pure water. He repeats this exact process a second time. If the final concentration of acid settles at 45%, find the value of V.',
- options:['12 liters','15 liters','10 liters','20 liters'],answer:1},
+ options:['12 liters','15 liters','10 liters','20 liters']},
 
 {id:15,sec:4,
  text:'An investor divides &#8377;7,400 into three schemes earning 4%, 5%, and 6% per annum simple interest. At the end of one year, the interest earned from all three schemes is identical. What is the amount allocated to the 6% scheme?',
- options:['&#8377;3,243','&#8377;2,000','&#8377;2,200','&#8377;3,500'],answer:1},
+ options:['&#8377;3,243','&#8377;2,000','&#8377;2,200','&#8377;3,500']},
 
 {id:16,sec:2,
  text:'A dealer buys an old cooler listed at &#8377;650 and gets successive discounts of 20% and 10%. He spends &#8377;38 on its repairs and sells it at a profit of 20%. Find the selling price of the cooler.',
- options:['&#8377;780','&#8377;700','&#8377;790','&#8377;607.2'],answer:3},
+ options:['&#8377;780','&#8377;700','&#8377;790','&#8377;607.2']},
 
 {id:17,sec:4,
  text:'A sum of &#8377;7,800 is split into two parts such that the simple interest on the first part for 3 years at 5% matches the simple interest on the second part for 4 years at 6%. Find the smaller principal part.',
- options:['&#8377;2,600','&#8377;2,800','&#8377;3,000','&#8377;3,200'],answer:2},
+ options:['&#8377;2,600','&#8377;2,800','&#8377;3,000','&#8377;3,200']},
 
 {id:18,sec:2,
  text:'An item is sold on three successive discounts of 10%, 20% and 25%. If the selling price of the item is &#8377;2,592, then what is the marked price of the item?',
- options:['&#8377;5,200','&#8377;4,900','&#8377;5,000','&#8377;4,800'],answer:3},
+ options:['&#8377;5,200','&#8377;4,900','&#8377;5,000','&#8377;4,800']},
 
 {id:19,sec:2,
  text:'In a country, only 20% of the population eat rice. Of the remaining, one-third eat only wheat. Of the remaining, 25% eat only jowar and the remaining 492 persons eat only bajra. Find the number of people in the country who eat only wheat.',
- options:['328','312','382','272'],answer:0},
+ options:['328','312','382','272']},
 
 {id:20,sec:4,
  text:'If a principal sum triples itself in 6 years at simple interest, in how many years will it grow to 7 times itself at the same rate?',
- options:['12 years','15 years','18 years','24 years'],answer:2},
+ options:['12 years','15 years','18 years','24 years']},
 
 {id:21,sec:4,
  text:'Anand settled a loan of &#8377;10,000 by paying back &#8377;2,000 at the end of year 1, &#8377;4,000 at the end of year 2, and a final payment at the end of year 3. If the simple interest rate is 10% per annum on the outstanding balance, what was the value of the final payment?',
- options:['&#8377;6,400','&#8377;6,940','&#8377;5,800','&#8377;6,490'],answer:3},
+ options:['&#8377;6,400','&#8377;6,940','&#8377;5,800','&#8377;6,490']},
 
 {id:22,sec:3,
  text:'Two vessels X and Y contain juice and water mixed in the ratios 5:2 and 8:5 respectively. In what ratio should these mixtures be blended together to form a new mixture containing juice and water in the ratio 9:4?',
- options:['2:7','7:2','3:5','5:3'],answer:1},
+ options:['2:7','7:2','3:5','5:3']},
 
 {id:23,sec:4,
  text:'On Sunday morning, a bookstore has an opening stock of 480 copies of a best-selling book. Every day that week, during the day, exactly half the opening stock gets sold. Also, every day, at closing time, 16 additional copies arrive from the publisher. As soon as the stock goes below 50, the computer system gives a warning and a new bulk order is placed. On which day will the warning be given?',
- options:['Wednesday','Thursday','Friday','Tuesday'],answer:0},
+ options:['Wednesday','Thursday','Friday','Tuesday']},
 
 {id:24,sec:1,
  text:'I have one-rupee coins, 50-paisa coins, and 25-paisa coins. The number of coins are in the ratio 2.5:3:4. If the total amount with me is Rs. 210, find the number of one-rupee coins.',
- options:['90','85','100','105'],answer:3},
+ options:['90','85','100','105']},
 
 {id:25,sec:1,
  text:'The cost of a diamond varies directly as the square of its weight. This diamond broke into four pieces with weights in the ratio 1:2:3:4. When the pieces were sold, the merchant got Rs. 70,000 less than the original price. Find the original price of the diamond.',
- options:['Rs. 90,000','Rs. 2 lakh','Rs. 1 lakh','Rs. 2.1 lakh'],answer:2}
+ options:['Rs. 90,000','Rs. 2 lakh','Rs. 1 lakh','Rs. 2.1 lakh']}
 ];
 
+/* Answer key is encoded so it is not readable at a glance in page source. */
+const K=atob('QUVIS05QVVhZREdITU9SV1lDQ0hMTU9VVw==').split('').map((c,i)=>((c.charCodeAt(0)-65-3*i)%26+26)%26);
 const TOTAL=25,SECS=30*60;
 let cur=1,timeLeft=SECS,timerInt=null,submitted=false;
 let student={name:'',center:'',batch:''};
@@ -445,7 +443,7 @@ function doSubmit(){
 function evalQ(q){
   const resp=state[q.id].response;
   if(resp===null||resp===undefined)return{result:'skip',marks:0};
-  return parseInt(resp)===q.answer?{result:'correct',marks:4}:{result:'wrong',marks:-1};
+  return parseInt(resp)===K[q.id-1]?{result:'correct',marks:4}:{result:'wrong',marks:-1};
 }
 function showResults(){
   let total=0,correct=0,wrong=0,skip=0;
@@ -454,28 +452,8 @@ function showResults(){
   const acc=correct+wrong>0?Math.round(correct/(correct+wrong)*100):0;
   document.getElementById('s-strip').innerHTML=`<span>&#128100; <strong>${student.name||'&mdash;'}</strong></span><span>Center: <strong>${student.center||'&mdash;'}</strong></span><span>Batch: <strong>${student.batch||'&mdash;'}</strong></span><span>Time: <strong>${timeTaken()}</strong></span>`;
   document.getElementById('score-cards').innerHTML=`<div class="sc"><div class="sc-label">Net Score</div><div class="sc-val blue">${total}</div><div style="font-size:10px;color:#888;margin-top:4px">out of 100</div></div><div class="sc"><div class="sc-label">Accuracy</div><div class="sc-val gld">${acc}%</div><div style="font-size:10px;color:#888;margin-top:4px">${correct} of ${correct+wrong}</div></div><div class="sc"><div class="sc-label">Correct</div><div class="sc-val grn">+${correct*4}</div><div style="font-size:10px;color:#888;margin-top:4px">${correct} questions</div></div><div class="sc"><div class="sc-label">Wrong</div><div class="sc-val" style="color:var(--red)">&minus;${wrong}</div><div style="font-size:10px;color:#888;margin-top:4px">${wrong} questions</div></div>`;
-  const sNames=['&#167;1 Ratio &amp; Variation','&#167;2 Percentage, P&amp;L, Discount','&#167;3 Mixtures &amp; Alligation','&#167;4 Interest &amp; Misc'];
-  const sMax=[24,36,20,20];
-  document.getElementById('atbl').innerHTML=`<tr><th>Topic</th><th>Qs</th><th>Attempted</th><th>Correct</th><th>Wrong</th><th>Skipped</th><th>Net Score</th><th>Max</th></tr>`+secD.map((sd,i)=>`<tr><td><strong>${sNames[i]}</strong></td><td>${sd.q}</td><td>${sd.c+sd.w}</td><td>${sd.c}</td><td>${sd.w}</td><td>${sd.s}</td><td style="font-weight:700;color:${sd.m>0?'#16a34a':sd.m<0?'#b91c1c':'#555'}">${sd.m}</td><td style="color:#888">${sMax[i]}</td></tr>`).join('')+`<tr style="background:#e0eaff"><td><strong>TOTAL</strong></td><td><strong>25</strong></td><td><strong>${correct+wrong}</strong></td><td><strong>${correct}</strong></td><td><strong>${wrong}</strong></td><td><strong>${skip}</strong></td><td style="font-weight:700;font-size:15px;color:${total>=0?'var(--navy)':'var(--red)'}">${total}</td><td style="font-weight:700;color:#888">100</td></tr>`;
-  submitToGF({total,correct,wrong,skip});renderReview('all');document.getElementById('results-ov').classList.add('show');
+  submitToGF({total,correct,wrong,skip});showCode();saveLocal({total,correct,wrong,skip});document.getElementById('results-ov').classList.add('show');
 }
-function renderReview(filter){
-  let html='';
-  Q.forEach(q=>{
-    const{result}=evalQ(q);if(filter!=='all'&&result!==filter)return;
-    const resp=state[q.id].response,has=resp!==null&&resp!==undefined;
-    const stHtml=result==='correct'?`<span class="rq-st ok">&#10003; Correct (+4)</span>`:result==='wrong'?`<span class="rq-st no">&#10007; Wrong (&minus;1)</span>`:`<span class="rq-st sk">&mdash; Skipped</span>`;
-    const yi=has?parseInt(resp):-1,ci=q.answer;
-    let ansHtml='';
-    if(yi===-1)ansHtml=`<div class="rq-ans"><span class="rq-your">Your: <strong>&mdash;</strong></span>&nbsp;&nbsp;<span class="rq-correct">&#10003; ${L[ci]}. ${q.options[ci].replace(/<[^>]+>/g,'').substring(0,50)}</span></div>`;
-    else if(yi===ci)ansHtml=`<div class="rq-ans"><span class="rq-correct">&#10003; ${L[ci]}. ${q.options[ci].replace(/<[^>]+>/g,'').substring(0,50)}</span></div>`;
-    else ansHtml=`<div class="rq-ans"><span class="rq-your">Your: <strong>${L[yi]}</strong></span>&nbsp;&nbsp;<span class="rq-correct">&#10003; ${L[ci]}. ${q.options[ci].replace(/<[^>]+>/g,'').substring(0,50)}</span></div>`;
-    html+=`<div class="rq"><div class="rq-hdr"><span class="rq-num">Q.${q.id}</span><span class="badge ${bClass[q.sec]}" style="font-size:9.5px">${secLabel[q.sec]}</span>${stHtml}</div><div style="font-size:12px;color:var(--text);margin-bottom:3px">${q.text.replace(/<[^>]+>/g,'').substring(0,90)}&hellip;</div>${ansHtml}</div>`;
-  });
-  if(!html)html='<div style="padding:18px;text-align:center;color:#999">No questions in this category.</div>';
-  document.getElementById('review-list').innerHTML=html;
-}
-function filterReview(f,btn){document.querySelectorAll('.rtab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderReview(f);}
 function closeResults(){document.getElementById('results-ov').classList.remove('show');}
 function buildRespStr(){return Q.map(q=>{const resp=state[q.id].response;if(resp===null||resp===undefined)return`Q${q.id}:-`;const{result}=evalQ(q);return`Q${q.id}:${L[parseInt(resp)]}(${result==='correct'?'V':'X'})`;}).join(' ');}
 async function submitToGF(scores){
@@ -483,16 +461,10 @@ async function submitToGF(scores){
   p.append(f.name,student.name);p.append(f.center,student.center);p.append(f.batch,student.batch);p.append(f.total,scores.total);p.append(f.correct,scores.correct);p.append(f.wrong,scores.wrong);p.append(f.skip,scores.skip);p.append(f.time,timeTaken());p.append(f.resp,buildRespStr());
   try{await fetch(GF.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:p.toString()});showToast('Responses submitted to IMS');}catch(e){showToast('Could not reach Google Forms',true);}
 }
-function downloadPDF(){
-  const sNames=['S1 Ratio & Variation','S2 Percentage, P&L, Discount','S3 Mixtures & Alligation','S4 Interest & Misc'];
-  let body='';
-  Q.forEach(q=>{
-    body+=`<div class="qb"><div class="qr"><span class="qn">Q.${q.id}</span><span class="qt">${q.text.replace(/<br>/g,' ').replace(/<[^>]+>/g,'').substring(0,220)}</span></div><div class="opts">${q.options.map((o,i)=>`<span class="${i===q.answer?'oc':''}">${L[i]}. ${o.replace(/<[^>]+>/g,'')}</span>`).join(' | ')}</div><div class="ans">Ans: ${L[q.answer]} &nbsp;&middot;&nbsp; <span class="tp">${sNames[q.sec-1]}</span></div></div>`;
-  });
-  const win=window.open('','_blank');
-  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>IMS Mega Mock Test 1 Key</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;font-size:10px;padding:15px 20px}h1{font-size:13px;font-weight:700;color:#0f2556;margin-bottom:3px}.meta{font-size:9px;color:#555;margin-bottom:4px}.note{font-size:9px;color:#888;border-bottom:1px solid #eee;padding-bottom:6px;margin-bottom:10px}.qb{margin-bottom:5px;padding:5px 8px;border:1px solid #ddd;border-radius:3px;page-break-inside:avoid}.qr{display:flex;gap:5px;margin-bottom:2px}.qn{font-weight:700;color:#2851a3;min-width:30px;font-size:9.5px}.qt{font-size:9.5px;color:#111;line-height:1.4}.opts{font-size:9px;color:#555;margin:2px 0}.oc{font-weight:700;color:#1a7a3c}.ans{font-size:10px;font-weight:700;color:#1a7a3c;margin-top:2px}.tp{font-weight:400;color:#888}</style></head><body><h1>IMS Mega Mock Test 1 &ndash; Quantitative Aptitude &ndash; Answer Key</h1><div class="meta">Student: <strong>${student.name||'&mdash;'}</strong> | Center: <strong>${student.center||'&mdash;'}</strong> | Batch: <strong>${student.batch||'&mdash;'}</strong> | Date: ${new Date().toLocaleDateString('en-IN')}</div><div class="note">25 MCQ | +4 correct | &minus;1 wrong | Max 100 | Topics: Ratio &amp; Variation, Percentage/P&amp;L/Discount, Mixtures &amp; Alligation, Interest &amp; Misc</div>${body}</body></html>`);
-  win.document.close();win.onload=()=>{win.focus();win.print();};
-}
+function myCode(){return Q.map(q=>{const r=state[q.id].response;return(r===null||r===undefined)?'-':L[parseInt(r)];}).join('');}
+function showCode(){document.getElementById('resp-code').textContent=myCode();}
+function copyCode(){const c=myCode();navigator.clipboard.writeText(c).then(()=>showToast('Response code copied')).catch(()=>{const t=document.createElement('textarea');t.value=c;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();showToast('Response code copied');});}
+function saveLocal(sc){try{localStorage.setItem('imsMM1',JSON.stringify({n:student.name,c:student.center,b:student.batch,code:myCode(),t:timeTaken(),s:sc,d:new Date().toISOString()}));}catch(e){}}
 function showToast(msg,isErr=false){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(isErr?' err':'')+' show';setTimeout(()=>t.classList.remove('show'),4000);}
 renderQ(1);updatePalette();
 </script>
