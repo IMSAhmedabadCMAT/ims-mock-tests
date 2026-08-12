@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMS Mega Mock Test 2 — Quantitative Aptitude</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0f2556;--navy2:#1a3a7c;--navy3:#2851a3;--gold:#e8a020;--green:#1a7a3c;--red:#b91c1c;--purple:#7c3aed;--teal:#0d7a6e;--orange:#c45000;--gray:#9ca3af;--lightbg:#f3f4f8;--border:#d1d5db;--text:#1e293b;--subtext:#64748b}
+.rad{white-space:nowrap}
+.rad>.rs{font-size:1.12em;vertical-align:-.06em}
+.rad>.rv{border-top:1px solid currentColor;padding:.06em .18em 0 .12em;margin-left:-.10em}
+html,body{height:100%;font-family:&apos;IBM Plex Sans&apos;,sans-serif;background:var(--lightbg);color:var(--text);font-size:14px}
+.header{background:var(--navy);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:52px;position:fixed;top:0;left:0;right:0;z-index:200;border-bottom:3px solid var(--gold)}
+.logo{font-size:15px;font-weight:700;color:white}.logo span{color:var(--gold)}
+.hc{display:flex;align-items:center;gap:10px}
+.sec-badge{background:var(--navy3);padding:3px 9px;border-radius:4px;font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.h-info{font-size:11px;color:#aac}
+.timer-wrap{display:flex;align-items:center;gap:8px}
+.timer-label{font-size:10px;color:#99b;letter-spacing:1px;text-transform:uppercase}
+.timer{font-family:&apos;IBM Plex Mono&apos;,monospace;font-size:22px;font-weight:500;color:#fff;background:var(--navy2);border:1.5px solid #4466aa;padding:3px 14px;border-radius:6px;min-width:90px;text-align:center;letter-spacing:2px}
+.timer.warn{color:var(--gold);border-color:var(--gold);animation:pulse 1s ease-in-out infinite}
+.timer.danger{color:#ff6b6b;border-color:#ff6b6b;animation:pulse .5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.h-student{font-size:11px;color:#ccddff;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.section-tabs{position:fixed;top:52px;left:0;right:0;z-index:190;background:var(--navy2);display:flex;align-items:center;padding:4px 16px;gap:2px;border-bottom:1px solid #2a4a9a;overflow-x:auto}
+.tab{padding:5px 10px;border-radius:4px 4px 0 0;font-size:10.5px;font-weight:600;cursor:pointer;color:#99b;background:transparent;border:none;white-space:nowrap;transition:all .15s}
+.tab.active{background:white;color:var(--navy)}
+.q-ctr{margin-left:auto;font-size:12px;color:#aac;white-space:nowrap;padding-left:10px;font-weight:600}
+.main{display:flex;height:100vh;padding-top:90px;padding-bottom:56px}
+.q-panel{flex:1;overflow-y:auto;background:white;border-right:1px solid var(--border)}
+.q-inner{padding:20px 26px;max-width:860px}
+/* CASELET / DIRECTIONS BOX */
+.passage-box{background:#fdf9f0;border:1px solid #d4b896;border-left:4px solid var(--gold);border-radius:6px;padding:14px 18px;margin-bottom:14px;font-family:&apos;Lora&apos;,serif;font-size:13.5px;line-height:1.85;color:#2d3748}
+.passage-label{font-family:&apos;IBM Plex Sans&apos;,sans-serif;font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8a6a40;margin-bottom:7px}
+/* QUESTION */
+.q-meta{display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-size:15px;font-weight:700;color:var(--navy)}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:600}
+.b-s1{background:#e0eaff;color:var(--navy3)}.b-s2{background:#fdf0e0;color:#8a4500}
+.b-s3{background:#e6f7f4;color:var(--teal)}.b-s4{background:#f3e8ff;color:var(--purple)}
+.b-mcq{background:#fce4ec;color:#b91c6a}
+.q-text{font-size:14px;line-height:1.8;margin-bottom:12px;font-weight:500;color:var(--text)}
+.instr{background:#fffbe6;border:1px solid #f0d060;border-radius:5px;padding:6px 11px;font-size:11.5px;color:#7a5c00;margin-bottom:11px}
+/* OPTIONS */
+.options{list-style:none;display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;border:1.5px solid var(--border);border-radius:7px;cursor:pointer;transition:border-color .15s,background .15s;font-size:13.5px;line-height:1.65;user-select:none}
+.option:hover{border-color:var(--navy3);background:#f0f4ff}
+.option.selected{border-color:var(--navy3);background:#e8eeff}
+.opt-circle{width:17px;height:17px;border:2px solid var(--border);border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center}
+.option.selected .opt-circle{border-color:var(--navy3)}
+.opt-dot{width:8px;height:8px;border-radius:50%;background:var(--navy3);display:none}
+.option.selected .opt-dot{display:block}
+.opt-lbl{font-weight:700;color:var(--navy3);margin-right:4px;flex-shrink:0;min-width:18px}
+/* RIGHT PANEL */
+.r-panel{width:218px;background:#f8f9fc;border-left:1px solid var(--border);overflow-y:auto;padding:11px;flex-shrink:0}
+.r-title{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--subtext);margin-bottom:7px}
+.score-info{background:white;border:1px solid var(--border);border-radius:6px;padding:9px 11px;margin-bottom:11px}
+.si-row{display:flex;justify-content:space-between;font-size:12px;padding:2px 0}
+.si-row .v{font-weight:700}.si-row.g .v{color:var(--green)}.si-row.r .v{color:var(--red)}
+.legend{margin-bottom:11px}
+.leg-item{display:flex;align-items:center;gap:5px;margin:3px 0;font-size:10px;color:var(--subtext)}
+.leg-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.sj-wrap{display:flex;gap:3px;margin-bottom:11px;flex-wrap:wrap}
+.sj-btn{padding:3px 7px;border:1.5px solid var(--border);border-radius:12px;font-size:9.5px;font-weight:600;cursor:pointer;color:var(--subtext);background:white;transition:all .15s}
+.sj-btn:hover,.sj-btn.active{background:var(--navy3);color:white;border-color:var(--navy3)}
+.pal-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.pb{width:100%;height:30px;border:none;border-radius:3px;font-size:10px;font-weight:700;cursor:pointer;color:white;transition:transform .1s}
+.pb:hover{transform:scale(1.12)}.pb.cur{box-shadow:0 0 0 2px var(--gold)}
+.pb.p-nv{background:#9ca3af}.pb.p-na{background:#ef4444}.pb.p-ans{background:#16a34a}.pb.p-mrv{background:var(--purple)}
+.pb.p-amrv{background:var(--purple)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:#eef0f5;border-top:1px solid var(--border);padding:9px 16px;display:flex;justify-content:space-between;align-items:center}
+.nav-left,.nav-right{display:flex;gap:8px}
+.btn{padding:7px 14px;border:none;border-radius:5px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:&apos;IBM Plex Sans&apos;,sans-serif;transition:opacity .15s,transform .1s}
+.btn:hover{opacity:.88;transform:translateY(-1px)}
+.btn-prev{background:#64748b;color:white}.btn-mark{background:var(--purple);color:white}
+.btn-clear{background:#f97316;color:white}.btn-save{background:var(--green);color:white}
+.btn-submit{background:var(--navy);color:white;border:2px solid var(--gold)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;justify-content:center;align-items:center}
+.overlay.show{display:flex}
+.modal{background:white;border-radius:12px;padding:26px 30px;max-width:720px;width:94%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal::-webkit-scrollbar{width:6px}.modal::-webkit-scrollbar-thumb{background:#c0c8d8;border-radius:3px}
+.modal-title{font-size:19px;font-weight:700;color:var(--navy);margin-bottom:4px;text-align:center}
+.modal-sub{font-size:12px;color:var(--subtext);text-align:center;margin-bottom:16px}
+.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px}
+.sc{background:var(--lightbg);border-radius:8px;padding:12px 8px;text-align:center;border:1px solid var(--border)}
+.sc-label{font-size:9.5px;color:var(--subtext);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+.sc-val{font-size:24px;font-weight:700;line-height:1}
+.sc-val.blue{color:var(--navy3)}.sc-val.grn{color:var(--green)}.sc-val.gld{color:var(--gold)}
+.sep{height:1px;background:var(--border);margin:12px 0}
+.a-title{font-size:13px;font-weight:700;color:var(--navy);margin:12px 0 8px}
+table.atbl{width:100%;border-collapse:collapse;font-size:12px}
+table.atbl th{background:var(--navy);color:white;padding:7px 8px;text-align:center;font-weight:600;font-size:10.5px}
+table.atbl td{padding:6px 8px;text-align:center;border-bottom:1px solid #f0f0f0}
+table.atbl tr:nth-child(even) td{background:#f8f9fc}
+.rtabs{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap}
+.rtab{padding:5px 11px;border-radius:5px;font-size:11.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:white;color:var(--subtext)}
+.rtab.active{background:var(--navy);color:white;border-color:var(--navy)}
+.rq{padding:8px 0;border-bottom:1px solid #f0f0f0}
+.rq-hdr{display:flex;align-items:center;gap:5px;margin-bottom:3px;flex-wrap:wrap}
+.rq-num{font-weight:700;font-size:12px;color:var(--navy3)}
+.rq-st{font-size:11px;margin-left:auto;font-weight:600}
+.rq-st.ok{color:var(--green)}.rq-st.no{color:var(--red)}.rq-st.sk{color:var(--gray)}
+.rq-ans{font-size:11.5px;margin-top:2px}.rq-your{color:#555}.rq-correct{color:var(--green);font-weight:600}
+.s-strip{background:var(--lightbg);border:1px solid var(--border);border-radius:6px;padding:7px 13px;margin-bottom:12px;font-size:12px;color:var(--subtext);display:flex;flex-wrap:wrap;gap:5px 16px}
+.s-strip strong{color:var(--navy);font-weight:700}
+.confirm-box{background:white;border-radius:12px;padding:26px;max-width:380px;text-align:center}
+.code-box{background:#0f2556;border-radius:8px;padding:13px 15px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.code-str{font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:2.5px;color:#ffd979;font-weight:500;word-break:break-all;flex:1;min-width:200px}
+.code-btn{background:var(--gold);color:#3d2800;border:none;border-radius:5px;padding:7px 13px;font-size:12px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;white-space:nowrap}
+.code-btn:hover{opacity:.88}
+.confirm-box h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.confirm-box p{font-size:13px;color:var(--subtext);margin-bottom:8px;line-height:1.6}
+.c-stats{background:var(--lightbg);border-radius:6px;padding:11px;margin:11px 0;font-size:13px;display:flex;flex-direction:column;gap:4px}
+.cs-row{display:flex;justify-content:space-between}
+.c-btns{display:flex;gap:10px;margin-top:14px;justify-content:center}
+.btn-cancel{background:#e5e7eb;color:var(--text)}
+.entry-ov{position:fixed;inset:0;background:linear-gradient(145deg,#070f24 0%,#0f2556 55%,#1a3a7c 100%);z-index:1000;display:flex;align-items:center;justify-content:center}
+.entry-card{background:white;border-radius:16px;padding:34px 38px;width:450px;max-width:93vw;box-shadow:0 28px 80px rgba(0,0,0,.5)}
+.entry-logo{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:4px}.entry-logo span{color:var(--gold)}
+.entry-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.entry-sub{font-size:11.5px;color:var(--subtext);margin-bottom:16px;line-height:1.5}
+.entry-divider{height:1px;background:var(--border);margin-bottom:16px}
+.entry-field{margin-bottom:11px}
+.entry-label{display:block;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--subtext);margin-bottom:4px}
+.entry-input{width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-family:&apos;IBM Plex Sans&apos;,sans-serif;color:var(--text);transition:border-color .15s}
+.entry-input:focus{outline:none;border-color:var(--navy3);box-shadow:0 0 0 3px rgba(40,81,163,.15)}
+.entry-input::placeholder{color:#b0b8c8}
+select.entry-input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2364748b' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:30px}
+.pin-box{padding:8px 11px;background:#eef2fb;border:1.5px dashed #b8c4de;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:var(--navy);letter-spacing:.5px}
+.entry-err{color:#b91c1c;font-size:12px;font-weight:600;margin-bottom:9px;min-height:18px}
+.entry-btn{width:100%;padding:10px;background:var(--navy);color:white;border:2px solid var(--gold);border-radius:7px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:&apos;IBM Plex Sans&apos;,sans-serif}
+.entry-btn:hover{background:var(--navy2)}
+.entry-note{font-size:10.5px;color:var(--subtext);text-align:center;margin-top:9px;line-height:1.5}
+.toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#1a7a3c;color:white;padding:7px 20px;border-radius:20px;font-size:12px;font-weight:600;opacity:0;transition:opacity .4s;z-index:800;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}.toast.err{background:#b91c1c}
+@keyframes progbar{from{width:0%}to{width:100%}}
+.prog-bar{height:100%;background:var(--green);border-radius:2px;animation:progbar 2.8s linear forwards}
+</style>
+</head>
+<body>
+<div class="entry-ov" id="entry-ov">
+  <div class="entry-card">
+    <div class="entry-logo">IMS <span>Mega Mock Test 2</span></div>
+    <div class="entry-title">Quantitative Techniques &amp; DI &mdash; CMAT Pattern</div>
+    <div class="entry-sub">50 questions covering arithmetic, algebra, number systems and modern maths &middot; attempt in any sequence you like<br>The 2-hour timer starts after you click <strong>Begin Test</strong>.</div>
+    <div class="entry-divider"></div>
+    <div class="entry-field">
+      <label class="entry-label">Batch *</label>
+      <select class="entry-input" id="inp-batch" onchange="fillNames()">
+        <option value="">&mdash; Select your batch &mdash;</option>
+        <option>27CNS01</option><option>27CNS02</option><option>27CNS03</option><option>27CNS04</option>
+        <option>27CNS05</option><option>27CNS06</option><option>27CNS07</option>
+      </select>
+    </div>
+    <div class="entry-field">
+      <label class="entry-label">Your Name *</label>
+      <select class="entry-input" id="inp-name" onchange="fillId()" disabled>
+        <option value="">&mdash; Select your batch first &mdash;</option>
+      </select>
+    </div>
+    <div class="entry-field">
+      <label class="entry-label">IMS Pin</label>
+      <div class="pin-box" id="pin-box">&mdash;</div>
+    </div>
+    <div class="entry-err" id="entry-err"></div>
+    <button class="entry-btn" onclick="startTest()">Begin Test &#9654;</button>
+    <div class="entry-note">50 Questions &middot; 30 Minutes &middot; +4 correct &middot; &minus;1 wrong &middot; Max 200 marks</div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<div class="header">
+  <div class="logo">IMS <span>Mega Mock Test 2</span></div>
+  <div class="hc"><div class="sec-badge">Quant &amp; DI</div><div class="h-info">50 Qs &nbsp;&middot;&nbsp; 120 Min &nbsp;&middot;&nbsp; +4/&minus;1</div></div>
+  <div style="display:flex;align-items:center;gap:13px">
+    <div class="h-student" id="h-student"></div>
+    <div class="timer-wrap"><div class="timer-label">Time Left</div><div class="timer" id="timer">120:00</div></div>
+  </div>
+</div>
+<div class="section-tabs">
+  <div class="tab active">Quantitative Techniques &amp; DI &mdash; Q1 to Q50</div>
+  <div class="q-ctr">Q&nbsp;<span id="cur-q">1</span>&nbsp;/&nbsp;50</div>
+</div>
+<div class="main">
+  <div class="q-panel"><div class="q-inner" id="q-inner"></div></div>
+  <div class="r-panel">
+    <div class="score-info">
+      <div class="r-title">Marking</div>
+      <div class="si-row g"><span>Correct</span><span class="v">+4</span></div>
+      <div class="si-row r"><span>Wrong</span><span class="v">&minus;1</span></div>
+      <div class="si-row"><span style="color:#888">Skip</span><span class="v" style="color:#888">0</span></div>
+    </div>
+    <div class="legend">
+      <div class="r-title">Status</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#9ca3af"></div>Not Visited</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Not Answered</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#16a34a"></div>Answered</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--purple)"></div>Marked</div>
+    </div>
+    <div class="r-title">Palette</div>
+    <div class="pal-grid" id="palette"></div>
+  </div>
+</div>
+<div class="bottom-nav">
+  <div class="nav-left">
+    <button class="btn btn-prev" onclick="navigate(-1)">&#9664; Prev</button>
+    <button class="btn btn-mark" onclick="markForReview()">&#9873; Mark</button>
+    <button class="btn btn-clear" onclick="clearResp()">&#10005; Clear</button>
+  </div>
+  <div class="nav-right">
+    <button class="btn btn-save" onclick="saveAndNext()">Save &amp; Next &#9654;</button>
+    <button class="btn btn-submit" onclick="showConfirm()">Submit Test</button>
+  </div>
+</div>
+<div class="overlay" id="confirm-ov">
+  <div class="confirm-box">
+    <h3>Submit Test?</h3>
+    <p>IMS Mega Mock Test 2 &middot; 50 Questions</p>
+    <div class="c-stats" id="c-stats"></div>
+    <div class="c-btns">
+      <button class="btn btn-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="btn btn-submit" onclick="doSubmit()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="timeup-ov">
+  <div style="background:white;border-radius:16px;padding:36px 44px;text-align:center;max-width:340px;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div style="font-size:34px;margin-bottom:11px">&#9201;</div>
+    <div style="font-size:19px;font-weight:700;color:var(--red);margin-bottom:8px">Time's Up!</div>
+    <div style="font-size:13px;color:var(--subtext);margin-bottom:18px">120 minutes elapsed. Submitting now.</div>
+    <button class="btn btn-submit" style="width:100%" onclick="doSubmit()">View Results</button>
+  </div>
+</div>
+<div class="overlay" id="submitting-ov">
+  <div style="background:white;border-radius:16px;padding:36px 44px;text-align:center;max-width:340px">
+    <div style="font-size:44px;margin-bottom:14px">&#9989;</div>
+    <div style="font-size:18px;font-weight:700;color:var(--navy);margin-bottom:9px">Responses Submitted!</div>
+    <div style="font-size:13px;color:var(--subtext);line-height:1.6">Calculating your score&hellip;</div>
+    <div style="margin-top:18px;height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden"><div class="prog-bar"></div></div>
+  </div>
+</div>
+<div class="overlay" id="results-ov">
+  <div class="modal">
+    <div class="modal-title">&#128202; IMS Mega Mock Test 2 &mdash; Results</div>
+    <div class="modal-sub">Quantitative Aptitude &middot; 50 MCQ &middot; +4 correct &middot; &minus;1 wrong</div>
+    <div class="s-strip" id="s-strip"></div>
+    <div class="score-grid" id="score-cards"></div>
+    <div class="sep"></div>
+    <div class="a-title">&#128273; Save Your Response Code</div>
+    <div style="font-size:12px;color:var(--subtext);line-height:1.65;margin-bottom:9px">Solutions will be released in 2 days. To view your detailed review then, you must save this code now &mdash; screenshot it or send it to yourself on WhatsApp.</div>
+    <div class="code-box"><div class="code-str" id="resp-code"></div><button class="code-btn" onclick="copyCode()">&#128203; Copy Code</button></div>
+    <div style="font-size:11px;color:#94a3b8;margin-top:7px;line-height:1.5">This code stores only which options you marked. It does not contain the answer key.</div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button onclick="closeResults()" style="flex:1;padding:9px;background:#64748b;color:white;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:&apos;IBM Plex Sans&apos;,sans-serif">Close</button>
+    </div>
+  </div>
+</div>
+<script>
+/* ── Google Form target — IMS Mega Mock Test 2 — Scores ── */
+const GF={
+  url:'https://docs.google.com/forms/d/e/1FAIpQLSdh1NEqRi4uRxsQiIXt2QKUULK3oG8oiHt8J6rf2xblj-aVsA/formResponse',
+  f:{name:'entry.649418675',center:'entry.1868639403',batch:'entry.1105152055',
+     total:'entry.1743053678',correct:'entry.320592361',wrong:'entry.1650516329',
+     skip:'entry.1108338024',time:'entry.2056503236',resp:'entry.744818504',
+     pin:'entry.1926993698'}
+};
+const L=['A','B','C','D'];
+
+const Q=[
+{id:1,text:'The LCM of two numbers is 20 times their HCF, and the sum of the HCF and the LCM is 2520. If one of the numbers is 480, then the other number is:',options:['400','600','540','720']},
+{id:2,text:'A shopkeeper marks his goods 20% above cost price and sells at the marked price, but uses a weight of 900 g in place of 1 kg. What is his overall profit percentage ?',options:['33 1/3%','30%','32%','25%']},
+{id:3,text:'Two vessels of equal capacity are full of a mixture of spirit and water. In the first the ratio of spirit to water is 5 : 3, and in the second it is 7 : 5. Both vessels are emptied into a third vessel. What is the ratio of spirit to water in the third vessel ?',options:['29 : 19','19 : 29','12 : 8','35 : 15']},
+{id:4,text:'A and B together can complete a piece of work in 12 days. They work together for 4 days, after which B is replaced by C, and the remaining work is completed in 8 more days. If C alone can complete the work in 36 days, in how many days can A alone complete it ?',options:['16','18','24','20']},
+{id:5,text:'If 3<sup>2x+1</sup> &minus; 3<sup>2x&minus;1</sup> = 216, then the value of x is:',options:['2','3','1','4']},
+{id:6,text:'What is the unit digit of (467)<sup>33</sup> + (824)<sup>41</sup> &minus; (253)<sup>26</sup> ?',options:['4','6','8','2']},
+{id:7,text:'The average age of a family of six members is 22 years. If the youngest member is 7 years old, what was the average age of the family at the time just before the birth of the youngest member ?',options:['15 years','20 years','17 years','18 years']},
+{id:8,text:'A loan is repaid in two equal annual instalments of &#8377;6,050 each. If the rate of interest is 10% per annum, compounded annually, then the sum borrowed (in &#8377;) is:',options:['12,100','10,000','10,500','11,000']},
+{id:9,text:'In an election between two candidates, 12% of the votes cast were declared invalid. The winner secured 58% of the valid votes and won by 3,168 votes. How many votes were cast in all ?',options:['20,000','22,500','19,800','25,600']},
+{id:10,text:'A sum lent out at simple interest amounts to &#8377;9,440 in 3 years and to &#8377;10,400 in 5 years. What is the rate of interest per annum ?',options:['7.5%','6%','5%','8%']},
+{id:11,text:'The price of petrol increases by 25%. By what percentage must a household reduce its consumption of petrol so that its expenditure on petrol increases by only 5% ?',options:['18%','16%','20%','15%']},
+{id:12,text:'A tank has a leak that can empty it in 20 hours. An inlet pipe admits water at 6 litres per minute and, with the leak still working, fills the tank in 30 hours. What is the capacity of the tank (in litres) ?',options:['5,400','2,880','4,320','3,600']},
+{id:13,text:'The difference between the roots of the equation x&sup2; &minus; kx + 45 = 0 is 4. If k > 0, then the value of k is:',options:['16','12','14','13']},
+{id:14,text:'The value of <span class="rad"><span class="rs">&radic;</span><span class="rv">11 + 6<span class="rad"><span class="rs">&radic;</span><span class="rv">2</span></span></span></span> &minus; <span class="rad"><span class="rs">&radic;</span><span class="rv">11 &minus; 6<span class="rad"><span class="rs">&radic;</span><span class="rv">2</span></span></span></span> is:',options:['6','2<span class="rad"><span class="rs">&radic;</span><span class="rv">3</span></span>','3<span class="rad"><span class="rs">&radic;</span><span class="rv">2</span></span>','2<span class="rad"><span class="rs">&radic;</span><span class="rv">2</span></span>']},
+{id:15,text:'How many natural numbers less than 1200 are divisible by 4 or 6 but NOT by 9 ?',options:['300','399','356','333']},
+{id:16,text:'A boy walks from his home to school at 4 km/h and returns at 6 km/h, taking 5 hours in all. Had he walked both ways at 5 km/h, how much time would the round trip have taken ?',options:['4 hours 30 minutes','5 hours 12 minutes','4 hours 48 minutes','5 hours']},
+{id:17,text:'A certain sum at simple interest becomes three times itself in 16 years. In how many years will it become six times itself at the same rate ?',options:['48','36','40','32']},
+{id:18,text:'The population of a town rises by 10% in the first year, falls by 20% in the second year and rises by 25% in the third year. If the population at the end of three years is 33,000, what was it at the beginning ?',options:['33,000','28,000','36,300','30,000']},
+{id:19,text:'A vessel contains 80 litres of a mixture of milk and water in the ratio 5 : 3. How many litres of this mixture must be drawn out and replaced with pure milk so that the ratio of milk to water becomes 7 : 3 ?',options:['24','12','16','20']},
+{id:20,text:'What is the smallest three-digit number which leaves a remainder of 5 when divided by 8 and a remainder of 7 when divided by 11 ?',options:['106','139','205','117']},
+{id:21,text:'The average weight of three men A, B and C is 84 kg. When D joins them, the average becomes 80 kg. If E, whose weight is 3 kg more than that of D, replaces A, the average weight of B, C, D and E is 79 kg. What is the weight of A (in kg) ?',options:['78','70','75','72']},
+{id:22,text:'Two pipes A and B can fill a tank in 24 minutes and 32 minutes respectively. Both are opened together, but A is closed after some time and the tank is completely filled in 18 minutes. After how many minutes was A closed ?',options:['12','9','13.5','10.5']},
+{id:23,text:'A dealer buys 120 kg of rice. He sells 40% of it at a profit of 25% and the remaining at a loss of 10%, earning an overall profit of &#8377;1,440. What was the cost price per kg (in &#8377;) ?',options:['320','300','250','360']},
+{id:24,text:'A shopkeeper mixes three varieties of tea costing &#8377;120, &#8377;150 and &#8377;180 per kg in the ratio 3 : 2 : 5, and sells the mixture at &#8377;195 per kg. What is his profit percentage ?',options:['22.5%','30%','20%','25%']},
+{id:25,text:'The cost of 5 chairs and 3 tables is &#8377;9,700, while the cost of 3 chairs and 5 tables is &#8377;11,100. If the price of a chair now rises by 20% and that of a table falls by 10%, what will be the combined cost (in &#8377;) of 2 chairs and 3 tables ?',options:['6,180','6,735','6,450','7,020']},
+{id:26,text:'The difference between the compound interest and the simple interest on a certain sum for 2 years at 8% per annum is &#8377;256. What is the sum (in &#8377;) ?',options:['51,200','25,600','40,000','32,000']},
+{id:27,text:'The average of 50 observations was calculated as 36. It was later found that two observations, 48 and 23, had been wrongly recorded as 84 and 32. What is the correct average ?',options:['35.6','35.1','36.9','34.2']},
+{id:28,text:'If &alpha; and &beta; are the roots of the equation 2x&sup2; &minus; 9x + 4 = 0, then the value of &alpha;&sup3; + &beta;&sup3; is:',options:['729/8','405/8','621/8','513/8']},
+{id:29,text:'If A : B = 5 : 8 and B : C = 6 : 11, then A : B : C is:',options:['15 : 24 : 44','30 : 48 : 55','5 : 8 : 11','15 : 24 : 22']},
+{id:30,text:'A train running at 60 km/h crosses a platform in 30 seconds and a man standing on the platform in 12 seconds. What is the length of the platform (in metres) ?',options:['200','500','250','300']},
+{id:31,text:'A certain sum invested at compound interest, compounded annually, amounts to &#8377;12,960 in 2 years and to &#8377;13,996.80 in 3 years. What is the rate of interest per annum ?',options:['8%','10%','7.5%','12%']},
+{id:32,text:'If x&sup2; &minus; <span class="rad"><span class="rs">&radic;</span><span class="rv">13</span></span> x + 1 = 0 and x &gt; 0, then the value of x&sup3; + 1/x&sup3; is:',options:['16<span class="rad"><span class="rs">&radic;</span><span class="rv">13</span></span>','7<span class="rad"><span class="rs">&radic;</span><span class="rv">13</span></span>','10<span class="rad"><span class="rs">&radic;</span><span class="rv">13</span></span>','13<span class="rad"><span class="rs">&radic;</span><span class="rv">13</span></span>']},
+{id:33,text:'The value of 1 + 1 &divide; [2 + 1 &divide; (3 + &frac14;)] is:',options:['43/30','30/43','17/13','53/30']},
+{id:34,text:'If log<sub>2</sub> x + log<sub>4</sub> x + log<sub>16</sub> x = 7, then the value of x is:',options:['8','32','64','16']},
+{id:35,text:'The marked price of an article is 60% above its cost price. After two successive discounts of 25% and 10%, the shopkeeper earns a profit of &#8377;112. What is the cost price of the article (in &#8377;) ?',options:['1,600','1,250','1,400','1,120']},
+{id:36,text:'A, B and C started a business by investing amounts in the ratio 4 : 6 : 9. At the end of 4 months A increased his investment by 50%, and at the end of 8 months C withdrew one-third of his investment. If the total profit at the end of the year is &#8377;2,03,000, then B\'s share (in &#8377;) is:',options:['84,000','63,000','56,000','64,000']},
+{id:37,text:'What is the compound interest (in &#8377;) on a sum of &#8377;15,625 for 9 months at 16% per annum, if the interest is compounded quarterly ?',options:['1,951','1,875','2,000','2,500']},
+{id:38,text:'Two cyclists start together from the same point on a circular track of circumference 900 m and ride in opposite directions at 12 m/s and 8 m/s. After how many seconds will they both be at the starting point together for the first time ?',options:['225','112.5','450','75']},
+{id:39,text:'The incomes of A and B are in the ratio 4 : 5 and their expenditures are in the ratio 5 : 7. If A saves 25% of his income, then the ratio of the savings of A to that of B is:',options:['4 : 5','3 : 2','25 : 21','5 : 4']},
+{id:40,text:'A alone can complete a piece of work in 20 days and B alone in 30 days. They begin the work together, but A leaves 5 days before the work is completed. In how many days was the work completed ?',options:['15','14','16','18']},
+{id:41,text:'What is the remainder when 7<sup>103</sup> is divided by 25 ?',options:['11','18','7','24']},
+{id:42,text:'By selling 45 articles, a trader incurs a loss equal to the selling price of 5 articles. What is his loss percentage ?',options:['10%','11 1/9%','9%','12.5%']},
+{id:43,text:'A man rows 36 km upstream in 6 hours and 42 km downstream in 3 hours. How much time (in hours) will he take to row 110 km in still water ?',options:['11','10','12','13.75']},
+{id:44,text:'A man walking at 5/6 of his usual speed reaches his office 12 minutes late. If instead he had walked at 4/3 of his usual speed, how many minutes early would he have reached?',options:['15','12','20','18']},
+{id:45,text:'The speed of a motorboat in still water is 24 km/h. It travels 90 km downstream and then returns to the starting point. If the round trip takes 8 hours in all, what is the speed (in km/h) of the current ?',options:['8','9','6','4']},
+{id:46,text:'A vessel contains 60 litres of pure milk. A certain quantity is drawn out and replaced with water; then the same quantity of the resulting mixture is drawn out and again replaced with water. The vessel now contains 38.4 litres of milk. How many litres were drawn out each time ?',options:['8','12','10','15']},
+{id:47,text:'Three bells toll at intervals of 18, 24 and 32 seconds respectively. If they toll together at 9:00:00 a.m., how many more times will they toll together during the next 2 hours ?',options:['30','26','25','24']},
+{id:48,text:'The sum of the digits of a three-digit number is 15. Its tens digit is twice its hundreds digit, and the number obtained by reversing its digits exceeds the original number by 297. What is the original number ?',options:['366','258','384','294']},
+{id:49,text:'If (3a + 4b) &divide; (3a &minus; 4b) = 11/5, then a : b is equal to:',options:['16 : 3','8 : 3','32 : 9','9 : 32']},
+{id:50,text:'After allowing a discount of 20% on the marked price, a shopkeeper still earns a profit of 12%. By what percentage above the cost price was the article marked ?',options:['40%','32%','35%','44%']}
+];
+
+/* Answer key is encoded so it is not readable at a glance in page source. */
+const K=atob('QkRHS01TVlhaQ0ZKTVFUVllDRUlLT1BVVlpCR0dNTVJTWUFDRUhOTlJUV1pFR0tMUVI=').split('').map((c,i)=>((c.charCodeAt(0)-65-3*i)%26+26)%26);
+const TOTAL=50,SECS=120*60;
+let cur=1,timeLeft=SECS,timerInt=null,submitted=false;
+let student={name:'',center:'',batch:''};
+const state={};
+for(let i=1;i<=TOTAL;i++)state[i]={status:'nv',response:null};
+state[1].status='na';
+const secLabel=['','Ratio & Variation','Percentage, P&L, Discount','Mixtures & Alligation','Interest & Misc'];
+const bClass=['','b-s1','b-s2','b-s3','b-s4'];
+
+const ROSTER={"27CNS01":[["Anirudh Bhattacharjee","STU0001205810","1205810"],["Dev Desai","STU0001209449","1209449"],["Devarsh Dalal","STU0001222508","1222508"],["Dhwanit Shah","STU0001222832","1222832"],["Dwij Doshi","STU0001209450","1209450"],["Het Jani","STU0001227314","1227314"],["Mahak Kotak","STU0001222510","1222510"],["Mahi Akani","STU0001223020","1223020"],["Manasvi Patel","IMS0001135414","1135414"],["Mansi Gohel","STU0001218565","1218565"],["Mohit Shah","STU0001209448","1209448"],["Nidhish Patel","STU0001227441","1227441"],["Nilay Parmar","STU0001223488","1223488"],["Nisha Chokhavala","STU0001223269","1223269"],["Parv khatri","STU0001227552","1227552"],["Pratham Jain","STU0001227553","1227553"],["Prinse Trapasiya","STU0001189645","1189645"],["Pushti Parikh","STU0001223019","1223019"],["Pushti shah","STU0001227549","1227549"],["Sakib Haradwala","STU0001210938","1210938"],["Samarthi Jain","STU0001217365","1217365"],["Soban Malek","STU0001224146","1224146"],["Ved Patel","STU0001223013","1223013"]],"27CNS02":[["Archi Nai","STU0001222562","1222562"],["Bhagya Bhadra","STU0001217245","1217245"],["Dev Gopalani","STU0001217244","1217244"],["Dhruv Nesadiya","STU0001202521","1202521"],["Feni Belani","STU0001222563","1222563"],["Jiya Katharotia","STU0001222803","1222803"],["Karan Raval","STU0001181017","1181017"],["Manan Desai","STU0001218607","1218607"],["Meet Kapse","STU0001233768","1233768"],["Nirmit Vaja","STU0001222791","1222791"],["PRASHANT YADAV","STU0001231491","1231491"],["Prasham Gotecha","STU0001217002","1217002"],["Pratik Jivrajani","STU0001222806","1222806"],["Pratyaksh Dharukawala","STU0001230861","1230861"],["Prit Jivrajani","STU0001223481","1223481"],["Richa Patel","STU0001235243","1235243"],["Ruchita Rawal","STU0001185346","1185346"],["Vaibhavi Boliya","STU0001219884","1219884"],["herit parikh","STU0001230032","1230032"]],"27CNS03":[["Aalay Shah","STU0001229890","1229890"],["Aman Patel","STU0001171228","1171228"],["Amrita Rajput","STU0001235490","1235490"],["Dhruv Soni","STU0001232052","1232052"],["Harpreet Nanra","STU0001235569","1235569"],["Kenil Kareliya","STU0001243680","1243680"],["Krish Kareliya","STU0001229216","1229216"],["Meet Dave","STU0001237667","1237667"],["Meet Ravaliya","STU0001235590","1235590"],["Parshva shah","STU0001239002","1239002"],["Prapti Bhavsar","STU0001240572","1240572"],["Raj Patat","STU0001235591","1235591"],["Rishva Patel","STU0001234723","1234723"],["Sanjay Baldaniya","STU0001235986","1235986"],["Shrut Patel","STU0001204149","1204149"],["Yash Bhuva","STU0001222509","1222509"]],"27CNS04":[["Dhruv Ugharejiya","STU0001237932","1237932"],["Harsh Thakur","STU0001240801","1240801"],["Hrishit Godiawala","STU0001243748","1243748"],["Kavya Patel","IMS0001158957","1158957"],["Mansi Satikuvar","STU0001251643","1251643"],["Meet Kayasth","STU0001240449","1240449"],["Meet Sachadiya","STU0001240799","1240799"],["Nihar Vyas","STU0001244657","1244657"],["Parth Parmar","STU0001245719","1245719"],["Pratham Saiwal","STU0001239620","1239620"]],"27CNS05":[["Ariha Sheth","IMS0001128259","1128259"],["Aryan Sheth","STU0001243755","1243755"],["Aryan Vaishnani","STU0001246851","1246851"],["Dhwani Prajapati","STU0001243753","1243753"],["Het Patel","STU0001252313","1252313"],["Hiya Mehta","STU0001242538","1242538"],["Khushboo Lakhyani","STU0001243437","1243437"],["Mohammed Kathiwala","STU0001240302","1240302"],["Neer Mehta","STU0001233429","1233429"],["Parth Jesani","STU0001245162","1245162"],["Rudra Patel","STU0001250697","1250697"],["Ruhi Prajapati","STU0001244711","1244711"],["Shrimad Patel","STU0001241978","1241978"],["Tirth Shah","STU0001245281","1245281"],["Vraj Jasani","STU0001246852","1246852"],["Vraj Shah","IMS0001086929","1086929"],["Vrushank Prajapati","STU0001247283","1247283"]],"27CNS06":[["Aarya Patel","STU0001251804","1251804"],["Aaryan Shilajiya","STU0001254625","1254625"],["Anshu Rohra","IMS0001112339","1112339"],["Anushka Patel","STU0001266296","1266296"],["Arpita Parmar","STU0001243006","1243006"],["Dhairya Patadiya","STU0001269301","1269301"],["Dhimahi Thakkar","STU0001261490","1261490"],["Dhwanit Makwana","STU0001242521","1242521"],["Helly Shah","STU0001257561","1257561"],["Kanika Mistry","STU0001262535","1262535"],["Karan Pandey","STU0001244928","1244928"],["Keyuri Joshi","STU0001265523","1265523"],["Krisha Kotak","STU0001268287","1268287"],["Kush Panchal","STU0001269177","1269177"],["MANDEEP GADHVI","STU0001260136","1260136"],["Mahi Patel","STU0001267640","1267640"],["Mandip Parmar","STU0001186480","1186480"],["Mayank Shukla","STU0001262833","1262833"],["Navin Prajapati","STU0001261821","1261821"],["Neal Soni","STU0001262836","1262836"],["Neel Tank","STU0001233068","1233068"],["Nimisha Joshi","STU0001261238","1261238"],["Om Patel","STU0001242520","1242520"],["Prachi Thakkar","STU0001257179","1257179"],["Priyal lalpuriya","STU0001242197","1242197"],["Prutha Brahmkshatriya","STU0001258713","1258713"],["Ragnya Dangi","IMS0001092303","1092303"],["Riya Tripathi","STU0001261308","1261308"],["Sandeep Singh Rathore","STU0001270390","1270390"],["Saurabh Yadav","STU0001261397","1261397"],["Urva Kadia","STU0001259260","1259260"],["rutik shiroya","STU0001266019","1266019"]],"27CNS07":[["Dhruvi Mehta","STU0001262726","1262726"],["Drashti Patel","STU0001271414","1271414"],["Hardavi Talpara .","IMS0001162886","1162886"],["Heer Patel","STU0001271416","1271416"],["Het Panchal","STU0001217680","1217680"],["Janvi Karmatiya","STU0001272576","1272576"],["Jiya Modi","STU0001280269","1280269"],["KAUSHAL RATHOD","STU0001273293","1273293"],["Kathan Patel","STU0001271417","1271417"],["Khushal Yadav","STU0001276892","1276892"],["Khushee Bhatt","STU0001276484","1276484"],["MANSI KASUNDRA","STU0001276910","1276910"],["Prince Patel","STU0001279292","1279292"],["Raj Savaliya","STU0001275668","1275668"],["Rutvi Thakkar","STU0001276465","1276465"],["Satyam Chauhan","STU0001276997","1276997"],["Shivraj Singh","STU0001273693","1273693"],["Shubhavi Maloo","STU0001280626","1280626"],["Sidhant chevda","STU0001270972","1270972"],["Urvi Jethva","STU0001274314","1274314"],["Vishwas Shah","STU0001273591","1273591"],["Vrinda Chhabria","STU0001276324","1276324"]]};
+function fillNames(){
+  const b=document.getElementById('inp-batch').value, sel=document.getElementById('inp-name');
+  document.getElementById('pin-box').textContent='\u2014';
+  if(!b||!ROSTER[b]){sel.innerHTML='<option value="">&mdash; Select your batch first &mdash;</option>';sel.disabled=true;return;}
+  sel.disabled=false;
+  sel.innerHTML='<option value="">&mdash; Select your name &mdash;</option>'+ROSTER[b].map((r,i)=>`<option value="${i}">${r[0]}</option>`).join('');
+}
+function fillId(){
+  const b=document.getElementById('inp-batch').value, i=document.getElementById('inp-name').value;
+  document.getElementById('pin-box').textContent=(b&&i!=='')?ROSTER[b][i][1]:'\u2014';
+}
+function startTest(){
+  const batch=document.getElementById('inp-batch').value;
+  const idx=document.getElementById('inp-name').value;
+  const err=document.getElementById('entry-err');
+  if(!batch){err.textContent='Please select your batch.';return;}
+  if(idx===''){err.textContent='Please select your name from the list.';return;}
+  const r=ROSTER[batch][idx];
+  student={name:r[0],pin:r[1],tail:r[2],center:'Ahmedabad',batch};
+  document.getElementById('entry-ov').style.display='none';
+  document.getElementById('h-student').textContent=student.name;
+  renderQ(1);updatePalette();startTimer();
+}
+function startTimer(){
+  timerInt=setInterval(()=>{
+    timeLeft--;
+    const m=Math.floor(timeLeft/60),s=timeLeft%60;
+    const el=document.getElementById('timer');
+    el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    el.className='timer'+(timeLeft<=300?' warn':'')+(timeLeft<=60?' danger':'');
+    if(timeLeft<=0){clearInterval(timerInt);document.getElementById('timeup-ov').classList.add('show');}
+  },1000);
+}
+function timeTaken(){const e=SECS-timeLeft,m=Math.floor(e/60),s=e%60;return`${m}m ${s}s`;}
+
+function renderQ(qid){
+  const q=Q[qid-1],st=state[qid];
+  let html=`<div class="q-meta"><span class="q-num">Q.${q.id}</span><span class="badge b-s1">Quant &amp; DI</span><span class="badge b-mcq">MCQ &middot; &minus;1</span></div>`;
+  if(q.caselet){html+=`<div class="passage-box"><div class="passage-label">&#128196; ${q.caseletLabel||'Read the following'}</div>${q.caselet}</div>`;}
+  html+=`<div class="instr">&#128309; Select the correct option. <strong style="color:#b91c1c">&minus;1 for wrong answer.</strong></div>`;
+  html+=`<div class="q-text">${q.text}</div><ul class="options">`;
+  q.options.forEach((opt,i)=>{
+    const sel=st.response===i?'selected':'';
+    html+=`<li class="option ${sel}" onclick="selectOpt(${qid},${i})"><div class="opt-circle"><div class="opt-dot"></div></div><span class="opt-lbl">${L[i]}.</span><span>${opt}</span></li>`;
+  });
+  html+=`</ul>`;
+  document.getElementById('q-inner').innerHTML=html;
+  document.querySelector('.q-panel').scrollTop=0;
+  document.getElementById('cur-q').textContent=qid;
+  updatePalette();
+}
+function selectOpt(qid,idx){state[qid].response=idx;state[qid].status=(state[qid].status==='mrv'?'amrv':'ans');renderQ(qid);}
+function updatePalette(){
+  document.getElementById('palette').innerHTML=Q.map(q=>{
+    const s=state[q.id];let cls='pb p-'+s.status;if(q.id===cur)cls+=' cur';
+    return`<button class="${cls}" onclick="goToQ(${q.id})">${q.id}</button>`;
+  }).join('');
+}
+function goToQ(qid){if(state[qid].status==='nv')state[qid].status='na';cur=qid;renderQ(qid);}
+function navigate(d){const n=cur+d;if(n<1||n>TOTAL)return;goToQ(n);}
+function saveAndNext(){if(cur<TOTAL)goToQ(cur+1);}
+function markForReview(){const s=state[cur];s.status=s.status==='ans'?'amrv':(s.status==='amrv'?'ans':(s.status==='mrv'?'na':'mrv'));renderQ(cur);updatePalette();}
+function clearResp(){state[cur].response=null;state[cur].status='na';renderQ(cur);updatePalette();}
+function showConfirm(){
+  let ans=0,na=0,mrv=0;
+  for(let i=1;i<=TOTAL;i++){const s=state[i].status;if(s==='ans'||s==='amrv')ans++;else if(s==='mrv')mrv++;else na++;}
+  document.getElementById('c-stats').innerHTML=`<div class="cs-row"><span>&#10003; Answered</span><span><strong>${ans}</strong></span></div><div class="cs-row"><span>&#10007; Not Answered</span><span><strong>${na}</strong></span></div><div class="cs-row"><span>&#9873; Marked</span><span><strong>${mrv}</strong></span></div>`;
+  document.getElementById('confirm-ov').classList.add('show');
+}
+function closeConfirm(){document.getElementById('confirm-ov').classList.remove('show');}
+function doSubmit(){
+  if(submitted)return;submitted=true;clearInterval(timerInt);
+  ['confirm-ov','timeup-ov'].forEach(id=>document.getElementById(id).classList.remove('show'));
+  document.getElementById('submitting-ov').classList.add('show');
+  setTimeout(()=>{document.getElementById('submitting-ov').classList.remove('show');showResults();},2800);
+}
+function evalQ(q){
+  const resp=state[q.id].response;
+  if(resp===null||resp===undefined)return{result:'skip',marks:0};
+  return parseInt(resp)===K[q.id-1]?{result:'correct',marks:4}:{result:'wrong',marks:-1};
+}
+function showResults(){
+  let total=0,correct=0,wrong=0,skip=0;
+  const secD=[{q:0,c:0,w:0,s:0,m:0},{q:0,c:0,w:0,s:0,m:0},{q:0,c:0,w:0,s:0,m:0},{q:0,c:0,w:0,s:0,m:0}];
+  Q.forEach(q=>{const{result,marks}=evalQ(q);total+=marks;const sd=secD[q.sec-1];sd.q++;sd.m+=marks;if(result==='correct'){correct++;sd.c++;}else if(result==='wrong'){wrong++;sd.w++;}else{skip++;sd.s++;}});
+  const acc=correct+wrong>0?Math.round(correct/(correct+wrong)*100):0;
+  document.getElementById('s-strip').innerHTML=`<span>&#128100; <strong>${student.name||'&mdash;'}</strong></span><span>Center: <strong>${student.center||'&mdash;'}</strong></span><span>Batch: <strong>${student.batch||'&mdash;'}</strong></span><span>Time: <strong>${timeTaken()}</strong></span>`;
+  document.getElementById('score-cards').innerHTML=`<div class="sc"><div class="sc-label">Net Score</div><div class="sc-val blue">${total}</div><div style="font-size:10px;color:#888;margin-top:4px">out of 200</div></div><div class="sc"><div class="sc-label">Accuracy</div><div class="sc-val gld">${acc}%</div><div style="font-size:10px;color:#888;margin-top:4px">${correct} of ${correct+wrong}</div></div><div class="sc"><div class="sc-label">Correct</div><div class="sc-val grn">+${correct*4}</div><div style="font-size:10px;color:#888;margin-top:4px">${correct} questions</div></div><div class="sc"><div class="sc-label">Wrong</div><div class="sc-val" style="color:var(--red)">&minus;${wrong}</div><div style="font-size:10px;color:#888;margin-top:4px">${wrong} questions</div></div>`;
+  submitToGF({total,correct,wrong,skip});showCode();saveLocal({total,correct,wrong,skip});document.getElementById('results-ov').classList.add('show');
+}
+function closeResults(){document.getElementById('results-ov').classList.remove('show');}
+function buildRespStr(){return Q.map(q=>{const resp=state[q.id].response;if(resp===null||resp===undefined)return`Q${q.id}:-`;const{result}=evalQ(q);return`Q${q.id}:${L[parseInt(resp)]}(${result==='correct'?'V':'X'})`;}).join(' ');}
+async function submitToGF(scores){
+  const p=new URLSearchParams(),f=GF.f;
+  p.append(f.name,student.name);p.append(f.center,student.center);p.append(f.batch,student.batch);p.append(f.total,scores.total);p.append(f.correct,scores.correct);p.append(f.wrong,scores.wrong);p.append(f.skip,scores.skip);p.append(f.time,timeTaken());p.append(f.resp,buildRespStr());p.append(f.pin,student.pin);
+  try{await fetch(GF.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:p.toString()});showToast('Responses submitted to IMS');}catch(e){showToast('Could not reach Google Forms',true);}
+}
+function letters(){return Q.map(q=>{const r=state[q.id].response;return(r===null||r===undefined)?'-':L[parseInt(r)];}).join('');}
+function myCode(){return student.tail+'-'+letters();}
+function showCode(){document.getElementById('resp-code').textContent=myCode();}
+function copyCode(){const c=myCode();navigator.clipboard.writeText(c).then(()=>showToast('Response code copied')).catch(()=>{const t=document.createElement('textarea');t.value=c;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();showToast('Response code copied');});}
+function saveLocal(sc){try{localStorage.setItem('imsMM2',JSON.stringify({n:student.name,p:student.pin,c:student.center,b:student.batch,code:myCode(),t:timeTaken(),s:sc,d:new Date().toISOString()}));}catch(e){}}
+function showToast(msg,isErr=false){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(isErr?' err':'')+' show';setTimeout(()=>t.classList.remove('show'),4000);}
+renderQ(1);updatePalette();
+</script>
+</body>
+</html>
