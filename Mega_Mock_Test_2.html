@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IMS Mega Mock Test 2 — Quantitative Aptitude</title>
+<title>IMS Mega Mock Test 2 — Quantitative Techniques &amp; DI</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -243,7 +243,7 @@ select.entry-input{cursor:pointer;appearance:none;background-image:url("data:ima
 <div class="overlay" id="results-ov">
   <div class="modal">
     <div class="modal-title">&#128202; IMS Mega Mock Test 2 &mdash; Results</div>
-    <div class="modal-sub">Quantitative Aptitude &middot; 50 MCQ &middot; +4 correct &middot; &minus;1 wrong</div>
+    <div class="modal-sub">Quantitative Techniques &amp; DI &middot; 50 MCQ &middot; +4 correct &middot; &minus;1 wrong</div>
     <div class="s-strip" id="s-strip"></div>
     <div class="score-grid" id="score-cards"></div>
     <div class="sep"></div>
@@ -259,7 +259,7 @@ select.entry-input{cursor:pointer;appearance:none;background-image:url("data:ima
 <script>
 /* ── Google Form target — IMS Mega Mock Test 2 — Scores ── */
 const GF={
-  url:'https://docs.google.com/forms/d/e/1FAIpQLSdh1NEqRi4uRxsQiIXt2QKUULK3oG8oiHt8J6rf2xblj-aVsA/formResponse',
+  url:'https://docs.google.com/forms/d/e/1FAIpQLSe-3_CIcjyAgCJfp0wK6W8oCC6dHyeiejdMan5OvQH0Pwa03w/formResponse',
   f:{name:'entry.649418675',center:'entry.1868639403',batch:'entry.1105152055',
      total:'entry.1743053678',correct:'entry.320592361',wrong:'entry.1650516329',
      skip:'entry.1108338024',time:'entry.2056503236',resp:'entry.744818504',
@@ -415,8 +415,7 @@ function evalQ(q){
 }
 function showResults(){
   let total=0,correct=0,wrong=0,skip=0;
-  const secD=[{q:0,c:0,w:0,s:0,m:0},{q:0,c:0,w:0,s:0,m:0},{q:0,c:0,w:0,s:0,m:0},{q:0,c:0,w:0,s:0,m:0}];
-  Q.forEach(q=>{const{result,marks}=evalQ(q);total+=marks;const sd=secD[q.sec-1];sd.q++;sd.m+=marks;if(result==='correct'){correct++;sd.c++;}else if(result==='wrong'){wrong++;sd.w++;}else{skip++;sd.s++;}});
+  Q.forEach(q=>{const{result,marks}=evalQ(q);total+=marks;if(result==='correct')correct++;else if(result==='wrong')wrong++;else skip++;});
   const acc=correct+wrong>0?Math.round(correct/(correct+wrong)*100):0;
   document.getElementById('s-strip').innerHTML=`<span>&#128100; <strong>${student.name||'&mdash;'}</strong></span><span>Center: <strong>${student.center||'&mdash;'}</strong></span><span>Batch: <strong>${student.batch||'&mdash;'}</strong></span><span>Time: <strong>${timeTaken()}</strong></span>`;
   document.getElementById('score-cards').innerHTML=`<div class="sc"><div class="sc-label">Net Score</div><div class="sc-val blue">${total}</div><div style="font-size:10px;color:#888;margin-top:4px">out of 200</div></div><div class="sc"><div class="sc-label">Accuracy</div><div class="sc-val gld">${acc}%</div><div style="font-size:10px;color:#888;margin-top:4px">${correct} of ${correct+wrong}</div></div><div class="sc"><div class="sc-label">Correct</div><div class="sc-val grn">+${correct*4}</div><div style="font-size:10px;color:#888;margin-top:4px">${correct} questions</div></div><div class="sc"><div class="sc-label">Wrong</div><div class="sc-val" style="color:var(--red)">&minus;${wrong}</div><div style="font-size:10px;color:#888;margin-top:4px">${wrong} questions</div></div>`;
