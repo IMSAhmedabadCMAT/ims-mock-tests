@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Reboot 1 — Homework | IMS Ahmedabad</title>
+<style>
+:root{
+  --navy:#1B2A4A; --navy-d:#142038; --navy-l:#2A3E68;
+  --gold:#C5952A; --gold-l:#E8C56B; --gold-p:#FBF3DF;
+  --bg:#EEF1F6; --card:#FFFFFF; --line:#D8DFEA;
+  --ink:#1B2A4A; --muted:#5F6F8C;
+  --ok:#1E7A45; --ok-bg:#E6F4EC;
+  --no:#C0392B; --no-bg:#FBEAE8;
+  --mark:#8A4FBF; --mark-bg:#F3EBFA;
+  --skip:#D97706;
+  --qfs:21px;
+  --radius:10px;
+  --shadow:0 1px 3px rgba(20,32,56,.10), 0 6px 20px rgba(20,32,56,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Aptos','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.5;
+  -webkit-text-size-adjust:100%;
+}
+button{font-family:inherit}
+.hidden{display:none !important}
+
+/* ---------- generic buttons ---------- */
+.btn{
+  border:1px solid transparent; border-radius:8px; padding:9px 16px;
+  font-size:14px; font-weight:600; cursor:pointer; letter-spacing:.2px;
+  transition:.15s ease; background:#fff; color:var(--navy);
+}
+.btn:focus-visible{outline:3px solid var(--gold-l); outline-offset:2px}
+.btn-primary{background:var(--navy); color:#fff}
+.btn-primary:hover{background:var(--navy-l)}
+.btn-gold{background:var(--gold); color:#241a00}
+.btn-gold:hover{background:var(--gold-l)}
+.btn-ghost{background:#fff; border-color:var(--line); color:var(--navy)}
+.btn-ghost:hover{border-color:var(--navy); background:#F7F9FC}
+.btn-warn{background:#fff; border-color:var(--mark); color:var(--mark)}
+.btn-warn:hover{background:var(--mark-bg)}
+.btn:disabled{opacity:.45; cursor:not-allowed}
+
+/* ================= START SCREEN ================= */
+#screen-start{max-width:880px; margin:0 auto; padding:28px 18px 60px}
+.brandbar{
+  display:flex; align-items:center; gap:14px; padding:18px 22px;
+  background:var(--navy); border-radius:var(--radius) var(--radius) 0 0;
+}
+.logo{
+  width:46px;height:46px;flex:none;border-radius:8px;background:var(--gold);
+  display:grid;place-items:center;font-weight:800;color:var(--navy-d);font-size:17px;letter-spacing:.5px;
+}
+.brandbar h1{margin:0;font-size:23px;color:#fff;font-weight:700;letter-spacing:.3px}
+.brandbar p{margin:3px 0 0;font-size:13.5px;color:var(--gold-l)}
+.startcard{background:var(--card); border-radius:0 0 var(--radius) var(--radius); box-shadow:var(--shadow); padding:26px 24px}
+.startcard h2{margin:0 0 4px; font-size:28px; letter-spacing:-.3px}
+.sub{color:var(--muted); font-size:14px; margin:0 0 22px}
+.seggrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; margin-bottom:24px}
+.segtile{border:1px solid var(--line); border-left:4px solid var(--gold); border-radius:8px; padding:12px 14px; background:#FCFDFF}
+.segtile b{display:block; font-size:15px}
+.segtile span{font-size:12.5px; color:var(--muted)}
+.opts{border-top:1px solid var(--line); padding-top:18px; margin-bottom:18px}
+.opts h3{margin:0 0 10px; font-size:14px; text-transform:uppercase; letter-spacing:1px; color:var(--muted)}
+.radios{display:flex; gap:10px; flex-wrap:wrap}
+.radiopill{border:1.5px solid var(--line); border-radius:8px; padding:10px 14px; cursor:pointer; font-size:14px; display:flex; gap:8px; align-items:center; background:#fff}
+.radiopill.on{border-color:var(--navy); background:#F2F5FB; box-shadow:inset 0 0 0 1px var(--navy)}
+.radiopill input{accent-color:var(--navy); margin:0}
+.mins{margin-top:12px; font-size:14px; color:var(--muted); display:flex; align-items:center; gap:8px}
+.mins input{width:74px; padding:7px 9px; border:1px solid var(--line); border-radius:6px; font-size:14px; font-family:inherit}
+.fields{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px}
+.fld{display:flex; flex-direction:column; gap:6px}
+.fld span{font-size:12.5px; font-weight:600; color:var(--muted)}
+.fld i{color:var(--no); font-style:normal}
+.fld input,.fld select{
+  font-family:inherit; font-size:15px; padding:11px 13px; border:1.5px solid #B9C4D6;
+  border-radius:8px; background:#fff; color:var(--ink); width:100%;
+}
+.fld input:focus,.fld select:focus{outline:0; border-color:var(--navy); box-shadow:0 0 0 3px rgba(27,42,74,.14)}
+.fld.bad input,.fld.bad select{border-color:var(--no); background:#FFF8F7}
+.fielderr{margin-top:10px; font-size:13px; color:var(--no); font-weight:600}
+.chk{display:inline-flex; align-items:center; gap:8px; margin-top:12px; font-size:13px; color:var(--muted); cursor:pointer}
+.chk input{accent-color:var(--navy); width:16px; height:16px}
+.fld input[readonly]{background:#F1F4FA; color:var(--navy); font-weight:600; letter-spacing:.5px}
+#freshLink{margin-top:10px}
+#freshLink a{font-size:12.5px; color:var(--muted); text-decoration:underline; cursor:pointer}
+.histrow.left{background:#FBEAE8}
+.whobar{display:flex; gap:18px; flex-wrap:wrap; padding:14px 26px; background:#F1F4FA; border-bottom:1px solid var(--line); font-size:13.5px}
+.whobar b{display:block; font-size:11px; text-transform:uppercase; letter-spacing:.8px; color:var(--muted); font-weight:600}
+.donebox{display:flex; gap:16px; align-items:flex-start; background:var(--ok-bg); border:1px solid #BFE0CD;
+  border-radius:var(--radius); padding:18px 22px; margin-bottom:20px}
+.donetick{width:38px;height:38px;flex:none;border-radius:50%;background:var(--ok);color:#fff;
+  display:grid;place-items:center;font-size:20px;font-weight:800}
+.donebox b{font-size:16px; color:var(--ok)}
+.donebox p{margin:3px 0 0; font-size:13.5px; color:#2C5D42}
+.subbox{background:var(--gold-p); border:1px solid #EAD9A8; border-radius:8px; padding:16px 18px; margin-bottom:20px}
+.subbox h4{margin:0 0 6px; font-size:14px}
+.subbox p{margin:0 0 12px; font-size:13px; color:#4A3A10}
+.subbox textarea{width:100%; height:70px; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:11px; border:1px solid #DFCB99; border-radius:6px; padding:9px; background:#fff; color:#4A3A10; resize:vertical}
+.rules{background:var(--gold-p); border:1px solid #EAD9A8; border-radius:8px; padding:14px 18px; margin-bottom:22px}
+.rules ul{margin:6px 0 0; padding-left:20px; font-size:13.5px; color:#4A3A10}
+.rules li{margin:3px 0}
+.startbtns{display:flex; gap:12px; flex-wrap:wrap}
+.startbtns .btn{padding:13px 26px; font-size:15px}
+#resumeNote{font-size:13px;color:var(--muted);margin-top:12px}
+.histbox{margin-top:26px; border-top:1px solid var(--line); padding-top:16px}
+.histbox h3{margin:0 0 8px; font-size:14px; text-transform:uppercase; letter-spacing:1px; color:var(--muted)}
+.histrow{display:flex; justify-content:space-between; font-size:13.5px; padding:7px 10px; border-radius:6px; background:#F7F9FC; margin-bottom:5px}
+
+/* ================= TEST SCREEN ================= */
+#screen-test{display:flex; flex-direction:column; height:100vh; height:100dvh}
+.topbar{background:var(--navy); color:#fff; display:flex; align-items:center; gap:14px; padding:9px 16px; flex:none}
+.topbar .logo{width:36px;height:36px;font-size:14px}
+.tb-title{font-size:18px; font-weight:700; line-height:1.25; letter-spacing:.2px}
+.tb-title small{display:block; font-weight:500; font-size:12px; color:var(--gold-l); letter-spacing:.3px}
+.tb-spacer{flex:1}
+.clock{
+  display:flex; align-items:center; gap:7px; background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.18); border-radius:8px; padding:6px 12px;
+}
+.clock .lbl{font-size:10.5px; text-transform:uppercase; letter-spacing:1px; color:var(--gold-l)}
+.clock .val{font-size:19px; font-weight:700; font-variant-numeric:tabular-nums; letter-spacing:.5px}
+.clock.danger .val{color:#FF9A8B}
+.fsize{display:flex; gap:4px; align-items:center; background:rgba(255,255,255,.10); border-radius:8px; padding:3px}
+.fsize button{width:30px;height:28px;border:0;background:transparent;color:#fff;font-size:15px;font-weight:700;cursor:pointer;border-radius:5px}
+.fsize button:hover{background:rgba(255,255,255,.16)}
+.iconbtn{background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.18); color:#fff; border-radius:8px; padding:8px 12px; font-size:13px; font-weight:600; cursor:pointer}
+.iconbtn:hover{background:rgba(255,255,255,.2)}
+
+/* segment tabs */
+.segtabs{display:flex; gap:0; background:var(--navy-d); overflow-x:auto; flex:none; scrollbar-width:thin}
+.segtab{
+  border:0; background:transparent; color:#B8C4DA; padding:11px 20px; font-size:13.5px; font-weight:600;
+  cursor:pointer; white-space:nowrap; border-bottom:3px solid transparent;
+}
+.segtab .cnt{opacity:.7; font-weight:400; font-size:12px}
+.segtab:hover{color:#fff}
+.segtab.on{color:#fff; border-bottom-color:var(--gold); background:rgba(197,149,42,.13)}
+
+/* body layout */
+.testbody{flex:1; display:flex; min-height:0}
+.qpane{flex:1; display:flex; flex-direction:column; min-width:0; background:var(--card)}
+.qscroll{flex:1; overflow-y:auto; padding:20px 26px 26px}
+.qhead{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--line)}
+.qnum{background:var(--navy); color:#fff; border-radius:7px; padding:6px 13px; font-size:14px; font-weight:700}
+.qtag{font-size:12px; color:var(--muted); background:#F1F4FA; border:1px solid var(--line); border-radius:20px; padding:4px 12px}
+.qtimer{
+  margin-left:auto; display:flex; align-items:center; gap:8px; background:var(--gold-p);
+  border:1px solid #E7D5A2; border-radius:8px; padding:5px 12px;
+}
+.qtimer .lbl{font-size:10px; text-transform:uppercase; letter-spacing:.8px; color:#8A6B18}
+.qtimer .val{font-size:17px; font-weight:700; font-variant-numeric:tabular-nums; color:#4A3A10}
+.qtext{font-size:var(--qfs); line-height:1.7; letter-spacing:.1px; margin:0 0 22px; font-weight:600}
+.qtext .stmt{font-weight:500}
+.qsteps{display:flex; flex-wrap:wrap; gap:10px; margin:0 0 22px; font-size:calc(var(--qfs) * .95); font-weight:600}
+.chip{background:#F1F4FA; border:1px solid var(--line); border-radius:8px; padding:8px 15px}
+.chip.up{background:var(--ok-bg); border-color:#BFE0CD; color:var(--ok)}
+.chip.down{background:var(--no-bg); border-color:#F1C9C4; color:var(--no)}
+.arrow{align-self:center; color:var(--muted); font-size:15px}
+
+/* answer inputs */
+.ansbox{border:1px solid var(--line); border-left:4px solid var(--gold); background:#FBFCFE; border-radius:8px; padding:16px 18px; max-width:640px}
+.ansbox .albl{font-size:12px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:9px}
+.inline{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+input.num, select.dir{
+  font-family:inherit; font-size:calc(var(--qfs) * .95); font-weight:600; color:var(--ink);
+  border:1.5px solid #B9C4D6; border-radius:8px; padding:10px 13px; background:#fff;
+}
+input.num{width:170px}
+input.num::-webkit-outer-spin-button,input.num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input.num[type=number]{-moz-appearance:textfield}
+input.num:focus,select.dir:focus{outline:0; border-color:var(--navy); box-shadow:0 0 0 3px rgba(27,42,74,.14)}
+.suffix{font-size:calc(var(--qfs) * .95); font-weight:700; color:var(--muted)}
+.hint{font-size:12.5px; color:var(--muted); margin-top:9px}
+
+/* mcq */
+.mcq{display:flex; flex-direction:column; gap:10px; max-width:640px}
+.opt{
+  display:flex; align-items:center; gap:13px; border:1.5px solid var(--line); border-radius:9px;
+  padding:12px 16px; cursor:pointer; background:#fff; font-size:calc(var(--qfs) * .96); font-weight:600;
+}
+.opt:hover{border-color:var(--navy-l); background:#F7F9FD}
+.opt.on{border-color:var(--navy); background:#EEF2FA; box-shadow:inset 0 0 0 1px var(--navy)}
+.opt .key{width:30px;height:30px;flex:none;border-radius:50%;background:#EDF1F8;color:var(--navy);display:grid;place-items:center;font-size:14px;font-weight:700}
+.opt.on .key{background:var(--navy); color:#fff}
+
+/* segment-2 table */
+.tblwrap{overflow-x:auto; margin-bottom:20px}
+table.pt{border-collapse:collapse; width:100%; min-width:560px; font-size:calc(var(--qfs) * .92)}
+table.pt th{
+  background:var(--navy); color:#fff; font-size:13px; text-transform:uppercase; letter-spacing:.7px;
+  padding:10px 12px; text-align:left; font-weight:600;
+}
+table.pt td{border:1px solid var(--line); padding:12px; background:#fff; font-weight:600; vertical-align:middle}
+table.pt td.given{background:#F4F7FC; color:var(--navy)}
+table.pt td.blank{background:#FFFDF5}
+table.pt .cellinput{display:flex; gap:7px; align-items:center; flex-wrap:wrap}
+table.pt input.num{width:130px; padding:10px 12px}
+table.pt select.dir{padding:8px 8px; font-size:13px}
+.blanktag{display:inline-block; background:var(--gold); color:#241a00; font-size:11px; font-weight:800; border-radius:4px; padding:1px 6px; margin-right:6px}
+
+/* nav bar */
+.navbar{
+  flex:none; border-top:1px solid var(--line); background:#F7F9FC; padding:10px 18px;
+  display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+}
+.navbar .grow{flex:1}
+
+/* palette */
+.palette{
+  width:320px; flex:none; background:#F4F7FB; border-left:1px solid var(--line);
+  display:flex; flex-direction:column; transition:width .22s ease;
+}
+.palette.closed{width:0; border-left:0; overflow:hidden}
+.palhead{background:var(--navy-d); color:#fff; padding:11px 16px; display:flex; align-items:center; gap:10px; flex:none}
+.palhead b{font-size:13.5px; letter-spacing:.4px}
+.palhead button{margin-left:auto; background:transparent; border:0; color:#B8C4DA; font-size:19px; cursor:pointer; line-height:1; padding:2px 6px; border-radius:5px}
+.palhead button:hover{color:#fff; background:rgba(255,255,255,.12)}
+.legend{display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:12px 14px; flex:none; border-bottom:1px solid var(--line)}
+.lg{display:flex; align-items:center; gap:7px; font-size:11.8px; color:#3D4E6B; cursor:pointer; border:1px solid transparent; border-radius:6px; padding:4px 5px; background:transparent; text-align:left}
+.lg:hover{background:#E8EEF7}
+.lg.on{border-color:var(--navy); background:#E4EBF7; font-weight:700}
+.sw{width:22px;height:22px;flex:none;border-radius:5px;display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff}
+.sw.answered{background:var(--ok)}
+.sw.notans{background:var(--no)}
+.sw.marked{background:var(--mark)}
+.sw.ansmark{background:var(--mark); position:relative}
+.sw.ansmark::after{content:'';position:absolute;right:-2px;bottom:-2px;width:10px;height:10px;border-radius:50%;background:var(--ok);border:1.5px solid #fff}
+.sw.notvis{background:#fff;border:1.5px solid #B9C4D6;color:var(--muted)}
+.palscroll{flex:1; overflow-y:auto; padding:12px 14px 20px}
+.palseg{margin-bottom:16px}
+.palseg h4{margin:0 0 8px; font-size:11.5px; text-transform:uppercase; letter-spacing:.9px; color:var(--muted); display:flex; justify-content:space-between}
+.palgrid{display:grid; grid-template-columns:repeat(6,1fr); gap:7px}
+.pbtn{
+  aspect-ratio:1/1; border-radius:6px; border:1.5px solid #B9C4D6; background:#fff; color:var(--muted);
+  font-size:13px; font-weight:700; cursor:pointer; display:grid; place-items:center; position:relative; padding:0;
+}
+.pbtn:hover{transform:translateY(-1px)}
+.pbtn.answered{background:var(--ok); border-color:var(--ok); color:#fff}
+.pbtn.notans{background:var(--no); border-color:var(--no); color:#fff}
+.pbtn.marked{background:var(--mark); border-color:var(--mark); color:#fff}
+.pbtn.ansmark{background:var(--mark); border-color:var(--mark); color:#fff}
+.pbtn.ansmark::after{content:'';position:absolute;right:-3px;bottom:-3px;width:11px;height:11px;border-radius:50%;background:var(--ok);border:2px solid #F4F7FB}
+.pbtn.cur{box-shadow:0 0 0 3px var(--gold)}
+.pbtn.dim{opacity:.22}
+.palfoot{flex:none; padding:12px 14px; border-top:1px solid var(--line); background:#EDF1F8}
+.palfoot .btn{width:100%}
+.paltoggle{
+  position:absolute; right:0; top:50%; transform:translateY(-50%);
+  writing-mode:vertical-rl; background:var(--navy); color:#fff; border:0; padding:16px 7px;
+  border-radius:8px 0 0 8px; font-size:12px; font-weight:700; letter-spacing:1px; cursor:pointer; z-index:20;
+}
+
+/* pause overlay */
+.overlay{position:fixed; inset:0; background:rgba(20,32,56,.86); display:grid; place-items:center; z-index:50; padding:20px}
+.modal{background:#fff; border-radius:12px; padding:28px; max-width:460px; width:100%; box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal h3{margin:0 0 8px; font-size:21px}
+.modal p{margin:0 0 18px; font-size:14.5px; color:var(--muted)}
+.modal .row{display:flex; gap:10px; flex-wrap:wrap}
+.mini{display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:0 0 18px}
+.mini div{background:#F4F7FC; border:1px solid var(--line); border-radius:7px; padding:9px 12px; font-size:13px}
+.mini b{display:block; font-size:19px; color:var(--navy)}
+
+/* ================= RESULT SCREEN ================= */
+#screen-result{max-width:1000px; margin:0 auto; padding:24px 18px 70px}
+.rescard{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; margin-bottom:20px}
+.reshead{background:var(--navy); color:#fff; padding:22px 26px}
+.reshead h2{margin:0; font-size:24px}
+.reshead p{margin:4px 0 0; color:var(--gold-l); font-size:13.5px}
+.scoregrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--line)}
+.scell{background:#fff; padding:18px 20px}
+.scell .k{font-size:11.5px; text-transform:uppercase; letter-spacing:1px; color:var(--muted)}
+.scell .v{font-size:29px; font-weight:800; line-height:1.2; margin-top:3px}
+.scell .v small{font-size:15px; font-weight:600; color:var(--muted)}
+table.res{width:100%; border-collapse:collapse; font-size:14px}
+table.res th{background:#F1F4FA; text-align:left; padding:11px 16px; font-size:11.5px; text-transform:uppercase; letter-spacing:.8px; color:var(--muted); border-bottom:1px solid var(--line)}
+table.res td{padding:11px 16px; border-bottom:1px solid var(--line)}
+table.res tr:last-child td{border-bottom:0}
+.bar{height:7px; border-radius:4px; background:#E4E9F2; overflow:hidden; min-width:90px}
+.bar i{display:block; height:100%; background:var(--ok)}
+.revfilter{display:flex; gap:8px; flex-wrap:wrap; padding:14px 20px; border-bottom:1px solid var(--line); background:#F7F9FC}
+.fchip{border:1.5px solid var(--line); background:#fff; border-radius:20px; padding:6px 15px; font-size:13px; font-weight:600; cursor:pointer; color:var(--navy)}
+.fchip.on{background:var(--navy); border-color:var(--navy); color:#fff}
+.revitem{border-bottom:1px solid var(--line); padding:16px 20px}
+.revitem:last-child{border-bottom:0}
+.revtop{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px}
+.badge{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.7px; border-radius:5px; padding:3px 9px}
+.badge.ok{background:var(--ok-bg); color:var(--ok)}
+.badge.no{background:var(--no-bg); color:var(--no)}
+.badge.part{background:var(--gold-p); color:#8A6B18}
+.badge.skip{background:#F1F4FA; color:var(--muted)}
+.revq{font-size:15.5px; font-weight:600; margin:0 0 10px}
+.revans{display:flex; gap:22px; flex-wrap:wrap; font-size:14px; margin-bottom:8px}
+.revans span b{color:var(--muted); font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:.6px; display:block}
+.revopts{list-style:none; margin:0 0 10px; padding:0; display:flex; flex-direction:column; gap:6px}
+.revopts li{border:1px solid var(--line); border-radius:7px; padding:8px 13px; font-size:14.5px; background:#fff}
+.revopts li.right{border-color:#BFE0CD; background:var(--ok-bg)}
+.revopts li.mine{box-shadow:inset 0 0 0 1.5px var(--navy)}
+.revopts .tick{font-size:11px; font-weight:800; color:var(--ok); margin-left:10px; text-transform:uppercase; letter-spacing:.6px}
+.revopts .cross{font-size:11px; font-weight:800; color:var(--no); margin-left:10px; text-transform:uppercase; letter-spacing:.6px}
+.timechip{font-size:12px; color:var(--muted); background:#F1F4FA; border-radius:20px; padding:3px 10px; margin-left:auto}
+.resbtns{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px}
+.resbtns .btn{padding:13px 24px; font-size:15px}
+
+@media(max-width:860px){
+  .palette{position:fixed; right:0; top:0; bottom:0; z-index:40; width:290px; box-shadow:-8px 0 30px rgba(20,32,56,.2)}
+  .palette.closed{width:0}
+  .qscroll{padding:16px 16px 22px}
+  .tb-title small{display:none}
+  .fsize{display:none}
+  .navbar{padding:9px 12px; gap:7px}
+  .navbar .btn{padding:9px 12px; font-size:13px}
+  .legend{grid-template-columns:1fr}
+}
+@media print{
+  body{background:#fff}
+  .topbar,.navbar,.palette,.segtabs,.paltoggle,.revfilter,.resbtns,.subbox,.donebox,.overlay,
+  .sol,.timechip,#facultyBox{display:none !important}
+  #screen-result{max-width:none; padding:0}
+  .rescard{box-shadow:none; border:1px solid #ccc; margin-bottom:12px; break-inside:avoid}
+  .reshead{background:#1B2A4A !important; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+  .revitem{break-inside:avoid; page-break-inside:avoid}
+  .revopts li{break-inside:avoid}
+  table.res th,.scoregrid,.whobar,.badge,.qnum{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+  @page{margin:12mm}
+  .scoregrid,.whobar{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+  @page{margin:12mm}
+}
+</style>
+</head>
+<body>
+
+<!-- ========================= START ========================= -->
+<div id="screen-start">
+  <div class="brandbar">
+    <div class="logo">IMS</div>
+    <div>
+      <h1>MATH REBOOT 1 — HOMEWORK</h1>
+      <p>IMS Ahmedabad · CNS 2027 · Quantitative Aptitude</p>
+    </div>
+  </div>
+  <div class="startcard">
+    <h2 id="startHead">Loading…</h2>
+    <p class="sub">Segment-wise homework. Attempt anything in any order, track your time per question, and check solutions once you submit.</p>
+
+    <div class="seggrid" id="startSegs"></div>
+
+    <div class="opts">
+      <h3>Your details</h3>
+      <div class="fields">
+        <label class="fld"><span>Batch <i>*</i></span>
+          <select id="stBatch"><option value="">Select your batch</option></select></label>
+        <label class="fld"><span>Your name <i>*</i></span>
+          <select id="stName" disabled><option value="">Select your batch first</option></select></label>
+        <label class="fld"><span>IMS PIN</span>
+          <input type="text" id="stPin" readonly placeholder="Fills in automatically" tabindex="-1"></label>
+      </div>
+      <div class="fielderr hidden" id="fieldErr">Select your batch and your name to begin.</div>
+    </div>
+
+    <div class="rules">
+      <b style="font-size:14px">Before you begin</b>
+      <ul>
+        <li><b>Total time: <span id="durText">50</span> minutes.</b> The clock runs down from the moment you start, and the test submits itself when it reaches zero.</li>
+        <li>A separate stopwatch runs on every question so you can see where your time is going.</li>
+        <li>1 mark per question. No negative marking — attempt everything.</li>
+        <li>Segment 2 and Segment 3 have two parts per question; each correct part earns 0.5.</li>
+        <li>Every answer is a number, so the boxes accept digits and a decimal point only.</li>
+        <li>Percentages are accepted to one decimal — 66.66, 66.67 and 66.7 are all correct.</li>
+        <li><b style="color:#8A1F13">Finish in one sitting.</b> There is no resume — if you close the tab, the attempt is lost and you begin again from zero.</li>
+      </ul>
+    </div>
+
+    <div class="startbtns">
+      <button class="btn btn-primary" id="btnStart">Start test</button>
+    </div>
+    <div id="resumeNote"></div>
+
+  </div>
+</div>
+
+<!-- ========================= TEST ========================= -->
+<div id="screen-test" class="hidden">
+  <div class="topbar">
+    <div class="logo">IMS</div>
+    <div class="tb-title">Math Reboot 1 — Homework<small id="tbWho">IMS Ahmedabad · CNS 2027</small></div>
+    <div class="tb-spacer"></div>
+    <div class="fsize" title="Question text size">
+      <button id="fsDown">A−</button><button id="fsUp">A+</button>
+    </div>
+    <div class="clock" id="mainClock">
+      <div>
+        <div class="lbl" id="clockLbl">Time elapsed</div>
+        <div class="val" id="clockVal">00:00</div>
+      </div>
+    </div>
+    <button class="iconbtn" id="btnPalToggle">Palette</button>
+  </div>
+
+  <div class="segtabs" id="segTabs"></div>
+
+  <div class="testbody">
+    <div class="qpane">
+      <div class="qscroll" id="qScroll"></div>
+      <div class="navbar">
+        <button class="btn btn-ghost" id="btnPrev">← Previous</button>
+        <button class="btn btn-ghost" id="btnClear">Clear response</button>
+        <button class="btn btn-warn" id="btnMark">Mark for review</button>
+        <div class="grow"></div>
+        <button class="btn btn-primary" id="btnNext">Save &amp; next →</button>
+        <button class="btn btn-gold" id="btnSubmit">Submit test</button>
+      </div>
+    </div>
+
+    <aside class="palette" id="palette">
+      <div class="palhead">
+        <b>QUESTION PALETTE</b>
+        <button id="btnPalClose" title="Close palette">✕</button>
+      </div>
+      <div class="legend" id="legend"></div>
+      <div class="palscroll" id="palScroll"></div>
+      <div class="palfoot">
+        <button class="btn btn-gold" id="btnSubmit2">Submit test</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- ========================= RESULT ========================= -->
+<div id="screen-result" class="hidden">
+  <div class="rescard">
+    <div class="reshead">
+      <h2>Math Reboot 1 — Homework · Answer Sheet</h2>
+      <p id="resMeta"></p>
+    </div>
+    <div class="whobar" id="whoBar"></div>
+    <div class="scoregrid" id="scoreGrid"></div>
+  </div>
+
+  <div class="donebox" id="doneBox">
+    <div class="donetick">✓</div>
+    <div>
+      <b>Your response has been submitted.</b>
+      <p id="subStatus">Your score sheet has been recorded and will be shared with your faculty.</p>
+      <button class="btn btn-primary hidden" id="btnSheet" style="margin-top:10px">Download my answer sheet</button>
+    </div>
+  </div>
+
+  <div class="subbox hidden" id="facultyBox">
+    <h4>Faculty view — response record</h4>
+    <p id="rowStatus">Paste this row into the collection sheet.</p>
+    <div class="resbtns" style="margin-bottom:12px">
+      <button class="btn btn-primary" id="btnDownload">Download JSON</button>
+      <button class="btn btn-gold" id="btnCopyRow">Copy row for the sheet</button>
+      <button class="btn btn-ghost" id="btnCopyCode">Copy JSON</button>
+    </div>
+    <textarea id="subCode" readonly></textarea>
+    <textarea id="subRow" readonly></textarea>
+  </div>
+
+  <div class="resbtns">
+    <button class="btn btn-primary" id="btnPrint">Print / Save as PDF</button>
+  </div>
+
+  <div class="rescard">
+    <div class="revfilter" id="revFilter"></div>
+    <div id="revList"></div>
+  </div>
+</div>
+
+<div id="overlayHost"></div>
+
+<script>
+/* =====================================================================
+   0. FACULTY SETTINGS  — edit only this block
+   ===================================================================== */
+const CONFIG = {
+  TEST_NAME      : 'Math Reboot 1 — Homework',
+  DURATION_MIN   : 50,          // total time allowed, in minutes. Students cannot change this.
+  ALLOW_REVIEW   : true,        // false = students see the score but not the solutions
+  SUBMIT_ENDPOINT: ''           // Apps Script URL (optional, leave blank if using the Form below)
+};
+
+/* ---------------------------------------------------------------------
+   GOOGLE FORM COLLECTION
+   1. Build the form with the 12 questions listed below, in this order.
+   2. Open "Get pre-filled link", type 1 in every box, click "Get link",
+      and copy the long URL it gives you.
+   3. From that URL, copy each entry.XXXXXXX number into the matching
+      line below, and put the form's /formResponse address in ACTION.
+   Leave ACTION blank and nothing is sent — the answer sheet still downloads.
+   --------------------------------------------------------------------- */
+const GFORM = {
+  ACTION: 'https://docs.google.com/forms/d/e/1FAIpQLSe1RmdDFksdQRu3P9qvzeFFnUycte2FYRWPEicAhb4vQYtu6A/formResponse',
+  F: {
+    pin      : 'entry.500072409',    // Q1  · IMS PIN
+    name     : 'entry.2128170961',   // Q2  · Name
+    batch    : 'entry.2003824464',   // Q3  · Batch
+    score    : 'entry.759641127',    // Q4  · Score
+    correct  : 'entry.1246210036',   // Q5  · Correct
+    wrong    : 'entry.202446909',    // Q6  · Wrong
+    skipped  : 'entry.31921757',     // Q7  · Skipped
+    timeUsed : 'entry.1993408874',   // Q8  · Time Used
+    qPerMin  : 'entry.1626108432',   // Q9  · Questions per Min
+    attemptId: 'entry.1883498052',   // Q10 · Attempt ID
+    segments : 'entry.1840735520',   // Q11 · Segment Scores
+    data     : 'entry.1662242479'    // Q12 · Full Data (paragraph)
+  }
+};
+
+/* ---------------------------------------------------------------------
+   STUDENT ROSTER — CNS 2027, 144 students. Source: IMS attendance sheet.
+   Format:  'BATCH': [ {n:'Full Name', p:'IMS PIN'}, ... ]
+   --------------------------------------------------------------------- */
+const ROSTER = {
+  '27CNS01': [
+    {n:'Anirudh Bhattacharjee', p:'STU0001205810'},
+    {n:'Dev Desai',             p:'STU0001209449'},
+    {n:'Devarsh Dalal',         p:'STU0001222508'},
+    {n:'Dhwanit Shah',          p:'STU0001222832'},
+    {n:'Dwij Doshi',            p:'STU0001209450'},
+    {n:'Het Jani',              p:'STU0001227314'},
+    {n:'Mahak Kotak',           p:'STU0001222510'},
+    {n:'Mahi Akani',            p:'STU0001223020'},
+    {n:'Manasvi Patel',         p:'IMS0001135414'},
+    {n:'Mansi Gohel',           p:'STU0001218565'},
+    {n:'Mohit Shah',            p:'STU0001209448'},
+    {n:'Nidhish Patel',         p:'STU0001227441'},
+    {n:'Nilay Parmar',          p:'STU0001223488'},
+    {n:'Nisha Chokhavala',      p:'STU0001223269'},
+    {n:'Pal Dankhara',          p:'STU0001210863'},
+    {n:'Parv khatri',           p:'STU0001227552'},
+    {n:'Pratham Jain',          p:'STU0001227553'},
+    {n:'Prinse Trapasiya',      p:'STU0001189645'},
+    {n:'Pushti Parikh',         p:'STU0001223019'},
+    {n:'Pushti shah',           p:'STU0001227549'},
+    {n:'Sakib Haradwala',       p:'STU0001210938'},
+    {n:'Samarthi Jain',         p:'STU0001217365'},
+    {n:'Soban Malek',           p:'STU0001224146'},
+    {n:'Ved Patel',             p:'STU0001223013'},
+    {n:'Yaksh Virani',          p:'STU0001210864'}
+  ],
+  '27CNS02': [
+    {n:'Archi Nai',             p:'STU0001222562'},
+    {n:'Bhagya Bhadra',         p:'STU0001217245'},
+    {n:'Dev Gopalani',          p:'STU0001217244'},
+    {n:'Dhruv Nesadiya',        p:'STU0001202521'},
+    {n:'Feni Belani',           p:'STU0001222563'},
+    {n:'Jayal Gorajiya',        p:'STU0001231972'},
+    {n:'Jiya Katharotia',       p:'STU0001222803'},
+    {n:'Karan Raval',           p:'STU0001181017'},
+    {n:'Manan Desai',           p:'STU0001218607'},
+    {n:'Meet Kapse',            p:'STU0001233768'},
+    {n:'Nirmit Vaja',           p:'STU0001222791'},
+    {n:'PRASHANT YADAV',        p:'STU0001231491'},
+    {n:'Prasham Gotecha',       p:'STU0001217002'},
+    {n:'Pratik Jivrajani',      p:'STU0001222806'},
+    {n:'Pratyaksh Dharukawala', p:'STU0001230861'},
+    {n:'Prit Jivrajani',        p:'STU0001223481'},
+    {n:'Raj Italiya',           p:'STU0001186390'},
+    {n:'Richa Patel',           p:'STU0001235243'},
+    {n:'Ruchita Rawal',         p:'STU0001185346'},
+    {n:'Vaibhavi Boliya',       p:'STU0001219884'},
+    {n:'herit parikh',          p:'STU0001230032'}
+  ],
+  '27CNS03': [
+    {n:'Aalay Shah',       p:'STU0001229890'},
+    {n:'Aman Patel',       p:'STU0001171228'},
+    {n:'Amrita Rajput',    p:'STU0001235490'},
+    {n:'Dhruv Soni',       p:'STU0001232052'},
+    {n:'Harpreet Nanra',   p:'STU0001235569'},
+    {n:'Kenil Kareliya',   p:'STU0001243680'},
+    {n:'Krish Kareliya',   p:'STU0001229216'},
+    {n:'Meet Dave',        p:'STU0001237667'},
+    {n:'Meet Ravaliya',    p:'STU0001235590'},
+    {n:'Parshva shah',     p:'STU0001239002'},
+    {n:'Prapti Bhavsar',   p:'STU0001240572'},
+    {n:'Raj Patat',        p:'STU0001235591'},
+    {n:'Rishva Patel',     p:'STU0001234723'},
+    {n:'Sanjay Baldaniya', p:'STU0001235986'},
+    {n:'Shrut Patel',      p:'STU0001204149'},
+    {n:'Yash Bhuva',       p:'STU0001222509'}
+  ],
+  '27CNS04': [
+    {n:'Dhruv Ugharejiya',  p:'STU0001237932'},
+    {n:'Harsh Thakur',      p:'STU0001240801'},
+    {n:'Hrishit Godiawala', p:'STU0001243748'},
+    {n:'Kavya Patel',       p:'IMS0001158957'},
+    {n:'Mansi Satikuvar',   p:'STU0001251643'},
+    {n:'Meet Kayasth',      p:'STU0001240449'},
+    {n:'Meet Sachadiya',    p:'STU0001240799'},
+    {n:'Nihar Vyas',        p:'STU0001244657'},
+    {n:'Parth Parmar',      p:'STU0001245719'},
+    {n:'Pratham Saiwal',    p:'STU0001239620'}
+  ],
+  '27CNS05': [
+    {n:'Ariha Sheth',        p:'IMS0001128259'},
+    {n:'Aryan Sheth',        p:'STU0001243755'},
+    {n:'Aryan Vaishnani',    p:'STU0001246851'},
+    {n:'Dhwani Prajapati',   p:'STU0001243753'},
+    {n:'Het Patel',          p:'STU0001252313'},
+    {n:'Hiya Mehta',         p:'STU0001242538'},
+    {n:'Khushboo Lakhyani',  p:'STU0001243437'},
+    {n:'Mohammed Kathiwala', p:'STU0001240302'},
+    {n:'Neer Mehta',         p:'STU0001233429'},
+    {n:'Parth Jesani',       p:'STU0001245162'},
+    {n:'Rudra Patel',        p:'STU0001250697'},
+    {n:'Ruhi Prajapati',     p:'STU0001244711'},
+    {n:'Shrimad Patel',      p:'STU0001241978'},
+    {n:'Tirth Shah',         p:'STU0001245281'},
+    {n:'Vraj Jasani',        p:'STU0001246852'},
+    {n:'Vraj Shah',          p:'IMS0001086929'},
+    {n:'Vrushank Prajapati', p:'STU0001247283'}
+  ],
+  '27CNS06': [
+    {n:'Aarya Patel',           p:'STU0001251804'},
+    {n:'Aaryan Shilajiya',      p:'STU0001254625'},
+    {n:'Anshu Rohra',           p:'IMS0001112339'},
+    {n:'Anushka Patel',         p:'STU0001266296'},
+    {n:'Arpita Parmar',         p:'STU0001243006'},
+    {n:'Dhairya Patadiya',      p:'STU0001269301'},
+    {n:'Dhimahi Thakkar',       p:'STU0001261490'},
+    {n:'Dhwanit Makwana',       p:'STU0001242521'},
+    {n:'Helly Shah',            p:'STU0001257561'},
+    {n:'Kanika Mistry',         p:'STU0001262535'},
+    {n:'Karan Pandey',          p:'STU0001244928'},
+    {n:'Keyuri Joshi',          p:'STU0001265523'},
+    {n:'Krisha Kotak',          p:'STU0001268287'},
+    {n:'Kush Panchal',          p:'STU0001269177'},
+    {n:'MANDEEP GADHVI',        p:'STU0001260136'},
+    {n:'Mahi Patel',            p:'STU0001267640'},
+    {n:'Mandip Parmar',         p:'STU0001186480'},
+    {n:'Mayank Shukla',         p:'STU0001262833'},
+    {n:'Navin Prajapati',       p:'STU0001261821'},
+    {n:'Neal Soni',             p:'STU0001262836'},
+    {n:'Neel Tank',             p:'STU0001233068'},
+    {n:'Nimisha Joshi',         p:'STU0001261238'},
+    {n:'Om Patel',              p:'STU0001242520'},
+    {n:'Prachi Thakkar',        p:'STU0001257179'},
+    {n:'Priyal lalpuriya',      p:'STU0001242197'},
+    {n:'Prutha Brahmkshatriya', p:'STU0001258713'},
+    {n:'Ragnya Dangi',          p:'IMS0001092303'},
+    {n:'Riya Tripathi',         p:'STU0001261308'},
+    {n:'Sandeep Singh Rathore', p:'STU0001270390'},
+    {n:'Saurabh Yadav',         p:'STU0001261397'},
+    {n:'Urva Kadia',            p:'STU0001259260'},
+    {n:'rutik shiroya',         p:'STU0001266019'}
+  ],
+  '27CNS07': [
+    {n:'Dhruvi Mehta',      p:'STU0001262726'},
+    {n:'Drashti Patel',     p:'STU0001271414'},
+    {n:'Hardavi Talpara .', p:'IMS0001162886'},
+    {n:'Heer Patel',        p:'STU0001271416'},
+    {n:'Het Panchal',       p:'STU0001217680'},
+    {n:'Janvi Karmatiya',   p:'STU0001272576'},
+    {n:'Jiya Modi',         p:'STU0001280269'},
+    {n:'KAUSHAL RATHOD',    p:'STU0001273293'},
+    {n:'Karan Bhagtani',    p:'STU0001276346'},
+    {n:'Kathan Patel',      p:'STU0001271417'},
+    {n:'Khushal Yadav',     p:'STU0001276892'},
+    {n:'Khushee Bhatt',     p:'STU0001276484'},
+    {n:'MANSI KASUNDRA',    p:'STU0001276910'},
+    {n:'Prince Patel',      p:'STU0001279292'},
+    {n:'Raj Savaliya',      p:'STU0001275668'},
+    {n:'Rutvi Thakkar',     p:'STU0001276465'},
+    {n:'Satyam Chauhan',    p:'STU0001276997'},
+    {n:'Shivraj Singh',     p:'STU0001273693'},
+    {n:'Shubhavi Maloo',    p:'STU0001280626'},
+    {n:'Sidhant chevda',    p:'STU0001270972'},
+    {n:'Urvi Jethva',       p:'STU0001274314'},
+    {n:'Vishwas Shah',      p:'STU0001273591'},
+    {n:'Vrinda Chhabria',   p:'STU0001276324'}
+  ]
+};
+
+/* =====================================================================
+   1. QUESTION BANK
+   ===================================================================== */
+const SEGMENTS = [
+  {id:1, name:'Basic Percentage', desc:'Fraction–percentage conversions'},
+  {id:2, name:'Percentage Change', desc:'Complete the table'},
+  {id:3, name:'Successive % Change', desc:'Net effect of a chain'}
+];
+
+const S1 = [
+  ['37.5% of 8888 is ____', 3333,   '37.5% = 3/8 → 8888 × 3/8 = 3333'],
+  ['66.67% of 9600 is ____', 6400,  '66.67% = 2/3 → 9600 × 2/3 = 6400'],
+  ['22.5% of 8000 is ____', 1800,   '22.5% = 9/40 → 8000 × 9/40 = 1800'],
+  ['____% of 225 is 15', 6.67,      '15/225 = 1/15 = 6.67%'],
+  ['____% of 4096 is 512', 12.5,    '512/4096 = 1/8 = 12.5%'],
+  ['____% of 2400 is 1600', 66.66,  '1600/2400 = 2/3 = 66.66% (≈66.67%)'],
+  ['5.26% of ____ is 100', 1900,    '5.26% = 1/19 → 100 × 19 = 1900'],
+  ['22.22% of ____ is 90', 405,     '22.22% = 2/9 → 90 × 9/2 = 405'],
+  ['43.75% of ____ is 77', 176,     '43.75% = 7/16 → 77 × 16/7 = 176'],
+  ['18.18% of ____ is 40004', 220022,'18.18% = 2/11 → 40004 × 11/2 = 220022']
+];
+
+/* [initial, changeValue, direction, percent, final] */
+const S2 = [
+  [400,120,'increase',30,520],      [800,600,'decrease',75,200],
+  [600,1200,'increase',200,1800],   [900,100,'decrease',11.11,800],
+  [300,45,'increase',15,345],       [1800,400,'decrease',22.22,1400],
+  [1400,1600,'increase',114.28,3000],[6600,6160,'decrease',93.33,440],
+  [2500,1700,'decrease',68,800],    [2400,800,'increase',33.33,3200],
+  [990,110,'increase',11.11,1100],  [5600,700,'decrease',12.5,4900],
+  [50,120,'increase',240,170],      [1200,300,'decrease',25,900],
+  [1700,100,'decrease',5.88,1600],  [3800,200,'increase',5.26,4000],
+  [1800,200,'increase',11.11,2000], [1716,143,'decrease',8.33,1573],
+  [1050,150,'decrease',14.28,900],  [1620,180,'increase',11.11,1800],
+  [900,990,'increase',110,1890],    [1100,110,'decrease',10,990],
+  [306,18,'increase',5.88,324],     [342,18,'decrease',5.26,324]
+];
+/* which two cells are given, per block of 4 */
+function s2Given(i){
+  if(i<4)  return ['init','chg'];
+  if(i<8)  return ['init','pct'];
+  if(i<12) return ['init','fin'];
+  if(i<16) return ['chg','pct'];
+  if(i<20) return ['chg','fin'];
+  return ['pct','fin'];
+}
+
+const S3 = [
+  [['8.33% up','7.69% down','23% up'], 23,'up','13/12 × 12/13 × 1.23 = 1.23 → 23% up'],
+  [['25% up','50% up','11.11% down'], 66.67,'up','5/4 × 3/2 × 8/9 = 5/3 → 66.67% up'],
+  [['75% down','80% down','100% up'], 90,'down','1/4 × 1/5 × 2 = 1/10 → 90% down'],
+  [['20% up','25% down','20% up','25% down'], 19,'down','6/5 × 3/4 × 6/5 × 3/4 = 0.81 → 19% down'],
+  [['10% up','10% up','10% up'], 33.1,'up','1.1³ = 1.331 → 33.1% up'],
+  [['20% down','20% down','20% down'], 48.8,'down','0.8³ = 0.512 → 48.8% down'],
+  [['137.235% up','213.52% up','100% down'], 100,'down','Any multiplier × 0 = 0. A 100% fall wipes everything out → 100% down'],
+  [['200% up','250% up'], 950,'up','3 × 3.5 = 10.5 → 950% up'],
+  [['50% down','50% down','50% down'], 87.5,'down','0.5³ = 0.125 → 87.5% down']
+];
+
+/* build flat question list */
+const Q = [];
+S1.forEach((r,i)=>Q.push({seg:1, no:i+1, type:'num', text:r[0], ans:r[1], sol:r[2], suffix:''}));
+S2.forEach((r,i)=>{
+  const [init,chg,dir,pct,fin] = r;
+  Q.push({seg:2, no:i+1, type:'table', row:{init,chg,dir,pct,fin}, given:s2Given(i),
+          sol:`Initial ${init} · Change ${fmt(chg)} ${dir} · ${fmt(pct)}% ${dir} · Final ${fmt(fin)}`});
+});
+S3.forEach((r,i)=>Q.push({seg:3, no:i+1, type:'chain', steps:r[0], ans:r[1], dir:r[2], sol:r[3]}));
+Q.push({seg:3, no:10, type:'mcq',
+  text:'Which of the following successive discounts is the largest net discount?',
+  opts:['25%, 25%, 25%, 25%','20%, 25%, 25%, 30%','10%, 25%, 25%, 40%','10%, 20%, 30%, 40%'],
+  ans:3, sol:'All four sets add up to 100%. When the sum is fixed, the net discount is largest when the values are spread furthest apart. Hence (d).'});
+Q.forEach((q,i)=>q.i=i);
+
+const TOTAL = Q.length;
+const segOf = s => Q.filter(q=>q.seg===s);
+
+/* =====================================================================
+   2. HELPERS
+   ===================================================================== */
+function fmt(n){ return (Math.round(n*100)/100).toString(); }
+function pad(n){ return String(n).padStart(2,'0'); }
+function hms(sec){
+  sec = Math.max(0, Math.round(sec));
+  const h = Math.floor(sec/3600), m = Math.floor(sec%3600/60), s = sec%60;
+  return h ? `${h}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+}
+/* accepts 66.67, 66.66, 2/3, "66 2/3", 1,900 */
+function parseNum(v){
+  if(v===null||v===undefined) return NaN;
+  let t = String(v).trim().replace(/,/g,'').replace(/%/g,'');
+  if(!t) return NaN;
+  let m = t.match(/^(-?\d+)\s+(\d+)\s*\/\s*(\d+)$/);
+  if(m) return (+m[1]) + (+m[2])/(+m[3]);
+  m = t.match(/^(-?\d*\.?\d+)\s*\/\s*(\d*\.?\d+)$/);
+  if(m) return (+m[1])/(+m[2]);
+  const n = parseFloat(t);
+  return isNaN(n) ? NaN : n;
+}
+function near(user, correct){
+  const u = parseNum(user);
+  if(isNaN(u)) return false;
+  return Math.abs(u - correct) <= 0.105;
+}
+const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* safe storage */
+const mem = {};
+const store = {
+  get(k){ try{ return localStorage.getItem(k); }catch(e){ return mem[k] ?? null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch(e){ mem[k]=v; } },
+  del(k){ try{ localStorage.removeItem(k); }catch(e){ delete mem[k]; } }
+};
+/* Nothing about an attempt is persisted: one sitting, no resume, no local history.
+   Only the student's font-size preference is remembered. */
+
+/* =====================================================================
+   3. STATE
+   ===================================================================== */
+let S = null;
+function freshState(only, student){
+  return {
+    sid: 'A' + Date.now().toString(36).toUpperCase(),
+    student: student || (S && S.student) || {name:'',batch:'',pin:''},
+    durMins: CONFIG.DURATION_MIN,
+    isRetry: !!(only && only.length),
+    counted: !(only && only.length),      // only the first full attempt is the graded one
+    cur: only && only.length ? only[0] : 0,
+    only: only || null,            // subset of indices for "retry wrong"
+    ans: Q.map(()=>null),
+    visited: Q.map(()=>false),
+    marked: Q.map(()=>false),
+    qtime: Q.map(()=>0),
+    elapsed: 0,
+    seg: 1,
+    filter:'all',
+    paused:false,
+    status:'in_progress',
+    startedAt: Date.now(),
+    lastSeen: Date.now(),
+    exits: 0,                      // how many times the tab was closed / switched away
+    awayMs: 0                      // total time spent away from the test
+  };
+}
+function activeIdx(){ return S.only ? S.only : Q.map((q,i)=>i); }
+function inPlay(i){ return !S.only || S.only.includes(i); }
+
+/* status: notvis | notans | answered | marked | ansmark */
+function statusOf(i){
+  const answered = isAnswered(i);
+  if(S.marked[i]) return answered ? 'ansmark' : 'marked';
+  if(answered) return 'answered';
+  return S.visited[i] ? 'notans' : 'notvis';
+}
+function isAnswered(i){
+  const a = S.ans[i];
+  if(a===null||a===undefined) return false;
+  const q = Q[i];
+  if(q.type==='num') return String(a).trim()!=='';
+  if(q.type==='mcq') return a!==null;
+  if(q.type==='numdir'||q.type==='chain') return String(a.v??'').trim()!=='' || !!a.d;
+  if(q.type==='table'){
+    return Object.keys(a).some(k=>{
+      const val = a[k];
+      return typeof val==='object' ? (String(val.v??'').trim()!=='' || !!val.d) : String(val??'').trim()!=='';
+    });
+  }
+  return false;
+}
+function counts(){
+  const c={answered:0,notans:0,marked:0,ansmark:0,notvis:0};
+  activeIdx().forEach(i=>c[statusOf(i)]++);
+  return c;
+}
+
+/* =====================================================================
+   4. START SCREEN
+   ===================================================================== */
+const $ = id => document.getElementById(id);
+
+(function initStart(){
+  document.title = CONFIG.TEST_NAME + ' | IMS Ahmedabad';
+  $('durText').textContent = CONFIG.DURATION_MIN;
+  $('startHead').textContent = `${TOTAL} questions · ${SEGMENTS.length} segments`;
+  $('startSegs').innerHTML = SEGMENTS.map(s=>
+    `<div class="segtile"><b>Segment ${s.id} — ${esc(s.name)}</b><span>${esc(s.desc)} · ${segOf(s.id).length} questions</span></div>`
+  ).join('');
+  $('stBatch').innerHTML = '<option value="">Select your batch</option>' +
+    Object.keys(ROSTER).map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');
+  $('stBatch').onchange = ()=>fillNames();
+  $('stName').onchange  = ()=>fillPin();
+})();
+
+function fillNames(preselect){
+  const b = $('stBatch').value, list = (ROSTER[b]||[]).slice().sort((x,y)=>x.n.localeCompare(y.n));
+  const sel = $('stName');
+  if(!list.length){
+    sel.innerHTML = '<option value="">Select your batch first</option>';
+    sel.disabled = true; $('stPin').value = '';
+    return;
+  }
+  sel.innerHTML = '<option value="">Select your name</option>' +
+    list.map(s=>`<option value="${esc(s.n)}">${esc(s.n)}</option>`).join('');
+  sel.disabled = false;
+  if(preselect && list.some(s=>s.n===preselect)) sel.value = preselect;
+  fillPin();
+}
+function fillPin(){
+  const rec = (ROSTER[$('stBatch').value]||[]).find(s=>s.n===$('stName').value);
+  $('stPin').value = rec ? rec.p : '';
+}
+
+function readStudent(){
+  const batch = $('stBatch').value, name = $('stName').value, pin = $('stPin').value;
+  const bad = !batch || !name;
+  $('stBatch').parentElement.classList.toggle('bad', !batch);
+  $('stName').parentElement.classList.toggle('bad', !!batch && !name);
+  $('fieldErr').classList.toggle('hidden', !bad);
+  if(bad) return null;
+  return {name, batch, pin};
+}
+
+$('btnStart').onclick = ()=>{
+  const st = readStudent(); if(!st) return;
+  if(!confirm(`${st.name} · ${st.batch}\n\nYou get ${CONFIG.DURATION_MIN} minutes. The clock does not stop and there is no resume, so finish in one sitting. Ready?`)) return;
+  S = freshState(null, st);
+  beginTest();
+};
+
+/* =====================================================================
+   5. TEST ENGINE
+   ===================================================================== */
+let tick=null, lastTs=0;
+
+function beginTest(){
+  $('screen-start').classList.add('hidden');
+  $('screen-result').classList.add('hidden');
+  $('screen-test').classList.remove('hidden');
+  document.documentElement.style.setProperty('--qfs', (store.get('ims_qfs')||21)+'px');
+  S.seg = Q[S.cur].seg;
+  $('tbWho').textContent = `IMS Ahmedabad · ${S.student.batch} · ${S.student.name}` + (S.isRetry ? ' · retry round' : '');
+  buildSegTabs(); buildLegend();
+  renderQuestion(); renderPalette(); updateClock();
+  lastTs = Date.now();
+  clearInterval(tick);
+  tick = setInterval(()=>{
+    const now = Date.now(), d = (now-lastTs)/1000; lastTs = now;
+    S.lastSeen = now;
+    if(S.paused) return;
+    S.elapsed += d; S.qtime[S.cur] += d;
+    updateClock();
+    $('qTimerVal') && ($('qTimerVal').textContent = hms(S.qtime[S.cur]));
+    if(S.elapsed >= S.durMins*60){ finish(true); }
+    if(Math.floor(S.elapsed) % 5 === 0) save();
+  }, 250);
+}
+
+function updateClock(){
+  const left = S.durMins*60 - S.elapsed;
+  $('clockLbl').textContent = 'Time remaining';
+  $('clockVal').textContent = hms(Math.max(0,left));
+  $('mainClock').classList.toggle('danger', left <= 300);
+}
+
+/* ---- drop-off tracking: pause the clock when the tab is hidden ---- */
+let awaySince = 0;
+document.addEventListener('visibilitychange', ()=>{
+  if(!S || $('screen-test').classList.contains('hidden')) return;
+  if(document.hidden){
+    awaySince = Date.now();
+    S.exits = (S.exits||0) + 1;
+    save();                       // clock keeps running — only the exit is logged
+  }else{
+    if(awaySince){ S.awayMs = (S.awayMs||0) + (Date.now()-awaySince); awaySince = 0; }
+    save();
+  }
+});
+
+function buildSegTabs(){
+  $('segTabs').innerHTML = SEGMENTS.map(s=>{
+    const list = segOf(s.id).filter(q=>inPlay(q.i));
+    if(!list.length) return '';
+    const done = list.filter(q=>isAnswered(q.i)).length;
+    return `<button class="segtab ${S.seg===s.id?'on':''}" data-seg="${s.id}">
+      Segment ${s.id} · ${esc(s.name)} <span class="cnt">(${done}/${list.length})</span></button>`;
+  }).join('');
+  $('segTabs').querySelectorAll('.segtab').forEach(b=>{
+    b.onclick = ()=>{
+      const sg = +b.dataset.seg;
+      const first = segOf(sg).find(q=>inPlay(q.i));
+      if(first) goTo(first.i);
+    };
+  });
+}
+
+function buildLegend(){
+  const defs = [
+    ['all','notvis','','All'],
+    ['answered','answered','answered','Answered'],
+    ['notans','notans','notans','Not answered'],
+    ['marked','marked','marked','Marked for review'],
+    ['ansmark','ansmark','ansmark','Answered &amp; marked'],
+    ['notvis','notvis','notvis','Not visited']
+  ];
+  $('legend').innerHTML = defs.map(d=>
+    `<button class="lg ${S.filter===d[0]?'on':''}" data-f="${d[0]}">
+       <span class="sw ${d[1]}"><span id="cnt_${d[0]}">0</span></span>${d[3]}
+     </button>`).join('');
+  $('legend').querySelectorAll('.lg').forEach(b=>{
+    b.onclick=()=>{ S.filter = S.filter===b.dataset.f ? 'all' : b.dataset.f; buildLegend(); renderPalette(); };
+  });
+  const c = counts();
+  const all = activeIdx().length;
+  const set = (k,v)=>{ const el=$('cnt_'+k); if(el) el.textContent=v; };
+  set('all',all); set('answered',c.answered); set('notans',c.notans);
+  set('marked',c.marked); set('ansmark',c.ansmark); set('notvis',c.notvis);
+}
+
+/* ---------- question rendering ---------- */
+function renderQuestion(){
+  const i = S.cur, q = Q[i];
+  S.visited[i] = true;
+  const segName = SEGMENTS.find(s=>s.id===q.seg).name;
+
+  let body='';
+  if(q.type==='num'){
+    const isPct = q.text.trim().startsWith('____%');
+    body = `<p class="qtext">${esc(q.text)}</p>
+      <div class="ansbox">
+        <div class="albl">Your answer</div>
+        <div class="inline">
+          <input class="num" id="in_a" inputmode="decimal" placeholder="Type here" autocomplete="off">
+          ${isPct ? '<span class="suffix">%</span>' : ''}
+        </div>
+        <div class="hint">${isPct
+          ? 'Numbers only. Type the percentage figure — 12.5, not 1/8.'
+          : 'Numbers only. Type the value, for example 3333.'}</div>
+      </div>`;
+  }
+  else if(q.type==='table'){
+    body = tableHTML(q);
+  }
+  else if(q.type==='chain'){
+    body = `<p class="qtext">Find the single net percentage change equivalent to these successive changes:</p>
+      <div class="qsteps">${q.steps.map((s,k)=>
+        `${k?'<span class="arrow">→</span>':''}<span class="chip ${/down/i.test(s)?'down':'up'}">${esc(s)}</span>`).join('')}</div>
+      <div class="ansbox">
+        <div class="albl">Net change</div>
+        <div class="inline">
+          <input class="num" id="in_a" inputmode="decimal" placeholder="e.g. 23" autocomplete="off">
+          <span class="suffix">%</span>
+          <select class="dir" id="in_d">
+            <option value="">up / down?</option>
+            <option value="up">up (increase)</option>
+            <option value="down">down (decrease)</option>
+          </select>
+        </div>
+        <div class="hint">Numbers only in the box. Both the value and the direction must be right for full marks.</div>
+      </div>`;
+  }
+  else if(q.type==='numdir'){
+    body = `<p class="qtext stmt">${esc(q.text)}</p>
+      <div class="ansbox">
+        <div class="albl">Required change</div>
+        <div class="inline">
+          <input class="num" id="in_a" inputmode="decimal" placeholder="e.g. 25" autocomplete="off">
+          <span class="suffix">%</span>
+          <select class="dir" id="in_d">
+            <option value="">increase / decrease?</option>
+            <option value="up">increase</option>
+            <option value="down">decrease</option>
+          </select>
+        </div>
+      </div>`;
+  }
+  else if(q.type==='mcq'){
+    const cur = S.ans[i];
+    body = `<p class="qtext">${esc(q.text)}</p>
+      <div class="mcq">${q.opts.map((o,k)=>
+        `<div class="opt ${cur===k?'on':''}" data-k="${k}">
+           <span class="key">${'abcd'[k]}</span><span>${esc(o)}</span>
+         </div>`).join('')}</div>`;
+  }
+
+  $('qScroll').innerHTML = `
+    <div class="qhead">
+      <span class="qnum">Q ${q.no}</span>
+      <span class="qtag">Segment ${q.seg} · ${esc(segName)}</span>
+      <span class="qtag">1 mark · no negative</span>
+      <div class="qtimer"><div><div class="lbl">Time on this question</div><div class="val" id="qTimerVal">${hms(S.qtime[i])}</div></div></div>
+    </div>${body}`;
+
+  wireInputs(q, i);
+  $('btnMark').textContent = S.marked[i] ? 'Unmark review' : 'Mark for review';
+  $('btnPrev').disabled = activeIdx().indexOf(i) <= 0;
+  const idx = activeIdx();
+  $('btnNext').textContent = idx.indexOf(i) === idx.length-1 ? 'Save' : 'Save & next →';
+}
+
+function tableHTML(q){
+  const g = q.given, r = q.row, a = S.ans[q.i] || {};
+  const cell = (key, label) => {
+    if(g.includes(key)){
+      let v = key==='init' ? fmt(r.init)
+            : key==='fin'  ? fmt(r.fin)
+            : key==='chg'  ? `${fmt(r.chg)} ${r.dir}`
+            : `${fmt(r.pct)}% ${r.dir}`;
+      return `<td class="given">${v}</td>`;
+    }
+    const val = a[key] || {};
+    return `<td class="blank"><div class="cellinput">
+      <span class="blanktag">${label}</span>
+      <input class="num" data-k="${key}" inputmode="decimal" placeholder="${key==='pct'?'%':'value'}" value="${esc(val.v??'')}">
+      ${key==='pct'?'<span class="suffix" style="font-size:15px">%</span>':''}
+    </div></td>`;
+  };
+  const blanks = ['init','chg','pct','fin'].filter(k=>!g.includes(k));
+  const lbl = k => 'ab'[blanks.indexOf(k)] || '';
+  return `<p class="qtext">Fill the two empty cells in the row.</p>
+    <div class="tblwrap"><table class="pt">
+      <tr><th>Initial Value</th><th>Change in Value</th><th>Change in %</th><th>Final Value</th></tr>
+      <tr>${cell('init',lbl('init'))}${cell('chg',lbl('chg'))}${cell('pct',lbl('pct'))}${cell('fin',lbl('fin'))}</tr>
+    </table></div>
+    <div class="hint" style="margin-bottom:0">Numbers only — no % sign, no plus or minus. The direction is already fixed by the values given.</div>`;
+}
+
+/* every answer on this paper is a number: strip anything that is not a digit
+   or a single decimal point, so nothing else can be typed or pasted in */
+function cleanNum(v){
+  let t = String(v).replace(/[^0-9.]/g, '');
+  const i = t.indexOf('.');
+  if(i > -1) t = t.slice(0, i+1) + t.slice(i+1).replace(/\./g, '');
+  return t;
+}
+function numOnly(el, after){
+  el.setAttribute('inputmode','decimal');
+  el.oninput = ()=>{
+    const pos = el.selectionStart, before = el.value, clean = cleanNum(before);
+    if(clean !== before){
+      el.value = clean;
+      try{ el.setSelectionRange(Math.max(0,pos-1), Math.max(0,pos-1)); }catch(e){}
+    }
+    after(el.value);
+  };
+  el.onkeypress = e=>{ if(!/[0-9.]/.test(e.key)) e.preventDefault(); };
+}
+
+function wireInputs(q,i){
+  if(q.type==='num'){
+    const el=$('in_a'); el.value = S.ans[i] ?? '';
+    numOnly(el, v=>{ S.ans[i] = v; touched(); });
+    el.focus({preventScroll:true});
+  }
+  else if(q.type==='chain' || q.type==='numdir'){
+    const a=$('in_a'), d=$('in_d'), cur = S.ans[i] || {};
+    a.value = cur.v ?? ''; d.value = cur.d ?? '';
+    numOnly(a, v=>{ S.ans[i] = {v, d:d.value}; touched(); });
+    d.onchange = ()=>{ S.ans[i] = {v:a.value, d:d.value}; touched(); };
+    a.focus({preventScroll:true});
+  }
+  else if(q.type==='mcq'){
+    $('qScroll').querySelectorAll('.opt').forEach(o=>{
+      o.onclick = ()=>{
+        S.ans[i] = +o.dataset.k;
+        $('qScroll').querySelectorAll('.opt').forEach(x=>x.classList.toggle('on', x===o));
+        touched();
+      };
+    });
+  }
+  else if(q.type==='table'){
+    const box = S.ans[i] || (S.ans[i] = {});
+    $('qScroll').querySelectorAll('input.num').forEach(el=>{
+      const k = el.dataset.k;
+      numOnly(el, v=>{ box[k] = Object.assign({}, box[k], {v}); touched(); });
+    });
+    const first = $('qScroll').querySelector('input.num');
+    first && first.focus({preventScroll:true});
+  }
+}
+
+function touched(){ renderPalette(); buildLegend(); buildSegTabs(); save(); }
+
+function goTo(i){
+  if(i===S.cur){ return; }
+  S.cur = i; S.seg = Q[i].seg;
+  buildSegTabs(); renderQuestion(); renderPalette(); buildLegend(); save();
+  $('qScroll').scrollTop = 0;
+  if(window.innerWidth<=860) $('palette').classList.add('closed');
+}
+function step(n){
+  const idx = activeIdx(), p = idx.indexOf(S.cur) + n;
+  if(p>=0 && p<idx.length) goTo(idx[p]);
+}
+
+/* ---------- palette ---------- */
+function renderPalette(){
+  const showAll = S.filter==='all';
+  $('palScroll').innerHTML = SEGMENTS.map(s=>{
+    const list = segOf(s.id).filter(q=>inPlay(q.i));
+    if(!list.length) return '';
+    const done = list.filter(q=>isAnswered(q.i)).length;
+    return `<div class="palseg">
+      <h4><span>Segment ${s.id} — ${esc(s.name)}</span><span>${done}/${list.length}</span></h4>
+      <div class="palgrid">${list.map(q=>{
+        const st = statusOf(q.i);
+        const dim = !showAll && st!==S.filter ? ' dim' : '';
+        return `<button class="pbtn ${st}${dim}${q.i===S.cur?' cur':''}" data-i="${q.i}" title="Q${q.no} · ${hms(S.qtime[q.i])}">${q.no}</button>`;
+      }).join('')}</div></div>`;
+  }).join('');
+  $('palScroll').querySelectorAll('.pbtn').forEach(b=> b.onclick = ()=>goTo(+b.dataset.i));
+}
+
+/* ---------- controls ---------- */
+$('btnPrev').onclick = ()=>step(-1);
+$('btnNext').onclick = ()=>step(1);
+$('btnClear').onclick = ()=>{ S.ans[S.cur]=null; renderQuestion(); touched(); };
+$('btnMark').onclick = ()=>{ S.marked[S.cur]=!S.marked[S.cur]; renderQuestion(); touched(); };
+$('btnPalToggle').onclick = ()=>$('palette').classList.toggle('closed');
+$('btnPalClose').onclick = ()=>$('palette').classList.add('closed');
+$('fsUp').onclick = ()=>bumpFont(1);
+$('fsDown').onclick = ()=>bumpFont(-1);
+function bumpFont(d){
+  let v = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--qfs')) || 21;
+  v = Math.max(16, Math.min(30, v+d*2));
+  document.documentElement.style.setProperty('--qfs', v+'px');
+  store.set('ims_qfs', v);
+}
+$('btnSubmit').onclick = ()=>confirmSubmit();
+$('btnSubmit2').onclick = ()=>confirmSubmit();
+
+document.addEventListener('keydown', e=>{
+  if($('screen-test').classList.contains('hidden')) return;
+  if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT'){
+    if(e.key==='Enter'){ e.preventDefault(); step(1); }
+    return;
+  }
+  if(e.key==='ArrowRight') step(1);
+  if(e.key==='ArrowLeft') step(-1);
+});
+
+function pause(){
+  S.paused = true;
+  overlay(`<h3>Test paused</h3><p>The clock has stopped. Your answers are saved.</p>
+    <div class="row"><button class="btn btn-primary" id="ovResume">Resume test</button></div>`);
+  $('ovResume').onclick = ()=>{ S.paused=false; lastTs=Date.now(); closeOverlay(); };
+}
+
+function confirmSubmit(){
+  const c = counts(), all = activeIdx().length;
+  S.paused = true;
+  overlay(`<h3>Submit the test?</h3>
+    <p>Here is where you stand right now.</p>
+    <div class="mini">
+      <div>Answered<b>${c.answered + c.ansmark}</b></div>
+      <div>Not answered<b>${c.notans}</b></div>
+      <div>Marked for review<b>${c.marked + c.ansmark}</b></div>
+      <div>Not visited<b>${c.notvis}</b></div>
+    </div>
+    <p style="font-size:13px">${all - c.answered - c.ansmark} of ${all} still unanswered. There is no negative marking, so a guess costs you nothing.</p>
+    <p style="font-size:13px"><b>${hms(Math.max(0, S.durMins*60 - S.elapsed))} still on your clock.</b> There is no bonus for finishing early — take the full time if you want it.</p>
+    <div class="row">
+      <button class="btn btn-gold" id="ovYes">Yes, submit</button>
+      <button class="btn btn-ghost" id="ovNo">Keep working</button>
+    </div>`);
+  $('ovYes').onclick = ()=>{ closeOverlay(); finish(false); };
+  $('ovNo').onclick = ()=>{ S.paused=false; lastTs=Date.now(); closeOverlay(); };
+}
+
+function overlay(html){
+  $('overlayHost').innerHTML = `<div class="overlay"><div class="modal">${html}</div></div>`;
+}
+function closeOverlay(){ $('overlayHost').innerHTML=''; }
+
+function save(){ if(S) S.lastSeen = Date.now(); }   // attempts are never written to disk
+
+window.addEventListener('beforeunload', e=>{
+  if(S && S.status==='in_progress' && !$('screen-test').classList.contains('hidden')){
+    e.preventDefault(); e.returnValue = '';       // browser asks "leave site?"
+  }
+});
+
+/* =====================================================================
+   6. GRADING
+   ===================================================================== */
+function grade(i){
+  const q = Q[i], a = S.ans[i];
+  const parts = [];
+  if(q.type==='num'){
+    const given = a!==null && String(a).trim()!=='';
+    parts.push({label:'Answer', user: given?String(a):'—', correct: fmt(q.ans), ok: given && near(a, q.ans)});
+  }
+  else if(q.type==='mcq'){
+    parts.push({label:'Answer', user: a===null||a===undefined?'—':`(${'abcd'[a]}) ${q.opts[a]}`,
+                correct:`(${'abcd'[q.ans]}) ${q.opts[q.ans]}`, ok: a===q.ans});
+  }
+  else if(q.type==='chain'||q.type==='numdir'){
+    const v = a && a.v, d = a && a.d;
+    const dirWord = x => q.type==='chain' ? (x==='up'?'up':'down') : (x==='up'?'increase':'decrease');
+    parts.push({label:'Value', user: v?`${v}%`:'—', correct:`${fmt(q.ans)}%`, ok: !!v && near(v, q.ans)});
+    parts.push({label:'Direction', user: d?dirWord(d):'—', correct: dirWord(q.dir), ok: d===q.dir});
+  }
+  else if(q.type==='table'){
+    const r = q.row, blanks = ['init','chg','pct','fin'].filter(k=>!q.given.includes(k));
+    const names = {init:'Initial Value', chg:'Change in Value', pct:'Change in %', fin:'Final Value'};
+    blanks.forEach(k=>{
+      const val = (a && a[k]) || {};
+      if(k==='pct'){
+        parts.push({label:names[k], user: val.v?`${val.v}%`:'—',
+                    correct:`${fmt(r.pct)}% ${r.dir}`, ok: near(val.v, r.pct)});
+      }else{
+        parts.push({label:names[k], user: val.v?String(val.v):'—', correct: fmt(r[k]), ok: near(val.v, r[k])});
+      }
+    });
+  }
+  const got = parts.filter(p=>p.ok).length;
+  const attempted = parts.some(p=>p.user!=='—');
+  return {parts, score: got/parts.length, full: got===parts.length, none: got===0, attempted};
+}
+
+/* =====================================================================
+   7. RESULTS
+   ===================================================================== */
+let RESULT = null;
+
+function finish(auto){
+  clearInterval(tick);
+  S.status = 'submitted';
+  const idx = activeIdx();
+  const rows = idx.map(i=>Object.assign({i}, grade(i)));
+  const score = rows.reduce((s,r)=>s+r.score, 0);
+  RESULT = {rows, score, max: idx.length, time: S.elapsed, auto};
+
+  PAYLOAD = buildRecord('submitted', auto);
+
+  $('screen-test').classList.add('hidden');
+  $('screen-result').classList.remove('hidden');
+  window.scrollTo(0,0);
+  renderResult();
+
+  const sent = sendToForm(PAYLOAD);
+  const ok = downloadAnswerSheet();
+  $('subStatus').innerHTML = ok
+    ? 'Your answer sheet has been downloaded to this device. Open it to see every question with your answer and the correct answer beside it.'
+    : 'Your response has been recorded. Use the button below to download your answer sheet.';
+  $('btnSheet').classList.remove('hidden');   // always available, in case the browser blocked it
+
+  $('subCode').value = JSON.stringify(PAYLOAD);
+  $('subRow').value  = PAYLOAD.sheetRow;
+  /* the record box is for faculty only — open the page with #data to reveal it */
+  if(location.hash.toLowerCase().indexOf('data')>-1){
+    $('facultyBox').classList.remove('hidden');
+    $('rowStatus').innerHTML = (!GFORM.ACTION
+        ? '<b style="color:#C0392B">No form address is set in this file.</b> You are viewing an older upload.'
+        : sent ? '<b style="color:#1E7A45">Sent via ' + LAST_SEND.method + '.</b>'
+               : '<b style="color:#C0392B">Sending failed inside the browser.</b>')
+      + '<br>Fields: ' + Object.values(GFORM.F).filter(Boolean).length + ' of 12 · URL length: ' + LAST_SEND.url.length
+      + (LAST_SEND.url ? '<br><a href="' + LAST_SEND.url + '" target="_blank" rel="noopener"><b>Open this submission in a new tab</b></a> — if that tab says the response was recorded, the form is fine and only the silent send is being blocked.' : '');
+  }
+  if(CONFIG.SUBMIT_ENDPOINT) sendToFaculty($('subCode').value, 'rowStatus');
+}
+
+/* =====================================================================
+   RESPONSE RECORD — the single object faculty collects
+   ===================================================================== */
+let PAYLOAD = null;
+
+function buildRecord(status, auto){
+  const idx = activeIdx();
+  const rows = idx.map(i=>Object.assign({i}, grade(i)));
+  const score = rows.reduce((a,r)=>a+r.score, 0);
+  const stateOf = r => !r.attempted ? 'skipped' : (r.full?'correct':(r.none?'wrong':'partial'));
+  const correct = rows.filter(r=>r.full).length;
+  const partial = rows.filter(r=>r.attempted && !r.full && !r.none).length;
+  const wrong   = rows.filter(r=>r.attempted && r.none).length;
+  const skipped = rows.filter(r=>!r.attempted).length;
+  const attempted = correct + partial + wrong;
+  const mins = Math.max(S.elapsed/60, 1/60);
+
+  const rec = {
+    test: CONFIG.TEST_NAME,
+    status,
+    attemptId: S.sid,
+    pin: S.student.pin, name: S.student.name, batch: S.student.batch,
+    startedAt: new Date(S.startedAt).toISOString(),
+    submittedAt: new Date().toISOString(),
+    autoSubmitted: !!auto,
+    isPracticeRound: !S.counted,
+    durationAllowedMin: S.durMins,
+    timeUsedSec: Math.round(S.elapsed),
+    timeUsedText: hms(S.elapsed),
+    timeLeftSec: Math.max(0, Math.round(S.durMins*60 - S.elapsed)),
+    score: +fmt(score), maxScore: idx.length,
+    correct, partial, wrong, skipped, attempted,
+    accuracyPct: attempted ? +(correct/attempted*100).toFixed(1) : 0,
+    questionsPerMin: +(idx.length ? (attempted/mins).toFixed(2) : 0),
+    avgSecPerQuestion: +(S.elapsed/idx.length).toFixed(1),
+    avgSecPerAttempted: attempted ? +(idx.reduce((a,i)=>a+S.qtime[i],0)/attempted).toFixed(1) : 0,
+    fastestQuestionSec: Math.round(Math.min(...idx.map(i=>S.qtime[i]))),
+    slowestQuestionSec: Math.round(Math.max(...idx.map(i=>S.qtime[i]))),
+    tabExits: S.exits||0,
+    segments: SEGMENTS.map(s=>{
+      const rs = rows.filter(r=>Q[r.i].seg===s.id);
+      if(!rs.length) return null;
+      const t = rs.reduce((a,r)=>a+S.qtime[r.i],0);
+      return {segment:s.id, name:s.name, score:+fmt(rs.reduce((a,r)=>a+r.score,0)), outOf:rs.length,
+              correct:rs.filter(r=>r.full).length, skipped:rs.filter(r=>!r.attempted).length,
+              timeSec:Math.round(t), avgSecPerQuestion:+(t/rs.length).toFixed(1),
+              questionsPerMin:+(rs.length/Math.max(t/60,1/60)).toFixed(2)};
+    }).filter(Boolean),
+    questions: Q.map((q,i)=>{
+      const r = rows.find(x=>x.i===i);
+      return {seg:q.seg, q:q.no, label:`S${q.seg}Q${q.no}`,
+              inRound: !!r,
+              state: r ? stateOf(r) : 'not-in-round',
+              mark: r ? +fmt(r.score) : '',
+              timeSec: r ? Math.round(S.qtime[i]) : '',
+              marked: r ? !!S.marked[i] : '',
+              response: r ? r.parts.map(p=>p.user).join(' | ') : ''};
+    })
+  };
+  rec.sheetHeader = sheetHeader();
+  rec.sheetRow = sheetRow(rec);
+  return rec;
+}
+
+/* ---- one paste-ready row per student, for the Google Sheet ---- */
+function sheetHeader(){
+  const cols = ['Submitted At','Attempt ID','IMS PIN','Name','Batch','Test','Status',
+    'Duration (min)','Time Used','Time Used (sec)','Time Left (sec)','Auto Submitted','Practice Round',
+    'Score','Out Of','Correct','Partial','Wrong','Skipped','Attempted','Accuracy %',
+    'Questions per Min','Avg Sec per Q','Avg Sec per Attempted','Fastest Q (sec)','Slowest Q (sec)','Tab Exits'];
+  SEGMENTS.forEach(s=>cols.push(`S${s.id} Score`,`S${s.id} Correct`,`S${s.id} Skipped`,`S${s.id} Time (sec)`,`S${s.id} Q/min`));
+  Q.forEach(q=>cols.push(`S${q.seg}Q${q.no} state`));
+  Q.forEach(q=>cols.push(`S${q.seg}Q${q.no} sec`));
+  Q.forEach(q=>cols.push(`S${q.seg}Q${q.no} answer`));
+  return cols.join('\t');
+}
+function sheetRow(rec){
+  const cells = [new Date(rec.submittedAt).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'medium'}),
+    rec.attemptId, rec.pin, rec.name, rec.batch, rec.test, rec.status,
+    rec.durationAllowedMin, rec.timeUsedText, rec.timeUsedSec, rec.timeLeftSec,
+    rec.autoSubmitted?'Yes':'No', rec.isPracticeRound?'Yes':'No',
+    rec.score, rec.maxScore, rec.correct, rec.partial, rec.wrong, rec.skipped, rec.attempted, rec.accuracyPct,
+    rec.questionsPerMin, rec.avgSecPerQuestion, rec.avgSecPerAttempted,
+    rec.fastestQuestionSec, rec.slowestQuestionSec, rec.tabExits];
+  SEGMENTS.forEach(s=>{
+    const g = rec.segments.find(x=>x.segment===s.id);
+    cells.push(g?g.score:'', g?g.correct:'', g?g.skipped:'', g?g.timeSec:'', g?g.questionsPerMin:'');
+  });
+  rec.questions.forEach(q=>cells.push(q.state));
+  rec.questions.forEach(q=>cells.push(q.timeSec));
+  rec.questions.forEach(q=>cells.push(String(q.response).replace(/[\t\n]/g,' ')));
+  return cells.join('\t');
+}
+
+/* ---------------------------------------------------------------------
+   Sends the result into the Google Form.
+   Primary method is a plain GET beacon — the same thing that happens when
+   a formResponse link is opened in the address bar, which is the most
+   reliable way to reach Forms from a static page. Falls back to a
+   hidden-iframe POST if the payload is too long for a URL.
+   --------------------------------------------------------------------- */
+let LAST_SEND = {method:'', url:'', ok:false};
+
+function formValues(rec){
+  return {
+    pin      : rec.pin,
+    name     : rec.name,
+    batch    : rec.batch,
+    score    : rec.score + ' / ' + rec.maxScore,
+    correct  : rec.correct,
+    wrong    : rec.wrong,
+    skipped  : rec.skipped,
+    timeUsed : rec.timeUsedText,
+    qPerMin  : rec.questionsPerMin,
+    attemptId: rec.attemptId,
+    segments : rec.segments.map(g=>`S${g.segment} ${g.score}/${g.outOf} in ${hms(g.timeSec)}`).join('  |  '),
+    data     : rec.sheetRow
+  };
+}
+
+function formURL(rec){
+  const v = formValues(rec), parts = [];
+  Object.keys(GFORM.F).forEach(k=>{
+    const id = GFORM.F[k];
+    if(id) parts.push(id + '=' + encodeURIComponent(v[k] === undefined ? '' : String(v[k])));
+  });
+  parts.push('submit=Submit');
+  return GFORM.ACTION + '?' + parts.join('&');
+}
+
+function sendToForm(rec){
+  LAST_SEND = {method:'', url:'', ok:false};
+  if(!GFORM.ACTION) return false;
+  try{
+    const url = formURL(rec);
+    LAST_SEND.url = url;
+
+    if(url.length < 7000){
+      LAST_SEND.method = 'GET beacon';
+      const img = new Image();
+      img.src = url;
+      LAST_SEND.ok = true;
+      return true;
+    }
+
+    LAST_SEND.method = 'iframe POST';
+    let frame = document.getElementById('gformSink');
+    if(!frame){
+      frame = document.createElement('iframe');
+      frame.id = 'gformSink'; frame.name = 'gformSink';
+      frame.style.display = 'none';
+      document.body.appendChild(frame);
+    }
+    const v = formValues(rec);
+    const f = document.createElement('form');
+    f.action = GFORM.ACTION; f.method = 'POST'; f.target = 'gformSink'; f.style.display = 'none';
+    Object.keys(GFORM.F).forEach(k=>{
+      const id = GFORM.F[k];
+      if(!id) return;
+      const inp = document.createElement('input');
+      inp.type='hidden'; inp.name=id; inp.value = v[k]===undefined ? '' : String(v[k]);
+      f.appendChild(inp);
+    });
+    document.body.appendChild(f);
+    f.submit();
+    setTimeout(()=>f.remove(), 4000);
+    LAST_SEND.ok = true;
+    return true;
+  }catch(e){
+    LAST_SEND.ok = false;
+    return false;
+  }
+}
+
+function sendToFaculty(json, statusId){
+  $(statusId).textContent = 'Sending the record…';
+  fetch(CONFIG.SUBMIT_ENDPOINT, {method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'text/plain;charset=utf-8'}, body:json})
+    .then(()=>{ $(statusId).innerHTML = '<b style="color:var(--ok)">Record sent.</b>'; })
+    .catch(()=>{ $(statusId).innerHTML = '<b style="color:var(--no)">Could not send — copy the row manually.</b>'; });
+}
+
+/* =====================================================================
+   ANSWER SHEET — downloads automatically the moment the test is submitted
+   ===================================================================== */
+function answerSheetHTML(rec){
+  const items = RESULT.rows.slice().sort((a,b)=>a.i-b.i);
+  const bySeg = SEGMENTS.map(s=>{
+    const rs = items.filter(r=>Q[r.i].seg===s.id);
+    if(!rs.length) return '';
+    const sc = rs.reduce((a,r)=>a+r.score,0);
+    return `<h3 class="seghead">Segment ${s.id} — ${esc(s.name)}<span>${fmt(sc)} / ${rs.length}</span></h3>` +
+           rs.map(revItem).join('');
+  }).join('');
+
+  const segRows = rec.segments.map(g=>
+    `<tr><td>Segment ${g.segment} — ${esc(g.name)}</td><td>${g.score} / ${g.outOf}</td>
+     <td>${g.correct}</td><td>${g.skipped}</td><td>${hms(g.timeSec)}</td></tr>`).join('');
+
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(rec.name)} — ${esc(rec.batch)} — Math Reboot 1 Homework Answer Sheet</title>
+<style>
+:root{--navy:#1B2A4A;--gold:#C5952A;--gold-p:#FBF3DF;--line:#D8DFEA;--muted:#5F6F8C;--ok:#1E7A45;--ok-bg:#E6F4EC;--no:#C0392B;--no-bg:#FBEAE8;--mark:#8A4FBF}
+*{box-sizing:border-box}
+body{font-family:'Aptos','Segoe UI',system-ui,Arial,sans-serif;color:var(--navy);background:#fff;margin:0;padding:26px;line-height:1.55;max-width:940px;margin:0 auto}
+.head{display:flex;gap:14px;align-items:center;border-bottom:3px solid var(--navy);padding-bottom:14px;margin-bottom:16px}
+.logo{width:46px;height:46px;border-radius:8px;background:var(--gold);display:grid;place-items:center;font-weight:800;font-size:17px;color:var(--navy)}
+.head h1{margin:0;font-size:21px}.head p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.who{display:flex;flex-wrap:wrap;gap:16px;background:#F1F4FA;border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13.5px}
+.who b{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)}
+table.sum{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:22px}
+table.sum th{background:#F1F4FA;text-align:left;padding:9px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);border-bottom:1px solid var(--line)}
+table.sum td{padding:9px 12px;border-bottom:1px solid var(--line)}
+.seghead{background:var(--navy);color:#fff;font-size:14px;padding:9px 14px;border-radius:6px;margin:24px 0 12px;display:flex;justify-content:space-between}
+.revitem{border:1px solid var(--line);border-radius:8px;padding:13px 16px;margin-bottom:10px;page-break-inside:avoid;break-inside:avoid}
+.revtop{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:7px}
+.qnum{background:var(--navy);color:#fff;border-radius:5px;padding:4px 10px;font-size:12px;font-weight:700}
+.badge{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;border-radius:5px;padding:3px 9px}
+.badge.ok{background:var(--ok-bg);color:var(--ok)}.badge.no{background:var(--no-bg);color:var(--no)}
+.badge.part{background:var(--gold-p);color:#8A6B18}.badge.skip{background:#F1F4FA;color:var(--muted)}
+.timechip{display:none}
+.revq{font-size:15px;font-weight:600;margin:0 0 9px}
+.revans{display:flex;gap:20px;flex-wrap:wrap;font-size:13.5px}
+.revans span b{display:block;color:var(--muted);font-size:10.5px;text-transform:uppercase;letter-spacing:.6px}
+.revopts{list-style:none;margin:0 0 9px;padding:0;display:flex;flex-direction:column;gap:5px}
+.revopts li{border:1px solid var(--line);border-radius:6px;padding:7px 12px;font-size:14px}
+.revopts li.right{border-color:#BFE0CD;background:var(--ok-bg)}
+.revopts li.mine{box-shadow:inset 0 0 0 1.5px var(--navy)}
+.revopts .tick{font-size:10.5px;font-weight:800;color:var(--ok);margin-left:9px;text-transform:uppercase}
+.revopts .cross{font-size:10.5px;font-weight:800;color:var(--no);margin-left:9px;text-transform:uppercase}
+.tblwrap{overflow-x:auto}
+table.pt{border-collapse:collapse;width:100%;min-width:520px;margin-bottom:9px}
+table.pt th{background:var(--navy);color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.6px;padding:8px 11px;text-align:left}
+table.pt td{border:1px solid var(--line);padding:9px 11px;font-weight:600}
+.qsteps{display:flex;flex-wrap:wrap;gap:8px;font-weight:600}
+.chip{border:1px solid var(--line);border-radius:6px;padding:5px 11px;font-size:13px}
+.chip.up{background:var(--ok-bg);border-color:#BFE0CD;color:var(--ok)}
+.chip.down{background:var(--no-bg);border-color:#F1C9C4;color:var(--no)}
+.arrow{align-self:center;color:var(--muted)}
+.foot{margin-top:26px;border-top:1px solid var(--line);padding-top:12px;font-size:12px;color:var(--muted)}
+.tip{background:var(--gold-p);border:1px solid #EAD9A8;border-radius:8px;padding:11px 15px;font-size:13px;color:#4A3A10;margin-bottom:20px}
+@media print{body{padding:0}.tip{display:none}@page{margin:12mm}}
+</style></head><body>
+<div class="head"><div class="logo">IMS</div>
+  <div><h1>Math Reboot 1 — Homework · Answer Sheet</h1>
+  <p>IMS Ahmedabad · CNS 2027 · Quantitative Aptitude</p></div></div>
+<div class="who">
+  <div><b>Name</b>${esc(rec.name)}</div><div><b>Batch</b>${esc(rec.batch)}</div>
+  <div><b>IMS PIN</b>${esc(rec.pin)}</div>
+  <div><b>Submitted</b>${new Date(rec.submittedAt).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}</div>
+  <div><b>Attempt ID</b>${esc(rec.attemptId)}</div></div>
+<div class="tip">Work out the ones you got wrong yourself — the correct answer is given, the method is not. Bring your working to class if it does not come out.</div>
+<table class="sum">
+  <tr><th>Result</th><th>Score</th><th>Correct</th><th>Skipped</th><th>Time</th></tr>
+  <tr><td><b>Overall</b></td><td><b>${rec.score} / ${rec.maxScore}</b></td><td>${rec.correct}</td><td>${rec.skipped}</td><td>${rec.timeUsedText}</td></tr>
+  ${segRows}
+</table>
+${bySeg}
+<div class="foot">Generated automatically on submission · ${esc(rec.test)} · IMS Ahmedabad</div>
+</body></html>`;
+}
+
+function downloadAnswerSheet(){
+  if(!PAYLOAD) return false;
+  try{
+    const blob = new Blob([answerSheetHTML(PAYLOAD)], {type:'text/html;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${PAYLOAD.batch}_${PAYLOAD.pin}_${(PAYLOAD.name||'student').replace(/\s+/g,'-')}_Math-Reboot-1-HW-Answers.html`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+    return true;
+  }catch(e){ return false; }
+}
+
+function fileName(rec){
+  return `${rec.batch||'BATCH'}_${rec.pin||'NOPIN'}_${(rec.name||'student').replace(/\s+/g,'-')}` +
+         `_Math-Reboot-1-HW${rec.status==='left_midway'?'_INCOMPLETE':''}.json`;
+}
+function downloadJSON(rec){
+  if(!rec) return;
+  const blob = new Blob([JSON.stringify(rec,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = fileName(rec);
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+}
+function copyBox(boxId, btnId){
+  const t = $(boxId); t.select(); t.setSelectionRange(0, 999999);
+  try{ document.execCommand('copy'); }catch(e){}
+  if(navigator.clipboard) navigator.clipboard.writeText(t.value).catch(()=>{});
+  const b = $(btnId), old = b.textContent;
+  b.textContent = 'Copied';
+  setTimeout(()=>b.textContent = old, 1800);
+}
+
+function renderResult(){
+  const {rows, score, max, time, auto} = RESULT;
+  const attempted = rows.filter(r=>r.attempted).length;
+  const fullRight = rows.filter(r=>r.full).length;
+  const acc = attempted ? Math.round(fullRight/attempted*100) : 0;
+
+  $('resMeta').textContent = `${new Date().toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}${auto?' · time expired, auto-submitted':''}`;
+
+  $('whoBar').innerHTML = `
+    <div><b>Name</b>${esc(S.student.name)}</div>
+    <div><b>Batch</b>${esc(S.student.batch)}</div>
+    <div><b>IMS PIN</b>${esc(S.student.pin)}</div>
+    <div><b>Attempt ID</b>${esc(S.sid)}</div>`;
+
+  $('scoreGrid').innerHTML = `
+    <div class="scell"><div class="k">Score</div><div class="v">${fmt(score)}<small> / ${max}</small></div></div>
+    <div class="scell"><div class="k">Fully correct</div><div class="v">${fullRight}<small> / ${max}</small></div></div>
+    <div class="scell"><div class="k">Attempted</div><div class="v">${attempted}<small> / ${max}</small></div></div>
+    <div class="scell"><div class="k">Accuracy</div><div class="v">${acc}<small>%</small></div></div>
+    <div class="scell"><div class="k">Total time</div><div class="v" style="font-size:24px">${hms(time)}</div></div>
+    <div class="scell"><div class="k">Avg per question</div><div class="v" style="font-size:24px">${hms(time/max)}</div></div>
+    <div class="scell"><div class="k">Questions per min</div><div class="v">${(attempted/Math.max(time/60,1/60)).toFixed(2)}</div></div>
+    <div class="scell"><div class="k">Correct / Wrong / Skipped</div><div class="v" style="font-size:24px">${fullRight} · ${rows.filter(r=>r.attempted&&r.none).length} · ${rows.filter(r=>!r.attempted).length}</div></div>`;
+
+  let body = `<tr><th>Segment</th><th>Score</th><th>Correct</th><th>Skipped</th><th>Time</th><th>Avg/Q</th><th>Q/min</th><th style="width:18%">Progress</th></tr>`;
+  SEGMENTS.forEach(s=>{
+    const rs = rows.filter(r=>Q[r.i].seg===s.id);
+    if(!rs.length) return;
+    const sc = rs.reduce((a,r)=>a+r.score,0);
+    const t  = rs.reduce((a,r)=>a+S.qtime[r.i],0);
+    const fc = rs.filter(r=>r.full).length;
+    body += `<tr>
+      <td><b>Segment ${s.id}</b><br><span style="color:var(--muted);font-size:12.5px">${esc(s.name)}</span></td>
+      <td><b>${fmt(sc)}</b> / ${rs.length}</td>
+      <td>${fc}</td>
+      <td>${rs.filter(r=>!r.attempted).length}</td>
+      <td>${hms(t)}</td>
+      <td>${hms(t/rs.length)}</td>
+      <td>${(rs.length/Math.max(t/60,1/60)).toFixed(2)}</td>
+      <td><div class="bar"><i style="width:${Math.round(sc/rs.length*100)}%"></i></div></td>
+    </tr>`;
+  });
+  $('segTable').innerHTML = body;
+
+  const f = [['all','All questions'],['wrong','Wrong'],['part','Half right'],['skipped','Not attempted'],['right','Correct'],['slow','Slowest 10']];
+  $('revFilter').innerHTML = f.map((x,k)=>`<button class="fchip ${k===0?'on':''}" data-f="${x[0]}">${x[1]}</button>`).join('');
+  $('revFilter').querySelectorAll('.fchip').forEach(b=>{
+    b.onclick = ()=>{
+      $('revFilter').querySelectorAll('.fchip').forEach(x=>x.classList.toggle('on', x===b));
+      renderReview(b.dataset.f);
+    };
+  });
+  renderReview('all');
+}
+
+function revItem(r){
+  const q = Q[r.i];
+  const badge = !r.attempted ? '<span class="badge skip">Not attempted</span>'
+              : r.full ? '<span class="badge ok">Correct</span>'
+              : r.none ? '<span class="badge no">Wrong</span>'
+              : '<span class="badge part">Half right</span>';
+
+  /* the question exactly as it was asked */
+  let stem = '', extra = '';
+  if(q.type==='table'){
+    const w = q.row, g = q.given, cell = k =>
+      g.includes(k) ? (k==='chg' ? `${fmt(w.chg)} ${w.dir}` : k==='pct' ? `${fmt(w.pct)}% ${w.dir}` : fmt(w[k]))
+                    : '<i style="color:#C5952A;font-style:normal;font-weight:800">to find</i>';
+    stem = 'Complete the row.';
+    extra = `<div class="tblwrap" style="margin:0 0 10px"><table class="pt" style="font-size:14px">
+      <tr><th>Initial Value</th><th>Change in Value</th><th>Change in %</th><th>Final Value</th></tr>
+      <tr><td>${cell('init')}</td><td>${cell('chg')}</td><td>${cell('pct')}</td><td>${cell('fin')}</td></tr>
+    </table></div>`;
+  } else if(q.type==='chain'){
+    stem = 'Find the single net percentage change equivalent to these successive changes:';
+    extra = `<div class="qsteps" style="font-size:14px; margin:0 0 10px">${q.steps.map((s,k)=>
+      `${k?'<span class="arrow">→</span>':''}<span class="chip ${/down/i.test(s)?'down':'up'}">${esc(s)}</span>`).join('')}</div>`;
+  } else if(q.type==='mcq'){
+    stem = q.text;
+    extra = `<ol class="revopts">${q.opts.map((o,k)=>{
+      const mine = S.ans[r.i]===k, right = q.ans===k;
+      return `<li class="${right?'right':''}${mine?' mine':''}"><b>(${'abcd'[k]})</b> ${esc(o)}` +
+             `${right?'<span class="tick">correct answer</span>':''}${mine&&!right?'<span class="cross">your answer</span>':''}</li>`;
+    }).join('')}</ol>`;
+  } else {
+    stem = q.text;
+  }
+
+  const answers = q.type==='mcq' ? '' : `<div class="revans">
+      ${r.parts.map(p=>`<span><b>${esc(p.label)} — your answer</b><span style="color:${p.ok?'#1E7A45':'#C0392B'}">${esc(p.user)}</span></span>`).join('')}
+      ${r.parts.map(p=>`<span><b>${esc(p.label)} — correct answer</b>${esc(p.correct)}</span>`).join('')}
+    </div>`;
+
+  return `<div class="revitem">
+    <div class="revtop">
+      <span class="qnum" style="font-size:12px;padding:4px 10px">S${q.seg} · Q${q.no}</span>
+      ${badge}
+      <span class="badge ${r.full?'ok':(r.none?'no':'part')}">${fmt(r.score)} mark</span>
+      <span class="timechip">${hms(S.qtime[r.i])}</span>
+    </div>
+    <p class="revq">${esc(stem)}</p>
+    ${extra}${answers}
+  </div>`;
+}
+
+function renderReview(filter){
+  let rows = RESULT.rows.slice();
+  if(filter==='wrong')   rows = rows.filter(r=>r.attempted && r.none);
+  if(filter==='part')    rows = rows.filter(r=>r.attempted && !r.full && !r.none);
+  if(filter==='skipped') rows = rows.filter(r=>!r.attempted);
+  if(filter==='right')   rows = rows.filter(r=>r.full);
+  if(filter==='slow')    rows = rows.sort((a,b)=>S.qtime[b.i]-S.qtime[a.i]).slice(0,10);
+
+  if(!rows.length){ $('revList').innerHTML = `<div class="revitem" style="color:var(--muted)">Nothing in this group.</div>`; return; }
+  $('revList').innerHTML = rows.map(revItem).join('');
+}
+
+function showAllForPrint(){
+  if(!RESULT) return;
+  const chips = $('revFilter').querySelectorAll('.fchip');
+  chips.forEach(c=>c.classList.toggle('on', c.dataset.f==='all'));
+  renderReview('all');
+}
+$('btnPrint').onclick = ()=>{ showAllForPrint(); setTimeout(()=>window.print(), 60); };
+window.addEventListener('beforeprint', showAllForPrint);
+$('btnSheet').onclick = ()=>{
+  const sent = sendToForm(PAYLOAD);
+  const ok = downloadAnswerSheet();
+  if(ok) $('btnSheet').textContent = 'Downloaded again';
+  setTimeout(()=>$('btnSheet').textContent = 'Download my answer sheet', 2000);
+};
+$('btnDownload').onclick = ()=>downloadJSON(PAYLOAD);
+$('btnCopyCode').onclick = ()=>copyBox('subCode','btnCopyCode');
+$('btnCopyRow').onclick = ()=>{
+  $('subRow').classList.remove('hidden');
+  copyBox('subRow','btnCopyRow');
+};
+
+if(!CONFIG.ALLOW_REVIEW){
+  document.querySelector('#screen-result .rescard:last-child').classList.add('hidden');
+}
+</script>
+</body>
+</html>
