@@ -91,6 +91,11 @@ button{font-family:inherit}
 .histrow.left{background:#FBEAE8}
 .whobar{display:flex; gap:18px; flex-wrap:wrap; padding:14px 26px; background:#F1F4FA; border-bottom:1px solid var(--line); font-size:13.5px}
 .whobar b{display:block; font-size:11px; text-transform:uppercase; letter-spacing:.8px; color:var(--muted); font-weight:600}
+.sendbox{display:flex; gap:16px; align-items:flex-start; background:var(--gold-p); border:2px solid var(--gold);
+  border-radius:var(--radius); padding:18px 22px; margin-bottom:20px}
+.sendnum{width:34px;height:34px;flex:none;border-radius:50%;background:var(--gold);color:#241a00;display:grid;place-items:center;font-size:17px;font-weight:800}
+.sendbox b{display:block; font-size:16px; color:#4A3A10}
+.sendbox p{margin:4px 0 12px; font-size:13.5px; color:#5C4A18}
 .donebox{display:flex; gap:16px; align-items:flex-start; background:var(--ok-bg); border:1px solid #BFE0CD;
   border-radius:var(--radius); padding:18px 22px; margin-bottom:20px}
 .donetick{width:38px;height:38px;flex:none;border-radius:50%;background:var(--ok);color:#fff;
@@ -318,7 +323,7 @@ table.res tr:last-child td{border-bottom:0}
 }
 @media print{
   body{background:#fff}
-  .topbar,.navbar,.palette,.segtabs,.paltoggle,.revfilter,.resbtns,.subbox,.donebox,.overlay,
+  .topbar,.navbar,.palette,.segtabs,.paltoggle,.revfilter,.resbtns,.subbox,.donebox,.sendbox,.overlay,
   .sol,.timechip,#facultyBox{display:none !important}
   #screen-result{max-width:none; padding:0}
   .rescard{box-shadow:none; border:1px solid #ccc; margin-bottom:12px; break-inside:avoid}
@@ -462,6 +467,15 @@ table.res tr:last-child td{border-bottom:0}
     <textarea id="subRow" readonly></textarea>
   </div>
 
+  <div class="sendbox hidden" id="sendBox">
+    <div class="sendnum">2</div>
+    <div style="flex:1">
+      <b>One last step — send your result to your faculty</b>
+      <p id="formNote">A Google Form has opened in a new tab with all your details already filled in. Press <b>Submit</b> on it. If the tab did not open, use the button below.</p>
+      <button class="btn btn-gold" id="btnForm">Open the form and submit</button>
+    </div>
+  </div>
+
   <div class="resbtns">
     <button class="btn btn-primary" id="btnPrint">Print / Save as PDF</button>
   </div>
@@ -495,20 +509,20 @@ const CONFIG = {
    Leave ACTION blank and nothing is sent — the answer sheet still downloads.
    --------------------------------------------------------------------- */
 const GFORM = {
-  ACTION: 'https://docs.google.com/forms/d/e/1FAIpQLSe1RmdDFksdQRu3P9qvzeFFnUycte2FYRWPEicAhb4vQYtu6A/formResponse',
+  ACTION: 'https://docs.google.com/forms/d/e/1FAIpQLSdonFOdwyp1fssLSdK-A1oS52vNWa954KmdZztJBt_ZatTywg/formResponse',
   F: {
-    pin      : 'entry.500072409',    // Q1  · IMS PIN
-    name     : 'entry.2128170961',   // Q2  · Name
-    batch    : 'entry.2003824464',   // Q3  · Batch
-    score    : 'entry.759641127',    // Q4  · Score
-    correct  : 'entry.1246210036',   // Q5  · Correct
-    wrong    : 'entry.202446909',    // Q6  · Wrong
-    skipped  : 'entry.31921757',     // Q7  · Skipped
-    timeUsed : 'entry.1993408874',   // Q8  · Time Used
-    qPerMin  : 'entry.1626108432',   // Q9  · Questions per Min
-    attemptId: 'entry.1883498052',   // Q10 · Attempt ID
-    segments : 'entry.1840735520',   // Q11 · Segment Scores
-    data     : 'entry.1662242479'    // Q12 · Full Data (paragraph)
+    pin      : 'entry.760204784',    // Q1  · IMS PIN
+    name     : 'entry.628146711',    // Q2  · Name
+    batch    : 'entry.1512132193',   // Q3  · Batch
+    score    : 'entry.2023915568',   // Q4  · Score
+    correct  : 'entry.1016977442',   // Q5  · Correct
+    wrong    : 'entry.1850180104',   // Q6  · Wrong
+    skipped  : 'entry.928343926',    // Q7  · Skipped
+    timeUsed : 'entry.1996412757',   // Q8  · Time Used
+    qPerMin  : 'entry.183325074',    // Q9  · Questions per Min
+    attemptId: 'entry.1109404300',   // Q10 · Attempt ID
+    segments : 'entry.1209361338',   // Q11 · Segment Scores
+    data     : 'entry.2113689118'    // Q12 · Full Data (paragraph)
   }
 };
 
@@ -1316,12 +1330,18 @@ function finish(auto){
   window.scrollTo(0,0);
   renderResult();
 
-  const sent = sendToForm(PAYLOAD);
+  FORM_URL = buildFormURL(PAYLOAD);
   const ok = downloadAnswerSheet();
   $('subStatus').innerHTML = ok
     ? 'Your answer sheet has been downloaded to this device. Open it to see every question with your answer and the correct answer beside it.'
-    : 'Your response has been recorded. Use the button below to download your answer sheet.';
-  $('btnSheet').classList.remove('hidden');   // always available, in case the browser blocked it
+    : 'Your paper is scored. Use the button below to download your answer sheet.';
+  $('btnSheet').classList.remove('hidden');
+
+  if(FORM_URL){
+    $('sendBox').classList.remove('hidden');
+    $('btnForm').onclick = openForm;
+    openForm();                     // opens straight away; if the browser blocks it, the button is right there
+  }
 
   $('subCode').value = JSON.stringify(PAYLOAD);
   $('subRow').value  = PAYLOAD.sheetRow;
@@ -1329,11 +1349,9 @@ function finish(auto){
   if(location.hash.toLowerCase().indexOf('data')>-1){
     $('facultyBox').classList.remove('hidden');
     $('rowStatus').innerHTML = (!GFORM.ACTION
-        ? '<b style="color:#C0392B">No form address is set in this file.</b> You are viewing an older upload.'
-        : sent ? '<b style="color:#1E7A45">Sent via ' + LAST_SEND.method + '.</b>'
-               : '<b style="color:#C0392B">Sending failed inside the browser.</b>')
-      + '<br>Fields: ' + Object.values(GFORM.F).filter(Boolean).length + ' of 12 · URL length: ' + LAST_SEND.url.length
-      + (LAST_SEND.url ? '<br><a href="' + LAST_SEND.url + '" target="_blank" rel="noopener"><b>Open this submission in a new tab</b></a> — if that tab says the response was recorded, the form is fine and only the silent send is being blocked.' : '');
+        ? '<b style="color:#C0392B">No form is linked in this file.</b>'
+        : '<b style="color:#1E7A45">Form link built.</b> ' + FORM_URL.length + ' characters.')
+      + '<br>The row below is the same data, ready to paste into the sheet by hand.';
   }
   if(CONFIG.SUBMIT_ENDPOINT) sendToFaculty($('subCode').value, 'rowStatus');
 }
@@ -1433,13 +1451,11 @@ function sheetRow(rec){
 }
 
 /* ---------------------------------------------------------------------
-   Sends the result into the Google Form.
-   Primary method is a plain GET beacon — the same thing that happens when
-   a formResponse link is opened in the address bar, which is the most
-   reliable way to reach Forms from a static page. Falls back to a
-   hidden-iframe POST if the payload is too long for a URL.
+   The result is sent by opening the Google Form with every box already
+   filled in. The student only presses Submit on the form itself, so
+   nothing is posted silently and nothing can be blocked.
    --------------------------------------------------------------------- */
-let LAST_SEND = {method:'', url:'', ok:false};
+let FORM_URL = '';
 
 function formValues(rec){
   return {
@@ -1458,58 +1474,21 @@ function formValues(rec){
   };
 }
 
-function formURL(rec){
-  const v = formValues(rec), parts = [];
+function buildFormURL(rec){
+  if(!GFORM.ACTION) return '';
+  const v = formValues(rec), parts = ['usp=pp_url'];
   Object.keys(GFORM.F).forEach(k=>{
     const id = GFORM.F[k];
     if(id) parts.push(id + '=' + encodeURIComponent(v[k] === undefined ? '' : String(v[k])));
   });
-  parts.push('submit=Submit');
-  return GFORM.ACTION + '?' + parts.join('&');
+  return GFORM.ACTION.replace('/formResponse','/viewform') + '?' + parts.join('&');
 }
 
-function sendToForm(rec){
-  LAST_SEND = {method:'', url:'', ok:false};
-  if(!GFORM.ACTION) return false;
-  try{
-    const url = formURL(rec);
-    LAST_SEND.url = url;
-
-    if(url.length < 7000){
-      LAST_SEND.method = 'GET beacon';
-      const img = new Image();
-      img.src = url;
-      LAST_SEND.ok = true;
-      return true;
-    }
-
-    LAST_SEND.method = 'iframe POST';
-    let frame = document.getElementById('gformSink');
-    if(!frame){
-      frame = document.createElement('iframe');
-      frame.id = 'gformSink'; frame.name = 'gformSink';
-      frame.style.display = 'none';
-      document.body.appendChild(frame);
-    }
-    const v = formValues(rec);
-    const f = document.createElement('form');
-    f.action = GFORM.ACTION; f.method = 'POST'; f.target = 'gformSink'; f.style.display = 'none';
-    Object.keys(GFORM.F).forEach(k=>{
-      const id = GFORM.F[k];
-      if(!id) return;
-      const inp = document.createElement('input');
-      inp.type='hidden'; inp.name=id; inp.value = v[k]===undefined ? '' : String(v[k]);
-      f.appendChild(inp);
-    });
-    document.body.appendChild(f);
-    f.submit();
-    setTimeout(()=>f.remove(), 4000);
-    LAST_SEND.ok = true;
-    return true;
-  }catch(e){
-    LAST_SEND.ok = false;
-    return false;
-  }
+function openForm(){
+  if(!FORM_URL) return;
+  window.open(FORM_URL, '_blank');
+  $('btnForm').textContent = 'Open the form again';
+  $('formNote').innerHTML = '<b>Now press Submit at the bottom of the form.</b> Everything is already filled in — do not change anything.';
 }
 
 function sendToFaculty(json, statusId){
@@ -1761,7 +1740,6 @@ function showAllForPrint(){
 $('btnPrint').onclick = ()=>{ showAllForPrint(); setTimeout(()=>window.print(), 60); };
 window.addEventListener('beforeprint', showAllForPrint);
 $('btnSheet').onclick = ()=>{
-  const sent = sendToForm(PAYLOAD);
   const ok = downloadAnswerSheet();
   if(ok) $('btnSheet').textContent = 'Downloaded again';
   setTimeout(()=>$('btnSheet').textContent = 'Download my answer sheet', 2000);
