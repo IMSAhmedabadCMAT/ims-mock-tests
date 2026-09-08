@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMS Unit Readiness Test &mdash; Medieval History</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0f2556;--navy2:#1a3a7c;--navy3:#2851a3;--gold:#e8a020;--green:#1a7a3c;--red:#b91c1c;--purple:#7c3aed;--teal:#0d7a6e;--orange:#c45000;--gray:#9ca3af;--lightbg:#f3f4f8;--border:#d1d5db;--text:#1e293b;--subtext:#64748b}
+html,body{height:100%;font-family:'IBM Plex Sans',sans-serif;background:var(--lightbg);color:var(--text);font-size:14px}
+.header{background:var(--navy);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:52px;position:fixed;top:0;left:0;right:0;z-index:200;border-bottom:3px solid var(--gold)}
+.logo{font-size:15px;font-weight:700;color:white}.logo span{color:var(--gold)}
+.hc{display:flex;align-items:center;gap:10px}
+.sec-badge{background:var(--navy3);padding:3px 9px;border-radius:4px;font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.h-info{font-size:11px;color:#aac}
+.timer-wrap{display:flex;align-items:center;gap:8px}
+.timer-label{font-size:10px;color:#99b;letter-spacing:1px;text-transform:uppercase}
+.timer{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;color:#fff;background:var(--navy2);border:1.5px solid #4466aa;padding:3px 14px;border-radius:6px;min-width:90px;text-align:center;letter-spacing:2px}
+.timer.warn{color:var(--gold);border-color:var(--gold);animation:pulse 1s ease-in-out infinite}
+.timer.danger{color:#ff6b6b;border-color:#ff6b6b;animation:pulse .5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.h-student{font-size:11px;color:#ccddff;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.section-tabs{position:fixed;top:52px;left:0;right:0;z-index:190;background:var(--navy2);display:flex;align-items:center;padding:4px 16px;gap:2px;border-bottom:1px solid #2a4a9a;overflow-x:auto}
+.tab{padding:5px 10px;border-radius:4px 4px 0 0;font-size:10.5px;font-weight:600;cursor:pointer;color:#99b;background:transparent;border:none;white-space:nowrap;transition:all .15s}
+.tab.active{background:white;color:var(--navy)}
+.q-ctr{margin-left:auto;font-size:12px;color:#aac;white-space:nowrap;padding-left:10px;font-weight:600}
+.main{display:flex;height:100vh;padding-top:90px;padding-bottom:56px}
+.q-panel{flex:1;overflow-y:auto;background:white;border-right:1px solid var(--border)}
+.q-inner{padding:20px 26px;max-width:860px}
+.q-meta{display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-size:15px;font-weight:700;color:var(--navy)}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:600}
+.b-s1{background:#e0eaff;color:var(--navy3)}
+.b-mcq{background:#fce4ec;color:#b91c6a}
+.q-text{font-size:14px;line-height:1.8;margin-bottom:12px;font-weight:500;color:var(--text)}
+.instr{background:#fffbe6;border:1px solid #f0d060;border-radius:5px;padding:6px 11px;font-size:11.5px;color:#7a5c00;margin-bottom:11px}
+.options{list-style:none;display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;border:1.5px solid var(--border);border-radius:7px;cursor:pointer;transition:border-color .15s,background .15s;font-size:13.5px;line-height:1.65;user-select:none}
+.option:hover{border-color:var(--navy3);background:#f0f4ff}
+.option.selected{border-color:var(--navy3);background:#e8eeff}
+.opt-circle{width:17px;height:17px;border:2px solid var(--border);border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center}
+.option.selected .opt-circle{border-color:var(--navy3)}
+.opt-dot{width:8px;height:8px;border-radius:50%;background:var(--navy3);display:none}
+.option.selected .opt-dot{display:block}
+.opt-lbl{font-weight:700;color:var(--navy3);margin-right:4px;flex-shrink:0;min-width:18px}
+.r-panel{width:218px;background:#f8f9fc;border-left:1px solid var(--border);overflow-y:auto;padding:11px;flex-shrink:0}
+.r-title{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--subtext);margin-bottom:7px}
+.score-info{background:white;border:1px solid var(--border);border-radius:6px;padding:9px 11px;margin-bottom:11px}
+.si-row{display:flex;justify-content:space-between;font-size:12px;padding:2px 0}
+.si-row .v{font-weight:700}.si-row.g .v{color:var(--green)}.si-row.r .v{color:var(--red)}
+.legend{margin-bottom:11px}
+.leg-item{display:flex;align-items:center;gap:5px;margin:4px 0;font-size:10px;color:var(--subtext)}
+.leg-n{margin-left:auto;font-size:10.5px;font-weight:700;color:var(--navy);background:#e8edf7;border-radius:9px;padding:0 6px;min-width:20px;text-align:center}
+.att-box{background:var(--navy);color:#fff;border-radius:6px;padding:8px 11px;margin-bottom:11px;text-align:center}
+.att-n{font-size:21px;font-weight:700;line-height:1.1}
+.att-n span{font-size:12px;font-weight:500;color:#aac}
+.att-l{font-size:9.5px;letter-spacing:.9px;text-transform:uppercase;color:#aac;margin-top:2px}
+.leg-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.pal-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.pb{position:relative;width:100%;height:30px;border:none;border-radius:3px;font-size:10px;font-weight:700;cursor:pointer;color:white;transition:transform .1s}
+.pb:hover{transform:scale(1.12)}.pb.cur{box-shadow:0 0 0 2px var(--gold)}
+.pb.p-nv{background:#9ca3af}.pb.p-na{background:#ef4444}.pb.p-ans{background:#16a34a}.pb.p-mrv{background:var(--purple)}
+.pb.p-amrv{background:var(--purple)}
+.pb.p-amrv::after{content:'';position:absolute;bottom:2px;right:2px;width:9px;height:9px;border-radius:50%;background:#16a34a;border:1.5px solid #fff;box-sizing:border-box}
+.leg-dot.amrv{position:relative;background:var(--purple)}
+.leg-dot.amrv::after{content:'';position:absolute;bottom:-1px;right:-1px;width:6px;height:6px;border-radius:50%;background:#16a34a;border:1px solid #fff;box-sizing:border-box}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:#eef0f5;border-top:1px solid var(--border);padding:9px 16px;display:flex;justify-content:space-between;align-items:center}
+.nav-left,.nav-right{display:flex;gap:8px}
+.btn{padding:7px 14px;border:none;border-radius:5px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;transition:opacity .15s,transform .1s}
+.btn:hover{opacity:.88;transform:translateY(-1px)}
+.btn-prev{background:#64748b;color:white}.btn-mark{background:var(--purple);color:white}
+.btn-clear{background:#f97316;color:white}.btn-save{background:var(--green);color:white}
+.btn-submit{background:var(--navy);color:white;border:2px solid var(--gold)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;justify-content:center;align-items:center}
+.overlay.show{display:flex}
+.modal{background:white;border-radius:12px;padding:26px 30px;max-width:720px;width:94%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal::-webkit-scrollbar{width:6px}.modal::-webkit-scrollbar-thumb{background:#c0c8d8;border-radius:3px}
+.modal-title{font-size:19px;font-weight:700;color:var(--navy);margin-bottom:4px;text-align:center}
+.modal-sub{font-size:12px;color:var(--subtext);text-align:center;margin-bottom:16px}
+.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px}
+.sc{background:var(--lightbg);border-radius:8px;padding:12px 8px;text-align:center;border:1px solid var(--border)}
+.sc-label{font-size:9.5px;color:var(--subtext);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+.sc-val{font-size:24px;font-weight:700;line-height:1}
+.sc-val.blue{color:var(--navy3)}.sc-val.grn{color:var(--green)}.sc-val.gld{color:var(--gold)}
+.sep{height:1px;background:var(--border);margin:12px 0}
+.a-title{font-size:13px;font-weight:700;color:var(--navy);margin:12px 0 8px}
+.s-strip{background:var(--lightbg);border:1px solid var(--border);border-radius:6px;padding:7px 13px;margin-bottom:12px;font-size:12px;color:var(--subtext);display:flex;flex-wrap:wrap;gap:5px 16px}
+.s-strip strong{color:var(--navy);font-weight:700}
+.confirm-box{background:white;border-radius:12px;padding:26px;max-width:380px;text-align:center}
+.code-box{background:#0f2556;border-radius:8px;padding:13px 15px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.code-str{font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:2.5px;color:#ffd979;font-weight:500;word-break:break-all;flex:1;min-width:200px}
+.code-btn{background:var(--gold);color:#3d2800;border:none;border-radius:5px;padding:7px 13px;font-size:12px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;white-space:nowrap}
+.code-btn:hover{opacity:.88}
+.confirm-box h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.confirm-box p{font-size:13px;color:var(--subtext);margin-bottom:8px;line-height:1.6}
+.c-stats{background:var(--lightbg);border-radius:6px;padding:11px;margin:11px 0;font-size:13px;display:flex;flex-direction:column;gap:4px}
+.cs-row{display:flex;justify-content:space-between}
+.c-btns{display:flex;gap:10px;margin-top:14px;justify-content:center}
+.btn-cancel{background:#e5e7eb;color:var(--text)}
+.entry-ov{position:fixed;inset:0;background:linear-gradient(145deg,#070f24 0%,#0f2556 55%,#1a3a7c 100%);z-index:1000;display:flex;align-items:center;justify-content:center}
+.entry-card{background:white;border-radius:16px;padding:34px 38px;width:450px;max-width:93vw;box-shadow:0 28px 80px rgba(0,0,0,.5)}
+.entry-logo{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:4px}.entry-logo span{color:var(--gold)}
+.entry-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.entry-sub{font-size:11.5px;color:var(--subtext);margin-bottom:16px;line-height:1.5}
+.entry-divider{height:1px;background:var(--border);margin-bottom:16px}
+.entry-field{margin-bottom:11px}
+.entry-label{display:block;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--subtext);margin-bottom:4px}
+.entry-input{width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-family:'IBM Plex Sans',sans-serif;color:var(--text);transition:border-color .15s}
+.entry-input:focus{outline:none;border-color:var(--navy3);box-shadow:0 0 0 3px rgba(40,81,163,.15)}
+select.entry-input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2364748b' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:30px}
+.pin-box{padding:8px 11px;background:#eef2fb;border:1.5px dashed #b8c4de;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:var(--navy);letter-spacing:.5px}
+.entry-err{color:#b91c1c;font-size:12px;font-weight:600;margin-bottom:9px;min-height:18px}
+.entry-btn{width:100%;padding:10px;background:var(--navy);color:white;border:2px solid var(--gold);border-radius:7px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans',sans-serif}
+.entry-btn:hover{background:var(--navy2)}
+.entry-note{font-size:10.5px;color:var(--subtext);text-align:center;margin-top:9px;line-height:1.5}
+.toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#1a7a3c;color:white;padding:7px 20px;border-radius:20px;font-size:12px;font-weight:600;opacity:0;transition:opacity .4s;z-index:800;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}.toast.err{background:#b91c1c}
+@keyframes progbar{from{width:0%}to{width:100%}}
+.prog-bar{height:100%;background:var(--green);border-radius:2px;animation:progbar 2.8s linear forwards}
+</style>
+</head>
+<body>
+<div class="entry-ov" id="entry-ov">
+  <div class="entry-card">
+    <div class="entry-logo">IMS <span>Unit Readiness Test</span></div>
+    <div class="entry-title">Medieval History &mdash; CMAT Pattern</div>
+    <div class="entry-sub">70 questions from the invasions of Mahmud of Ghazni to the death of Aurangzeb &middot; attempt in any sequence you like<br>The 50-minute timer starts after you click <strong>Begin Test</strong>.</div>
+    <div class="entry-divider"></div>
+    <div class="entry-field">
+      <label class="entry-label">Batch *</label>
+      <select class="entry-input" id="inp-batch" onchange="fillNames()">
+        <option value="">&mdash; Select your batch &mdash;</option>
+        <option>27CNS01</option><option>27CNS02</option><option>27CNS03</option><option>27CNS04</option><option>27CNS05</option><option>27CNS06</option><option>27CNS07</option><option>27CNS08</option>
+      </select>
+    </div>
+    <div class="entry-field">
+      <label class="entry-label">Your Name *</label>
+      <select class="entry-input" id="inp-name" onchange="fillId()" disabled>
+        <option value="">&mdash; Select your batch first &mdash;</option>
+      </select>
+    </div>
+    <div class="entry-field">
+      <label class="entry-label">IMS Pin</label>
+      <div class="pin-box" id="pin-box">&mdash;</div>
+    </div>
+    <div class="entry-err" id="entry-err"></div>
+    <button class="entry-btn" onclick="startTest()">Begin Test &#9654;</button>
+    <div class="entry-note">70 Questions &middot; 50 Minutes &middot; +4 correct &middot; &minus;1 wrong &middot; Max 280 marks</div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<div class="header">
+  <div class="logo">IMS <span>Unit Readiness Test</span></div>
+  <div class="hc"><div class="sec-badge">Medieval History</div><div class="h-info">70 Qs &nbsp;&middot;&nbsp; 50 Min &nbsp;&middot;&nbsp; +4/&minus;1</div></div>
+  <div style="display:flex;align-items:center;gap:13px">
+    <div class="h-student" id="h-student"></div>
+    <div class="timer-wrap"><div class="timer-label">Time Left</div><div class="timer" id="timer">50:00</div></div>
+  </div>
+</div>
+<div class="section-tabs">
+  <div class="tab active">Medieval History &mdash; Q1 to Q70</div>
+  <div class="q-ctr">Q&nbsp;<span id="cur-q">1</span>&nbsp;/&nbsp;70</div>
+</div>
+<div class="main">
+  <div class="q-panel"><div class="q-inner" id="q-inner"></div></div>
+  <div class="r-panel">
+    <div class="score-info">
+      <div class="r-title">Marking</div>
+      <div class="si-row g"><span>Correct</span><span class="v">+4</span></div>
+      <div class="si-row r"><span>Wrong</span><span class="v">&minus;1</span></div>
+      <div class="si-row"><span style="color:#888">Skip</span><span class="v" style="color:#888">0</span></div>
+    </div>
+    <div class="att-box">
+      <div class="att-n" id="att-n">0<span> / 70</span></div>
+      <div class="att-l">Attempted</div>
+    </div>
+    <div class="legend">
+      <div class="r-title">Status</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#16a34a"></div>Answered<span class="leg-n" id="n-ans">0</span></div>
+      <div class="leg-item"><div class="leg-dot amrv"></div>Answered &amp; Marked<span class="leg-n" id="n-amrv">0</span></div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--purple)"></div>Marked for Review<span class="leg-n" id="n-mrv">0</span></div>
+      <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Not Answered<span class="leg-n" id="n-na">0</span></div>
+      <div class="leg-item"><div class="leg-dot" style="background:#9ca3af"></div>Not Visited<span class="leg-n" id="n-nv">0</span></div>
+      <div style="font-size:9.5px;color:#94a3b8;line-height:1.5;margin-top:6px">Answered questions are evaluated even if marked for review.</div>
+    </div>
+    <div class="r-title">Palette</div>
+    <div class="pal-grid" id="palette"></div>
+  </div>
+</div>
+<div class="bottom-nav">
+  <div class="nav-left">
+    <button class="btn btn-prev" onclick="navigate(-1)">&#9664; Prev</button>
+    <button class="btn btn-mark" onclick="markForReview()">&#9873; Mark</button>
+    <button class="btn btn-clear" onclick="clearResp()">&#10005; Clear</button>
+  </div>
+  <div class="nav-right">
+    <button class="btn btn-save" onclick="saveAndNext()">Save &amp; Next &#9654;</button>
+    <button class="btn btn-submit" onclick="showConfirm()">Submit Test</button>
+  </div>
+</div>
+<div class="overlay" id="confirm-ov">
+  <div class="confirm-box">
+    <h3>Submit Test?</h3>
+    <p>Unit Readiness Test: Medieval History &middot; 70 Questions</p>
+    <div class="c-stats" id="c-stats"></div>
+    <div class="c-btns">
+      <button class="btn btn-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="btn btn-submit" onclick="doSubmit()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="timeup-ov">
+  <div style="background:white;border-radius:16px;padding:36px 44px;text-align:center;max-width:340px;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div style="font-size:34px;margin-bottom:11px">&#9201;</div>
+    <div style="font-size:19px;font-weight:700;color:var(--red);margin-bottom:8px">Time's Up!</div>
+    <div style="font-size:13px;color:var(--subtext);margin-bottom:18px">50 minutes elapsed. Submitting now.</div>
+    <button class="btn btn-submit" style="width:100%" onclick="doSubmit()">View Results</button>
+  </div>
+</div>
+<div class="overlay" id="submitting-ov">
+  <div style="background:white;border-radius:16px;padding:36px 44px;text-align:center;max-width:340px">
+    <div style="font-size:44px;margin-bottom:14px">&#9989;</div>
+    <div style="font-size:18px;font-weight:700;color:var(--navy);margin-bottom:9px">Responses Submitted!</div>
+    <div style="font-size:13px;color:var(--subtext);line-height:1.6">Calculating your score&hellip;</div>
+    <div style="margin-top:18px;height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden"><div class="prog-bar"></div></div>
+  </div>
+</div>
+<div class="overlay" id="results-ov">
+  <div class="modal">
+    <div class="modal-title">&#128202; Unit Readiness Test: Medieval History &mdash; Results</div>
+    <div class="modal-sub">70 MCQ &middot; +4 correct &middot; &minus;1 wrong</div>
+    <div class="s-strip" id="s-strip"></div>
+    <div class="score-grid" id="score-cards"></div>
+    <div class="sep"></div>
+    <div class="a-title">&#128273; Save Your Response Code</div>
+    <div style="font-size:12px;color:var(--subtext);line-height:1.65;margin-bottom:9px">Solutions will be released in class. To view your detailed review then, you must save this code now &mdash; screenshot it or send it to yourself on WhatsApp.</div>
+    <div class="code-box"><div class="code-str" id="resp-code"></div><button class="code-btn" onclick="copyCode()">&#128203; Copy Code</button></div>
+    <div style="font-size:11px;color:#94a3b8;margin-top:7px;line-height:1.5">This code stores only which options you marked. It does not contain the answer key.</div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button onclick="closeResults()" style="flex:1;padding:9px;background:#64748b;color:white;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:'IBM Plex Sans',sans-serif">Close</button>
+    </div>
+  </div>
+</div>
+<script>
+/* ── Google Form target — Unit Readiness Test: Medieval History — Scores ──
+   Create the form, then paste its formResponse URL and entry IDs below.
+   While url is blank the test still runs; scores just aren't posted. ── */
+const GF={
+  url:'https://docs.google.com/forms/d/e/1FAIpQLSfdCQ9K85Kh1knxF-7y9NcjR8IjW_9FAd1Ta2Iu7mjnsAe0hQ/formResponse',
+  f:{name:'entry.649418675',center:'entry.1868639403',batch:'entry.1105152055',
+     total:'entry.1743053678',correct:'entry.320592361',wrong:'entry.1650516329',
+     skip:'entry.1108338024',time:'entry.2056503236',resp:'entry.744818504',
+     pin:'entry.1926993698'}
+};
+const L=['A','B','C','D'];
+
+const Q=[
+{id:1,text:'Qutb-ud-din Aibak began construction of which famous minaret in Delhi, later completed by Iltutmish?',options:['Qutub Minar','Chand Minar','Char Minar','Alai Minar']},
+{id:2,text:'The Tughlaq dynasty was founded in AD 1320 by:',options:['Muhammad bin Tughlaq','Ghiyas-ud-din Tughlaq','Firuz Shah Tughlaq','Khizr Khan']},
+{id:3,text:'The Bahmani Kingdom eventually broke into five Deccan Sultanates around AD 1518-1527; which of the following was NOT one of them?',options:['Bijapur','Golconda','Berar','Chanderi']},
+{id:4,text:'The Taj Mahal, built by Shah Jahan as a mausoleum, was constructed in memory of:',options:['Nur Jahan','Mumtaz Mahal','Jahanara Begum','Roshanara Begum']},
+{id:5,text:'Jahangir, Akbar\'s son and successor, ruled the Mughal Empire from:',options:['1556-1605','1605-1627','1627-1658','1658-1707']},
+{id:6,text:'The English ambassador Sir Thomas Roe visited the Mughal court during the reign of:',options:['Akbar','Jahangir','Shah Jahan','Aurangzeb']},
+{id:7,text:'Aurangzeb annexed the Sultanates of Bijapur and Golconda into the Mughal Empire in:',options:['1636 and 1656','1686 and 1687','1707 and 1708','1658 and 1659']},
+{id:8,text:'Humayun regained the Mughal throne in AD 1555 with the help of the ruler of:',options:['Safavid Persia','Ottoman Turkey','Uzbek Khanate','Portugal']},
+{id:9,text:'Akbar\'s land revenue system, based on measurement and past yields, was known as:',options:['Zabti system (Todar Mal\'s Bandobast)','Iqta system','Ijara system','Ryotwari system']},
+{id:10,text:'Mahmud Gawan, the famous Deccan statesman known for administrative reforms, served as a minister of:',options:['Vijayanagara Empire','Bahmani Kingdom','Bengal Sultanate','Malwa Sultanate']},
+{id:11,text:'Ghiyas-ud-din Tughlaq died in AD 1325 under circumstances traditionally linked to the collapse of a specially built:',options:['Wooden pavilion at Afghanpur','Fort wall','Bridge over the Yamuna','Minaret']},
+{id:12,text:'Aurangzeb (Alamgir), the last of the \'Great Mughals\', died in AD 1707 at:',options:['Delhi','Agra','Ahmadnagar (Deccan)','Lahore']},
+{id:13,text:'The war of succession among Shah Jahan\'s sons was ultimately won by:',options:['Dara Shikoh','Aurangzeb','Shah Shuja','Murad Baksh']},
+{id:14,text:'Humayun, Babur\'s son and successor, was defeated and driven out of India by:',options:['Sher Shah Suri','Hemu','Rana Sanga','Ibrahim Lodi']},
+{id:15,text:'The Khilji dynasty was established in AD 1290 by:',options:['Alauddin Khilji','Jalaluddin Khilji','Qutbuddin Mubarak Shah','Malik Kafur']},
+{id:16,text:'Alauddin Khilji\'s general Malik Kafur led successful campaigns into which region of India?',options:['Bengal','South India (Deccan)','Sindh','Kashmir']},
+{id:17,text:'Muhammad Ghori was assassinated in AD 1206 on the banks of the river:',options:['Indus','Jhelum','Chenab','Ravi']},
+{id:18,text:'The Maratha king who emerged as the chief challenge to Mughal authority in the Deccan during Aurangzeb\'s reign was:',options:['Shivaji Maharaj','Sambhaji','Rajaram','Shahu']},
+{id:19,text:'Ibrahim Lodi\'s harsh treatment of Afghan nobles led which governor of Punjab to invite Babur to invade India?',options:['Daulat Khan Lodi','Alam Khan','Both A and B','Rana Sanga']},
+{id:20,text:'The independent Bengal Sultanate flourished for much of the 14th-16th centuries; its capital under several rulers was:',options:['Gaur (Lakhnauti)','Murshidabad','Dhaka','Chittagong']},
+{id:21,text:'The Battle of Talikota (1565), which led to the decline of the Vijayanagara Empire, was fought against a coalition of:',options:['Mughal forces','Deccan Sultanates','Portuguese forces','Bahmani Kingdom alone']},
+{id:22,text:'Aurangzeb spent the last decades of his reign engaged in prolonged military campaigns in which region, which drained the empire\'s resources?',options:['Bengal','The Deccan','Punjab','Kashmir']},
+{id:23,text:'The Moroccan traveller who visited India during Muhammad bin Tughlaq\'s reign and left a valuable travelogue was:',options:['Al-Biruni','Ibn Battuta','Marco Polo','Abdur Razzak']},
+{id:24,text:'Sher Shah Suri, who established the Sur dynasty, is particularly noted for constructing which famous highway?',options:['Grand Trunk Road (Sadak-e-Azam)','Silk Route','Rajpath','Karakoram Highway']},
+{id:25,text:'Babur decisively defeated the Rajput confederacy under Rana Sanga at the Battle of Khanwa in:',options:['AD 1526','AD 1527','AD 1529','AD 1530']},
+{id:26,text:'The Battle of Panipat (1526), which ended the Delhi Sultanate, was fought between Babur and:',options:['Sikandar Lodi','Ibrahim Lodi','Bahlul Lodi','Rana Sanga']},
+{id:27,text:'Babur\'s memoirs, an important primary source for his reign, are known as:',options:['Akbarnama','Baburnama (Tuzuk-i-Baburi)','Humayun-nama','Ain-i-Akbari']},
+{id:28,text:'Mahmud of Ghazni led his first invasion into India in which year?',options:['AD 986','AD 1000','AD 1008','AD 1206']},
+{id:29,text:'Jahangir\'s memoirs, an important autobiographical source, are titled:',options:['Tuzuk-i-Jahangiri','Jahangirnama only in translation','Padshahnama','Alamgirnama']},
+{id:30,text:'Firuz Shah Tughlaq is credited with establishing a large network of which public works?',options:['Canals (irrigation) and gardens','Naval dockyards','Universities only','Silk factories']},
+{id:31,text:'Under the Mughals, the term \'Zamindar\' generally referred to:',options:['Hereditary holders of land revenue rights/intermediaries','Village accountants only','Royal treasurers','Military commanders of the centre']},
+{id:32,text:'The Sufi Chishti order, closely patronized by early Sultans and Mughal emperors alike, was founded in India primarily by:',options:['Khwaja Moinuddin Chishti','Sheikh Salim Chishti alone','Nizamuddin Auliya','Baba Farid']},
+{id:33,text:'Ghiyas-ud-din Balban is best known for introducing which court ceremonies of Persian origin to assert royal authority?',options:['Sijda and Paibos','Navroz','Diwan-i-Khas','Jharoka Darshan']},
+{id:34,text:'The Hindu Shahi ruler who resisted Mahmud of Ghazni\'s early invasions was:',options:['Jayapala','Prithviraj Chauhan','Anandapala','Trilochanpala']},
+{id:35,text:'The Second Battle of Panipat (1556), which secured Akbar\'s throne, was fought against:',options:['Hemu (Hemchandra Vikramaditya)','Sher Shah Suri','Rana Sanga','Ibrahim Lodi']},
+{id:36,text:'Which Mewar ruler famously resisted Akbar\'s authority and fought the Battle of Haldighati (1576)?',options:['Rana Pratap (Maharana Pratap)','Rana Sanga','Rana Kumbha','Rana Udai Singh']},
+{id:37,text:'Bakhtiyar Khilji\'s raid destroyed the famous university/monastery of:',options:['Takshashila','Nalanda','Vikramshila and Nalanda','Vallabhi']},
+{id:38,text:'Iltutmish organized a group of forty powerful Turkish nobles known as the:',options:['Chihalgani (Chalisa)','Ulema','Umara-e-Kibar','Din-i-Ilahi Council']},
+{id:39,text:'In the First Battle of Panipat (1526), Babur\'s effective use of which tactic/technology proved decisive against Ibrahim Lodi?',options:['War elephants','Tulughma tactic and gunpowder artillery','Naval blockade','Guerrilla warfare']},
+{id:40,text:'Rana Sanga (Sangram Singh) of Mewar, who fought Babur at the Battle of Khanwa (1527), belonged to which dynasty?',options:['Sisodia','Rathore','Kachwaha','Chauhan']},
+{id:41,text:'Akbar\'s new eclectic religious order, intended to promote tolerance among faiths, was called:',options:['Din-i-Ilahi','Suhrawardiyya','Chishtiyya','Naqshbandiyya']},
+{id:42,text:'The Bahmani Kingdom in the Deccan was founded in AD 1347 by:',options:['Ala-ud-din Bahman Shah','Mahmud Gawan','Firuz Shah Bahmani','Yusuf Adil Shah']},
+{id:43,text:'Aurangzeb reimposed the \'Jizya\' tax on non-Muslims in the year:',options:['1658','1679','1687','1707']},
+{id:44,text:'The Mansabdari system of administrative and military ranking was introduced/systematized by:',options:['Akbar','Jahangir','Shah Jahan','Aurangzeb']},
+{id:45,text:'The \'Iqta\' system, a form of land revenue assignment central to Sultanate administration, was systematized chiefly by:',options:['Iltutmish','Alauddin Khilji','Firuz Shah Tughlaq','Sher Shah Suri']},
+{id:46,text:'Muhammad Ghori\'s general who defeated Jaichandra of Kannauj in the Battle of Chandawar (1194) was:',options:['Qutb-ud-din Aibak','Muhammad Ghori himself','Bakhtiyar Khilji','Nasir-ud-din Qabacha']},
+{id:47,text:'Shah Jahan, known for extensive architectural patronage, ruled the Mughal Empire from:',options:['1605-1627','1627-1658','1658-1707','1526-1530']},
+{id:48,text:'The First Battle of Tarain (AD 1191), in which Prithviraj Chauhan defeated Muhammad Ghori, was fought near which present-day state?',options:['Punjab','Haryana','Rajasthan','Uttar Pradesh']},
+{id:49,text:'The Sayyid dynasty, which ruled Delhi after the Tughlaqs, was founded by:',options:['Khizr Khan','Mubarak Shah','Muhammad Shah','Alam Shah']},
+{id:50,text:'Muhammad Ghori\'s decisive victory over Prithviraj Chauhan in the Second Battle of Tarain was fought in:',options:['AD 1191','AD 1192','AD 1194','AD 1206']},
+{id:51,text:'Akbar\'s regent during the early years of his reign (1556-1560) was:',options:['Bairam Khan','Man Singh','Todar Mal','Abul Fazl']},
+{id:52,text:'The most celebrated ruler of the Vijayanagara Empire, known for patronage of art and defeat of the Deccan Sultanates, was:',options:['Deva Raya II','Krishnadeva Raya','Achyuta Deva Raya','Sadasiva Raya']},
+{id:53,text:'The architectural style blending Persian, Central Asian and Indian elements, prominent in the Sultanate period, is often termed:',options:['Indo-Islamic architecture','Dravidian architecture','Nagara style','Gothic architecture']},
+{id:54,text:'Jahangir\'s powerful and influential wife, who effectively ran much of the administration in his later years, was:',options:['Nur Jahan','Mumtaz Mahal','Jodha Bai','Roshanara Begum']},
+{id:55,text:'The Vijayanagara Empire in South India was founded in AD 1336 by:',options:['Krishnadeva Raya','Harihara and Bukka','Bukka Raya II','Deva Raya']},
+{id:56,text:'Raziya Sultana, the only woman to rule the Delhi Sultanate, was the daughter of:',options:['Qutb-ud-din Aibak','Iltutmish','Balban','Nasir-ud-din Mahmud']},
+{id:57,text:'Aurangzeb had his father Shah Jahan imprisoned in which fort for the remainder of his life?',options:['Red Fort, Delhi','Agra Fort','Gwalior Fort','Lahore Fort']},
+{id:58,text:'Muhammad bin Tughlaq\'s experiment with token currency involved issuing coins made of:',options:['Gold','Silver','Bronze/Copper','Lead']},
+{id:59,text:'Timur\'s invasion of Delhi, which devastated the city and weakened the Tughlaq dynasty, took place in:',options:['AD 1398','AD 1351','AD 1414','AD 1526']},
+{id:60,text:'The medieval Bhakti saint-poet Kabir, known for blending Hindu and Islamic ideas, was primarily active around which city?',options:['Varanasi (Banaras)','Delhi','Ajmer','Pandharpur']},
+{id:61,text:'Akbar\'s court historian who authored the \'Akbarnama\' and \'Ain-i-Akbari\' was:',options:['Abul Fazl','Badauni','Faizi','Abdul Qadir']},
+{id:62,text:'After Muhammad Ghori\'s death, his Indian territories eventually passed to his trusted slave-general:',options:['Iltutmish','Qutb-ud-din Aibak','Balban','Bahram Shah']},
+{id:63,text:'Babur, founder of the Mughal Empire, was a descendant of which two great conquerors?',options:['Timur and Genghis Khan','Timur and Mahmud of Ghazni','Genghis Khan and Muhammad Ghori','Timur and Alexander']},
+{id:64,text:'The Mughal provincial administrative unit was called the \'Suba\', headed by a:',options:['Subedar (Governor)','Qazi','Kotwal','Wazir']},
+{id:65,text:'Muhammad bin Tughlaq\'s transfer of capital from Delhi to Daulatabad took place around:',options:['AD 1327','AD 1351','AD 1398','AD 1290']},
+{id:66,text:'Which Sultan of Delhi introduced the silver \'tanka\' and copper \'jital\' as standard coins?',options:['Qutb-ud-din Aibak','Iltutmish','Raziya Sultana','Ghiyas-ud-din Balban']},
+{id:67,text:'The founder of Sikhism, Guru Nanak, was a contemporary of which Mughal ruler\'s early reign / late Sultanate period?',options:['Babur','Akbar','Aurangzeb','Sher Shah Suri']},
+{id:68,text:'Mahmud of Ghazni\'s raid on the Somnath temple in Gujarat took place in:',options:['AD 1018','AD 1025','AD 1030','AD 1206']},
+{id:69,text:'Which Sultan introduced market control regulations (price control system) known as the \'Bazaar Islahat\'?',options:['Jalaluddin Khilji','Alauddin Khilji','Muhammad bin Tughlaq','Firuz Shah Tughlaq']},
+{id:70,text:'The Lodi dynasty, the last dynasty of the Delhi Sultanate, was founded by:',options:['Bahlul Lodi','Sikandar Lodi','Ibrahim Lodi','Daulat Khan Lodi']}
+];
+
+/* Answer key is encoded so it is not readable at a glance in page source. */
+const K=atob('QUVKS05RVFZZQ0VKTE5SVVhaRUZKTVBSVllCRUdKTVBTVllCR0hMTlFUWFpDR0pNT1NVWUFESEtOUlNWWUNFSEtPUVVYWg==').split('').map((c,i)=>((c.charCodeAt(0)-65-3*i)%26+26)%26);
+const TOTAL=70,SECS=50*60,PLUS=4,MINUS=1,MAXM=280;
+let cur=1,timeLeft=SECS,timerInt=null,submitted=false;
+let student={name:'',center:'',batch:''};
+const state={};
+for(let i=1;i<=TOTAL;i++)state[i]={status:'nv',response:null};
+state[1].status='na';
+
+const ROSTER={"27CNS01":[["Anirudh Bhattacharjee","STU0001205810","1205810"],["Dev Desai","STU0001209449","1209449"],["Devarsh Dalal","STU0001222508","1222508"],["Dhwanit Shah","STU0001222832","1222832"],["Dwij Doshi","STU0001209450","1209450"],["Mahak Kotak","STU0001222510","1222510"],["Mahi Akani","STU0001223020","1223020"],["Manasvi Patel","IMS0001135414","1135414"],["Mansi Gohel","STU0001218565","1218565"],["Mohit Shah","STU0001209448","1209448"],["Nilay Parmar","STU0001223488","1223488"],["Nisha Chokhavala","STU0001223269","1223269"],["Prinse Trapasiya","STU0001189645","1189645"],["Pushti Parikh","STU0001223019","1223019"],["Sakib Haradwala","STU0001210938","1210938"],["Samarthi Jain","STU0001217365","1217365"],["Soban Malek","STU0001224146","1224146"],["Ved Patel","STU0001223013","1223013"]],"27CNS02":[["Archi Nai","STU0001222562","1222562"],["Bhagya Bhadra","STU0001217245","1217245"],["Dev Gopalani","STU0001217244","1217244"],["Dhruv Nesadiya","STU0001202521","1202521"],["Feni Belani","STU0001222563","1222563"],["Herit Parikh","STU0001230032","1230032"],["Jiya Katharotia","STU0001222803","1222803"],["Karan Raval","STU0001181017","1181017"],["Manan Desai","STU0001218607","1218607"],["Meet Kapse","STU0001233768","1233768"],["Nirmit Vaja","STU0001222791","1222791"],["Prasham Gotecha","STU0001217002","1217002"],["Prashant Yadav","STU0001231491","1231491"],["Pratik Jivrajani","STU0001222806","1222806"],["Pratyaksh Dharukawala","STU0001230861","1230861"],["Prit Jivrajani","STU0001223481","1223481"],["Richa Patel","STU0001235243","1235243"],["Ruchita Rawal","STU0001185346","1185346"],["Vaibhavi Boliya","STU0001219884","1219884"]],"27CNS03":[["Aalay Shah","STU0001229890","1229890"],["Aman Patel","STU0001171228","1171228"],["Amrita Rajput","STU0001235490","1235490"],["Dhruv Soni","STU0001232052","1232052"],["Harpreet Nanra","STU0001235569","1235569"],["Kenil Kareliya","STU0001243680","1243680"],["Krish Kareliya","STU0001229216","1229216"],["Meet Dave","STU0001237667","1237667"],["Meet Ravaliya","STU0001235590","1235590"],["Parshva Shah","STU0001239002","1239002"],["Prapti Bhavsar","STU0001240572","1240572"],["Raj Patat","STU0001235591","1235591"],["Sanjay Baldaniya","STU0001235986","1235986"],["Shrut Patel","STU0001204149","1204149"],["Yash Bhuva","STU0001222509","1222509"]],"27CNS04":[["Harsh Thakur","STU0001240801","1240801"],["Hrishit Godiawala","STU0001243748","1243748"],["Kavya Patel","IMS0001158957","1158957"],["Mansi Satikuvar","STU0001251643","1251643"],["Meet Kayasth","STU0001240449","1240449"],["Meet Sachadiya","STU0001240799","1240799"],["Nihar Vyas","STU0001244657","1244657"],["Parth Parmar","STU0001245719","1245719"],["Pratham Saiwal","STU0001239620","1239620"]],"27CNS05":[["Ariha Sheth","IMS0001128259","1128259"],["Aryan Sheth","STU0001243755","1243755"],["Aryan Vaishnani","STU0001246851","1246851"],["Dhwani Prajapati","STU0001243753","1243753"],["Het Patel","STU0001252313","1252313"],["Hiya Mehta","STU0001242538","1242538"],["Khushboo Lakhyani","STU0001243437","1243437"],["Mohammed Kathiwala","STU0001240302","1240302"],["Neer Mehta","STU0001233429","1233429"],["Parth Jesani","STU0001245162","1245162"],["Rudra Patel","STU0001250697","1250697"],["Ruhi Prajapati","STU0001244711","1244711"],["Shrimad Patel","STU0001241978","1241978"],["Tirth Shah","STU0001245281","1245281"],["Vraj Jasani","STU0001246852","1246852"],["Vraj Shah","IMS0001086929","1086929"],["Vrushank Prajapati","STU0001247283","1247283"]],"27CNS06":[["Aarya Patel","STU0001251804","1251804"],["Aaryan Shilajiya","STU0001254625","1254625"],["Anshu Rohra","IMS0001112339","1112339"],["Anushka Patel","STU0001266296","1266296"],["Arpita Parmar","STU0001243006","1243006"],["Dhairya Patadiya","STU0001269301","1269301"],["Dhimahi Thakkar","STU0001261490","1261490"],["Dhwanit Makwana","STU0001242521","1242521"],["Helly Shah","STU0001257561","1257561"],["Kanika Mistry","STU0001262535","1262535"],["Karan Pandey","STU0001244928","1244928"],["Keyuri Joshi","STU0001265523","1265523"],["Krisha Kotak","STU0001268287","1268287"],["Kush Panchal","STU0001269177","1269177"],["Mahi Patel","STU0001267640","1267640"],["Mandeep Gadhvi","STU0001260136","1260136"],["Mandip Parmar","STU0001186480","1186480"],["Mayank Shukla","STU0001262833","1262833"],["Navin Prajapati","STU0001261821","1261821"],["Neal Soni","STU0001262836","1262836"],["Neel Tank","STU0001233068","1233068"],["Nimisha Joshi","STU0001261238","1261238"],["Om Patel","STU0001242520","1242520"],["Prachi Thakkar","STU0001257179","1257179"],["Priyal Lalpuriya","STU0001242197","1242197"],["Prutha Brahmkshatriya","STU0001258713","1258713"],["Ragnya Dangi","IMS0001092303","1092303"],["Riya Tripathi","STU0001261308","1261308"],["Rutik Shiroya","STU0001266019","1266019"],["Sandeep Singh Rathore","STU0001270390","1270390"],["Saurabh Yadav","STU0001261397","1261397"],["Urva Kadia","STU0001259260","1259260"]],"27CNS07":[["Dhruv Ugharejiya","STU0001237932","1237932"],["Dhruvi Mehta","STU0001262726","1262726"],["Drashti Patel","STU0001271414","1271414"],["Hardavi Talpara .","IMS0001162886","1162886"],["Heer Patel","STU0001271416","1271416"],["Het Panchal","STU0001217680","1217680"],["Janvi Karmatiya","STU0001272576","1272576"],["Jiya Modi","STU0001280269","1280269"],["Kathan Patel","STU0001271417","1271417"],["Kaushal Rathod","STU0001273293","1273293"],["Khushal Yadav","STU0001276892","1276892"],["Khushee Bhatt","STU0001276484","1276484"],["Mansi Kasundra","STU0001276910","1276910"],["Prince Patel","STU0001279292","1279292"],["Raj Savaliya","STU0001275668","1275668"],["Rutvi Thakkar","STU0001276465","1276465"],["Satyam Chauhan","STU0001276997","1276997"],["Shivraj Singh","STU0001273693","1273693"],["Shubhavi Maloo","STU0001280626","1280626"],["Sidhant Chevda","STU0001270972","1270972"],["Urvi Jethva","STU0001274314","1274314"],["Vishwas Shah","STU0001273591","1273591"],["Vrinda Chhabria","STU0001276324","1276324"]],"27CNS08":[["Arav Kantibhai Maheriya","STU0001283914","1283914"],["Dev Majithia","STU0001284470","1284470"],["Devarsh Shah","STU0001281840","1281840"],["Dhruv Kathiriya","STU0001282635","1282635"],["Dhruvraj Ghediya","STU0001283895","1283895"],["Diya Maru","STU0001276180","1276180"],["Kabir Chandnani","STU0001281907","1281907"],["Katrina Rebello","STU0001284053","1284053"],["Kavya Parmar","STU0001284331","1284331"],["Mann Desai","STU0001273173","1273173"],["Manogya Jain","STU0001285157","1285157"],["Meet Patel","STU0001282030","1282030"],["Patel Dev Gaurangbhai","STU0001281837","1281837"],["Prisha Thakkar","STU0001276121","1276121"],["Rahul Suthar","STU0001281355","1281355"],["Riya Patel","STU0001283907","1283907"],["Rushabh Goswami","STU0001286147","1286147"],["Satveer Singh Jethra","IMS0001162494","1162494"],["Shripad Shukla","IMS0001148611","1148611"],["Sujal Nikam","STU0001205432","1205432"],["Tirth Sojitra","STU0001284296","1284296"],["Udit Swadia","STU0001282031","1282031"]]};
+function fillNames(){
+  const b=document.getElementById('inp-batch').value, sel=document.getElementById('inp-name');
+  document.getElementById('pin-box').textContent='\u2014';
+  if(!b||!ROSTER[b]){sel.innerHTML='<option value="">&mdash; Select your batch first &mdash;</option>';sel.disabled=true;return;}
+  sel.disabled=false;
+  sel.innerHTML='<option value="">&mdash; Select your name &mdash;</option>'+ROSTER[b].map((r,i)=>`<option value="${i}">${r[0]}</option>`).join('');
+}
+function fillId(){
+  const b=document.getElementById('inp-batch').value, i=document.getElementById('inp-name').value;
+  document.getElementById('pin-box').textContent=(b&&i!=='')?ROSTER[b][i][1]:'\u2014';
+}
+function startTest(){
+  const batch=document.getElementById('inp-batch').value;
+  const idx=document.getElementById('inp-name').value;
+  const err=document.getElementById('entry-err');
+  if(!batch){err.textContent='Please select your batch.';return;}
+  if(idx===''){err.textContent='Please select your name from the list.';return;}
+  const r=ROSTER[batch][idx];
+  student={name:r[0],pin:r[1],tail:r[2],center:'Ahmedabad',batch};
+  document.getElementById('entry-ov').style.display='none';
+  document.getElementById('h-student').textContent=student.name;
+  renderQ(1);updatePalette();startTimer();
+}
+function startTimer(){
+  timerInt=setInterval(()=>{
+    timeLeft--;
+    const m=Math.floor(timeLeft/60),s=timeLeft%60;
+    const el=document.getElementById('timer');
+    el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    el.className='timer'+(timeLeft<=300?' warn':'')+(timeLeft<=60?' danger':'');
+    if(timeLeft<=0){clearInterval(timerInt);document.getElementById('timeup-ov').classList.add('show');}
+  },1000);
+}
+function timeTaken(){const e=SECS-timeLeft,m=Math.floor(e/60),s=e%60;return`${m}m ${s}s`;}
+
+function renderQ(qid){
+  const q=Q[qid-1],st=state[qid];
+  let html=`<div class="q-meta"><span class="q-num">Q.${q.id}</span><span class="badge b-s1">Medieval History</span><span class="badge b-mcq">MCQ &middot; &minus;1</span></div>`;
+  html+=`<div class="instr">&#128309; Select the correct option. <strong style="color:#b91c1c">&minus;1 for wrong answer.</strong></div>`;
+  html+=`<div class="q-text">${q.text}</div><ul class="options">`;
+  q.options.forEach((opt,i)=>{
+    const sel=st.response===i?'selected':'';
+    html+=`<li class="option ${sel}" onclick="selectOpt(${qid},${i})"><div class="opt-circle"><div class="opt-dot"></div></div><span class="opt-lbl">${L[i]}.</span><span>${opt}</span></li>`;
+  });
+  html+=`</ul>`;
+  document.getElementById('q-inner').innerHTML=html;
+  document.querySelector('.q-panel').scrollTop=0;
+  document.getElementById('cur-q').textContent=qid;
+  updatePalette();
+}
+function selectOpt(qid,idx){state[qid].response=idx;state[qid].status=(state[qid].status==='mrv'?'amrv':'ans');renderQ(qid);}
+function updatePalette(){
+  document.getElementById('palette').innerHTML=Q.map(q=>{
+    const s=state[q.id];let cls='pb p-'+s.status;if(q.id===cur)cls+=' cur';
+    return`<button class="${cls}" onclick="goToQ(${q.id})">${q.id}</button>`;
+  }).join('');
+  updateCounts();
+}
+function counts(){
+  let ans=0,amrv=0,mrv=0,na=0,nv=0;
+  for(let i=1;i<=TOTAL;i++){const st=state[i].status;
+    if(st==='ans')ans++;else if(st==='amrv')amrv++;else if(st==='mrv')mrv++;else if(st==='na')na++;else nv++;}
+  return{ans,amrv,mrv,na,nv,attempted:ans+amrv};
+}
+function updateCounts(){
+  const c=counts();
+  document.getElementById('att-n').innerHTML=c.attempted+'<span> / '+TOTAL+'</span>';
+  document.getElementById('n-ans').textContent=c.ans;
+  document.getElementById('n-amrv').textContent=c.amrv;
+  document.getElementById('n-mrv').textContent=c.mrv;
+  document.getElementById('n-na').textContent=c.na;
+  document.getElementById('n-nv').textContent=c.nv;
+}
+function goToQ(qid){if(state[qid].status==='nv')state[qid].status='na';cur=qid;renderQ(qid);}
+function navigate(d){const n=cur+d;if(n<1||n>TOTAL)return;goToQ(n);}
+function saveAndNext(){if(cur<TOTAL)goToQ(cur+1);}
+function markForReview(){const s=state[cur];s.status=s.status==='ans'?'amrv':(s.status==='amrv'?'ans':(s.status==='mrv'?'na':'mrv'));renderQ(cur);updatePalette();}
+function clearResp(){state[cur].response=null;state[cur].status='na';renderQ(cur);updatePalette();}
+function showConfirm(){
+  const c=counts(),ans=c.ans,amrv=c.amrv,mrv=c.mrv,na=c.na,nv=c.nv;
+  document.getElementById('c-stats').innerHTML=
+    `<div class="cs-row"><span style="color:#16a34a">&#10003; Answered</span><span><strong>${ans}</strong></span></div>`+
+    `<div class="cs-row"><span style="color:var(--purple)">&#9873; Answered &amp; Marked</span><span><strong>${amrv}</strong></span></div>`+
+    `<div class="cs-row"><span style="color:#ef4444">&#10007; Not Answered</span><span><strong>${na}</strong></span></div>`+
+    `<div class="cs-row"><span style="color:var(--purple)">&#9873; Marked, Not Answered</span><span><strong>${mrv}</strong></span></div>`+
+    `<div class="cs-row"><span style="color:#9ca3af">&#9711; Not Visited</span><span><strong>${nv}</strong></span></div>`+
+    `<div style="border-top:1px solid var(--border);margin-top:6px;padding-top:6px;font-size:11.5px;color:var(--subtext);text-align:left">Total attempted for evaluation: <strong style="color:var(--navy)">${c.attempted}</strong> of ${TOTAL}</div>`;
+  document.getElementById('confirm-ov').classList.add('show');
+}
+function closeConfirm(){document.getElementById('confirm-ov').classList.remove('show');}
+function doSubmit(){
+  if(submitted)return;submitted=true;clearInterval(timerInt);
+  ['confirm-ov','timeup-ov'].forEach(id=>document.getElementById(id).classList.remove('show'));
+  document.getElementById('submitting-ov').classList.add('show');
+  setTimeout(()=>{document.getElementById('submitting-ov').classList.remove('show');showResults();},2800);
+}
+function evalQ(q){
+  const resp=state[q.id].response;
+  if(resp===null||resp===undefined)return{result:'skip',marks:0};
+  return parseInt(resp)===K[q.id-1]?{result:'correct',marks:PLUS}:{result:'wrong',marks:-MINUS};
+}
+function showResults(){
+  let total=0,correct=0,wrong=0,skip=0;
+  Q.forEach(q=>{const{result,marks}=evalQ(q);total+=marks;if(result==='correct')correct++;else if(result==='wrong')wrong++;else skip++;});
+  total=Math.round(total*100)/100;
+  const acc=correct+wrong>0?Math.round(correct/(correct+wrong)*100):0;
+  const neg=Math.round(wrong*MINUS*100)/100;
+  document.getElementById('s-strip').innerHTML=`<span>&#128100; <strong>${student.name||'&mdash;'}</strong></span><span>Center: <strong>${student.center||'&mdash;'}</strong></span><span>Batch: <strong>${student.batch||'&mdash;'}</strong></span><span>Time: <strong>${timeTaken()}</strong></span>`;
+  document.getElementById('score-cards').innerHTML=`<div class="sc"><div class="sc-label">Net Score</div><div class="sc-val blue">${total}</div><div style="font-size:10px;color:#888;margin-top:4px">out of ${MAXM}</div></div><div class="sc"><div class="sc-label">Accuracy</div><div class="sc-val gld">${acc}%</div><div style="font-size:10px;color:#888;margin-top:4px">${correct} of ${correct+wrong}</div></div><div class="sc"><div class="sc-label">Correct</div><div class="sc-val grn">+${correct*PLUS}</div><div style="font-size:10px;color:#888;margin-top:4px">${correct} questions</div></div><div class="sc"><div class="sc-label">Wrong</div><div class="sc-val" style="color:var(--red)">&minus;${neg}</div><div style="font-size:10px;color:#888;margin-top:4px">${wrong} questions</div></div>`;
+  submitToGF({total,correct,wrong,skip});showCode();saveLocal({total,correct,wrong,skip});document.getElementById('results-ov').classList.add('show');
+}
+function closeResults(){document.getElementById('results-ov').classList.remove('show');}
+function buildRespStr(){return Q.map(q=>{const resp=state[q.id].response;if(resp===null||resp===undefined)return`Q${q.id}:-`;const{result}=evalQ(q);return`Q${q.id}:${L[parseInt(resp)]}(${result==='correct'?'V':'X'})`;}).join(' ');}
+async function submitToGF(scores){
+  if(!GF.url){showToast('Save your response code below');return;}
+  const p=new URLSearchParams(),f=GF.f;
+  p.append(f.name,student.name);p.append(f.center,student.center);p.append(f.batch,student.batch);p.append(f.total,scores.total);p.append(f.correct,scores.correct);p.append(f.wrong,scores.wrong);p.append(f.skip,scores.skip);p.append(f.time,timeTaken());p.append(f.resp,buildRespStr());p.append(f.pin,student.pin);
+  try{await fetch(GF.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:p.toString()});showToast('Responses submitted to IMS');}catch(e){showToast('Could not reach Google Forms',true);}
+}
+function letters(){return Q.map(q=>{const r=state[q.id].response;return(r===null||r===undefined)?'-':L[parseInt(r)];}).join('');}
+function myCode(){return student.tail+'-'+letters();}
+function showCode(){document.getElementById('resp-code').textContent=myCode();}
+function copyCode(){const c=myCode();navigator.clipboard.writeText(c).then(()=>showToast('Response code copied')).catch(()=>{const t=document.createElement('textarea');t.value=c;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();showToast('Response code copied');});}
+function saveLocal(sc){try{localStorage.setItem('imsURTmed',JSON.stringify({n:student.name,p:student.pin,c:student.center,b:student.batch,code:myCode(),t:timeTaken(),s:sc,d:new Date().toISOString()}));}catch(e){}}
+function showToast(msg,isErr=false){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(isErr?' err':'')+' show';setTimeout(()=>t.classList.remove('show'),4000);}
+renderQ(1);updatePalette();
+</script>
+</body>
+</html>
