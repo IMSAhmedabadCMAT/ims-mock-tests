@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMS Unit Readiness Test &mdash; Medieval History &mdash; Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0f2556;--navy2:#1a3a7c;--navy3:#2851a3;--gold:#e8a020;--green:#1a7a3c;--red:#b91c1c;--purple:#7c3aed;--gray:#9ca3af;--lightbg:#f3f4f8;--border:#d1d5db;--text:#1e293b;--subtext:#64748b}
+html,body{font-family:'IBM Plex Sans',sans-serif;background:var(--lightbg);color:var(--text);font-size:14px}
+.header{background:var(--navy);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:52px;position:fixed;top:0;left:0;right:0;z-index:200;border-bottom:3px solid var(--gold)}
+.logo{font-size:15px;font-weight:700}.logo span{color:var(--gold)}
+.hc{display:flex;align-items:center;gap:10px}
+.sec-badge{background:var(--navy3);padding:3px 9px;border-radius:4px;font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.h-info{font-size:11px;color:#aac}
+.h-student{font-size:11.5px;color:#ccddff;max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.page{max-width:900px;margin:0 auto;padding:74px 18px 60px}
+.card{background:white;border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:14px}
+.s-strip{background:var(--lightbg);border:1px solid var(--border);border-radius:6px;padding:8px 13px;margin-bottom:14px;font-size:12px;color:var(--subtext);display:flex;flex-wrap:wrap;gap:5px 16px}
+.s-strip strong{color:var(--navy);font-weight:700}
+.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:6px}
+.sc{background:var(--lightbg);border-radius:8px;padding:12px 8px;text-align:center;border:1px solid var(--border)}
+.sc-label{font-size:9.5px;color:var(--subtext);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+.sc-val{font-size:24px;font-weight:700;line-height:1}
+.sc-val.blue{color:var(--navy3)}.sc-val.grn{color:var(--green)}.sc-val.gld{color:var(--gold)}
+.rtabs{display:flex;gap:5px;margin:0 0 12px;flex-wrap:wrap;align-items:center}
+.rtab{padding:5px 11px;border-radius:5px;font-size:11.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:white;color:var(--subtext)}
+.rtab.active{background:var(--navy);color:white;border-color:var(--navy)}
+.rtab:hover{border-color:var(--navy3)}
+.rq{background:white;border:1px solid var(--border);border-radius:9px;padding:15px 18px;margin-bottom:10px}
+.rq-hdr{display:flex;align-items:center;gap:7px;margin-bottom:8px;flex-wrap:wrap}
+.rq-num{font-weight:700;font-size:13.5px;color:var(--navy3)}
+.rq-st{font-size:11px;margin-left:auto;font-weight:700;padding:2px 9px;border-radius:10px}
+.rq-st.ok{color:var(--green);background:#e4f2ea}
+.rq-st.no{color:var(--red);background:#fbe9e6}
+.rq-st.sk{color:#8a6a00;background:#fdf3d8}
+.rq-q{font-size:13.5px;line-height:1.75;font-weight:500;margin-bottom:10px}
+.rq-o{display:flex;gap:9px;align-items:flex-start;padding:7px 11px;border:1.5px solid transparent;border-radius:6px;margin-bottom:5px;font-size:13px;line-height:1.6}
+.rq-o .lbl{font-weight:700;color:var(--subtext);min-width:17px;flex-shrink:0}
+.rq-o.correct{background:#eaf6ef;border-color:#b6ddc6}.rq-o.correct .lbl{color:var(--green)}
+.rq-o.wrong{background:#fceeeb;border-color:#f0c4bb}.rq-o.wrong .lbl{color:var(--red)}
+.rq-o .tagm{margin-left:auto;font-size:10.5px;font-weight:700;white-space:nowrap;padding-left:8px}
+.rq-o .tagm.g{color:var(--green)}.rq-o .tagm.r{color:var(--red)}
+.entry-ov{position:fixed;inset:0;background:linear-gradient(145deg,#070f24 0%,#0f2556 55%,#1a3a7c 100%);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px}
+.entry-card{background:white;border-radius:16px;padding:32px 36px;width:470px;max-width:94vw;box-shadow:0 28px 80px rgba(0,0,0,.5)}
+.entry-logo{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:4px}.entry-logo span{color:var(--gold)}
+.entry-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.entry-sub{font-size:11.5px;color:var(--subtext);margin-bottom:16px;line-height:1.55}
+.entry-divider{height:1px;background:var(--border);margin-bottom:16px}
+.entry-label{display:block;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--subtext);margin-bottom:4px}
+.entry-input{width:100%;padding:10px 11px;border:1.5px solid var(--border);border-radius:6px;font-size:13.5px;font-family:'IBM Plex Mono',monospace;color:var(--text);letter-spacing:1.2px}
+.entry-input:focus{outline:none;border-color:var(--navy3);box-shadow:0 0 0 3px rgba(40,81,163,.15)}
+.entry-input::placeholder{color:#b0b8c8;letter-spacing:.5px}
+.entry-err{color:#b91c1c;font-size:12px;font-weight:600;margin:9px 0 0;min-height:18px;line-height:1.5}
+.entry-btn{width:100%;padding:10px;background:var(--navy);color:white;border:2px solid var(--gold);border-radius:7px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;margin-top:8px}
+.entry-btn:hover{background:var(--navy2)}
+.entry-alt{display:block;width:100%;background:none;border:none;color:var(--subtext);font-size:11.5px;text-decoration:underline;cursor:pointer;margin-top:12px;font-family:'IBM Plex Sans',sans-serif}
+.entry-alt:hover{color:var(--navy3)}
+.entry-note{font-size:10.5px;color:var(--subtext);text-align:center;margin-top:10px;line-height:1.55}
+.banner{background:#fffbe6;border:1px solid #f0d060;border-radius:7px;padding:10px 14px;font-size:12.5px;color:#7a5c00;margin-bottom:14px;line-height:1.6}
+.btn-top{background:var(--navy);color:white;border:none;border-radius:5px;padding:6px 12px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:'IBM Plex Sans',sans-serif}
+.btn-top:hover{opacity:.88}
+@media print{.header,.rtabs,.btn-top{display:none}.page{padding-top:10px}.rq{break-inside:avoid}}
+@media (max-width:620px){.score-grid{grid-template-columns:repeat(2,1fr)}.h-student{display:none}}
+</style>
+</head>
+<body>
+<div class="entry-ov" id="entry-ov">
+  <div class="entry-card">
+    <div class="entry-logo">IMS <span>Solutions &amp; Review</span></div>
+    <div class="entry-title">Unit Readiness Test: Medieval History</div>
+    <div class="entry-sub">Paste the response code you saved after the test. It replays your attempt question by question against the answer key.</div>
+    <div class="entry-divider"></div>
+    <label class="entry-label">Your Response Code</label>
+    <input class="entry-input" id="inp-code" placeholder="1234567-ABDCA..." autocomplete="off" spellcheck="false">
+    <div class="entry-err" id="entry-err"></div>
+    <button class="entry-btn" onclick="loadCode()">Show My Review &#9654;</button>
+    <button class="entry-alt" onclick="loadBlank()">I don't have my code &mdash; just show the answer key</button>
+    <div class="entry-note">70 Questions &middot; +4 correct &middot; &minus;1 wrong &middot; Max 280 marks</div>
+  </div>
+</div>
+
+<div class="header">
+  <div class="logo">IMS <span>Solutions &amp; Review</span></div>
+  <div class="hc"><div class="sec-badge">Medieval History</div><div class="h-info">70 Qs &nbsp;&middot;&nbsp; +4/&minus;1</div></div>
+  <div class="h-student" id="h-student"></div>
+</div>
+
+<div class="page">
+  <div id="summary"></div>
+  <div class="rtabs" id="rtabs">
+    <button class="rtab active" onclick="setFilter('all',this)">All 70</button>
+    <button class="rtab" onclick="setFilter('wrong',this)">Incorrect <span id="n-wrong"></span></button>
+    <button class="rtab" onclick="setFilter('skip',this)">Skipped <span id="n-skip"></span></button>
+    <button class="rtab" onclick="setFilter('correct',this)">Correct <span id="n-correct"></span></button>
+    <button class="btn-top" style="margin-left:auto" onclick="window.print()">&#128424; Print / Save PDF</button>
+    <button class="btn-top" onclick="again()">Another Code</button>
+  </div>
+  <div id="list"></div>
+</div>
+
+<script>
+const L=['A','B','C','D'];
+const Q=[
+{id:1,text:'Qutb-ud-din Aibak began construction of which famous minaret in Delhi, later completed by Iltutmish?',options:['Qutub Minar','Chand Minar','Char Minar','Alai Minar']},
+{id:2,text:'The Tughlaq dynasty was founded in AD 1320 by:',options:['Muhammad bin Tughlaq','Ghiyas-ud-din Tughlaq','Firuz Shah Tughlaq','Khizr Khan']},
+{id:3,text:'The Bahmani Kingdom eventually broke into five Deccan Sultanates around AD 1518-1527; which of the following was NOT one of them?',options:['Bijapur','Golconda','Berar','Chanderi']},
+{id:4,text:'The Taj Mahal, built by Shah Jahan as a mausoleum, was constructed in memory of:',options:['Nur Jahan','Mumtaz Mahal','Jahanara Begum','Roshanara Begum']},
+{id:5,text:'Jahangir, Akbar\'s son and successor, ruled the Mughal Empire from:',options:['1556-1605','1605-1627','1627-1658','1658-1707']},
+{id:6,text:'The English ambassador Sir Thomas Roe visited the Mughal court during the reign of:',options:['Akbar','Jahangir','Shah Jahan','Aurangzeb']},
+{id:7,text:'Aurangzeb annexed the Sultanates of Bijapur and Golconda into the Mughal Empire in:',options:['1636 and 1656','1686 and 1687','1707 and 1708','1658 and 1659']},
+{id:8,text:'Humayun regained the Mughal throne in AD 1555 with the help of the ruler of:',options:['Safavid Persia','Ottoman Turkey','Uzbek Khanate','Portugal']},
+{id:9,text:'Akbar\'s land revenue system, based on measurement and past yields, was known as:',options:['Zabti system (Todar Mal\'s Bandobast)','Iqta system','Ijara system','Ryotwari system']},
+{id:10,text:'Mahmud Gawan, the famous Deccan statesman known for administrative reforms, served as a minister of:',options:['Vijayanagara Empire','Bahmani Kingdom','Bengal Sultanate','Malwa Sultanate']},
+{id:11,text:'Ghiyas-ud-din Tughlaq died in AD 1325 under circumstances traditionally linked to the collapse of a specially built:',options:['Wooden pavilion at Afghanpur','Fort wall','Bridge over the Yamuna','Minaret']},
+{id:12,text:'Aurangzeb (Alamgir), the last of the \'Great Mughals\', died in AD 1707 at:',options:['Delhi','Agra','Ahmadnagar (Deccan)','Lahore']},
+{id:13,text:'The war of succession among Shah Jahan\'s sons was ultimately won by:',options:['Dara Shikoh','Aurangzeb','Shah Shuja','Murad Baksh']},
+{id:14,text:'Humayun, Babur\'s son and successor, was defeated and driven out of India by:',options:['Sher Shah Suri','Hemu','Rana Sanga','Ibrahim Lodi']},
+{id:15,text:'The Khilji dynasty was established in AD 1290 by:',options:['Alauddin Khilji','Jalaluddin Khilji','Qutbuddin Mubarak Shah','Malik Kafur']},
+{id:16,text:'Alauddin Khilji\'s general Malik Kafur led successful campaigns into which region of India?',options:['Bengal','South India (Deccan)','Sindh','Kashmir']},
+{id:17,text:'Muhammad Ghori was assassinated in AD 1206 on the banks of the river:',options:['Indus','Jhelum','Chenab','Ravi']},
+{id:18,text:'The Maratha king who emerged as the chief challenge to Mughal authority in the Deccan during Aurangzeb\'s reign was:',options:['Shivaji Maharaj','Sambhaji','Rajaram','Shahu']},
+{id:19,text:'Ibrahim Lodi\'s harsh treatment of Afghan nobles led which governor of Punjab to invite Babur to invade India?',options:['Daulat Khan Lodi','Alam Khan','Both A and B','Rana Sanga']},
+{id:20,text:'The independent Bengal Sultanate flourished for much of the 14th-16th centuries; its capital under several rulers was:',options:['Gaur (Lakhnauti)','Murshidabad','Dhaka','Chittagong']},
+{id:21,text:'The Battle of Talikota (1565), which led to the decline of the Vijayanagara Empire, was fought against a coalition of:',options:['Mughal forces','Deccan Sultanates','Portuguese forces','Bahmani Kingdom alone']},
+{id:22,text:'Aurangzeb spent the last decades of his reign engaged in prolonged military campaigns in which region, which drained the empire\'s resources?',options:['Bengal','The Deccan','Punjab','Kashmir']},
+{id:23,text:'The Moroccan traveller who visited India during Muhammad bin Tughlaq\'s reign and left a valuable travelogue was:',options:['Al-Biruni','Ibn Battuta','Marco Polo','Abdur Razzak']},
+{id:24,text:'Sher Shah Suri, who established the Sur dynasty, is particularly noted for constructing which famous highway?',options:['Grand Trunk Road (Sadak-e-Azam)','Silk Route','Rajpath','Karakoram Highway']},
+{id:25,text:'Babur decisively defeated the Rajput confederacy under Rana Sanga at the Battle of Khanwa in:',options:['AD 1526','AD 1527','AD 1529','AD 1530']},
+{id:26,text:'The Battle of Panipat (1526), which ended the Delhi Sultanate, was fought between Babur and:',options:['Sikandar Lodi','Ibrahim Lodi','Bahlul Lodi','Rana Sanga']},
+{id:27,text:'Babur\'s memoirs, an important primary source for his reign, are known as:',options:['Akbarnama','Baburnama (Tuzuk-i-Baburi)','Humayun-nama','Ain-i-Akbari']},
+{id:28,text:'Mahmud of Ghazni led his first invasion into India in which year?',options:['AD 986','AD 1000','AD 1008','AD 1206']},
+{id:29,text:'Jahangir\'s memoirs, an important autobiographical source, are titled:',options:['Tuzuk-i-Jahangiri','Jahangirnama only in translation','Padshahnama','Alamgirnama']},
+{id:30,text:'Firuz Shah Tughlaq is credited with establishing a large network of which public works?',options:['Canals (irrigation) and gardens','Naval dockyards','Universities only','Silk factories']},
+{id:31,text:'Under the Mughals, the term \'Zamindar\' generally referred to:',options:['Hereditary holders of land revenue rights/intermediaries','Village accountants only','Royal treasurers','Military commanders of the centre']},
+{id:32,text:'The Sufi Chishti order, closely patronized by early Sultans and Mughal emperors alike, was founded in India primarily by:',options:['Khwaja Moinuddin Chishti','Sheikh Salim Chishti alone','Nizamuddin Auliya','Baba Farid']},
+{id:33,text:'Ghiyas-ud-din Balban is best known for introducing which court ceremonies of Persian origin to assert royal authority?',options:['Sijda and Paibos','Navroz','Diwan-i-Khas','Jharoka Darshan']},
+{id:34,text:'The Hindu Shahi ruler who resisted Mahmud of Ghazni\'s early invasions was:',options:['Jayapala','Prithviraj Chauhan','Anandapala','Trilochanpala']},
+{id:35,text:'The Second Battle of Panipat (1556), which secured Akbar\'s throne, was fought against:',options:['Hemu (Hemchandra Vikramaditya)','Sher Shah Suri','Rana Sanga','Ibrahim Lodi']},
+{id:36,text:'Which Mewar ruler famously resisted Akbar\'s authority and fought the Battle of Haldighati (1576)?',options:['Rana Pratap (Maharana Pratap)','Rana Sanga','Rana Kumbha','Rana Udai Singh']},
+{id:37,text:'Bakhtiyar Khilji\'s raid destroyed the famous university/monastery of:',options:['Takshashila','Nalanda','Vikramshila and Nalanda','Vallabhi']},
+{id:38,text:'Iltutmish organized a group of forty powerful Turkish nobles known as the:',options:['Chihalgani (Chalisa)','Ulema','Umara-e-Kibar','Din-i-Ilahi Council']},
+{id:39,text:'In the First Battle of Panipat (1526), Babur\'s effective use of which tactic/technology proved decisive against Ibrahim Lodi?',options:['War elephants','Tulughma tactic and gunpowder artillery','Naval blockade','Guerrilla warfare']},
+{id:40,text:'Rana Sanga (Sangram Singh) of Mewar, who fought Babur at the Battle of Khanwa (1527), belonged to which dynasty?',options:['Sisodia','Rathore','Kachwaha','Chauhan']},
+{id:41,text:'Akbar\'s new eclectic religious order, intended to promote tolerance among faiths, was called:',options:['Din-i-Ilahi','Suhrawardiyya','Chishtiyya','Naqshbandiyya']},
+{id:42,text:'The Bahmani Kingdom in the Deccan was founded in AD 1347 by:',options:['Ala-ud-din Bahman Shah','Mahmud Gawan','Firuz Shah Bahmani','Yusuf Adil Shah']},
+{id:43,text:'Aurangzeb reimposed the \'Jizya\' tax on non-Muslims in the year:',options:['1658','1679','1687','1707']},
+{id:44,text:'The Mansabdari system of administrative and military ranking was introduced/systematized by:',options:['Akbar','Jahangir','Shah Jahan','Aurangzeb']},
+{id:45,text:'The \'Iqta\' system, a form of land revenue assignment central to Sultanate administration, was systematized chiefly by:',options:['Iltutmish','Alauddin Khilji','Firuz Shah Tughlaq','Sher Shah Suri']},
+{id:46,text:'Muhammad Ghori\'s general who defeated Jaichandra of Kannauj in the Battle of Chandawar (1194) was:',options:['Qutb-ud-din Aibak','Muhammad Ghori himself','Bakhtiyar Khilji','Nasir-ud-din Qabacha']},
+{id:47,text:'Shah Jahan, known for extensive architectural patronage, ruled the Mughal Empire from:',options:['1605-1627','1627-1658','1658-1707','1526-1530']},
+{id:48,text:'The First Battle of Tarain (AD 1191), in which Prithviraj Chauhan defeated Muhammad Ghori, was fought near which present-day state?',options:['Punjab','Haryana','Rajasthan','Uttar Pradesh']},
+{id:49,text:'The Sayyid dynasty, which ruled Delhi after the Tughlaqs, was founded by:',options:['Khizr Khan','Mubarak Shah','Muhammad Shah','Alam Shah']},
+{id:50,text:'Muhammad Ghori\'s decisive victory over Prithviraj Chauhan in the Second Battle of Tarain was fought in:',options:['AD 1191','AD 1192','AD 1194','AD 1206']},
+{id:51,text:'Akbar\'s regent during the early years of his reign (1556-1560) was:',options:['Bairam Khan','Man Singh','Todar Mal','Abul Fazl']},
+{id:52,text:'The most celebrated ruler of the Vijayanagara Empire, known for patronage of art and defeat of the Deccan Sultanates, was:',options:['Deva Raya II','Krishnadeva Raya','Achyuta Deva Raya','Sadasiva Raya']},
+{id:53,text:'The architectural style blending Persian, Central Asian and Indian elements, prominent in the Sultanate period, is often termed:',options:['Indo-Islamic architecture','Dravidian architecture','Nagara style','Gothic architecture']},
+{id:54,text:'Jahangir\'s powerful and influential wife, who effectively ran much of the administration in his later years, was:',options:['Nur Jahan','Mumtaz Mahal','Jodha Bai','Roshanara Begum']},
+{id:55,text:'The Vijayanagara Empire in South India was founded in AD 1336 by:',options:['Krishnadeva Raya','Harihara and Bukka','Bukka Raya II','Deva Raya']},
+{id:56,text:'Raziya Sultana, the only woman to rule the Delhi Sultanate, was the daughter of:',options:['Qutb-ud-din Aibak','Iltutmish','Balban','Nasir-ud-din Mahmud']},
+{id:57,text:'Aurangzeb had his father Shah Jahan imprisoned in which fort for the remainder of his life?',options:['Red Fort, Delhi','Agra Fort','Gwalior Fort','Lahore Fort']},
+{id:58,text:'Muhammad bin Tughlaq\'s experiment with token currency involved issuing coins made of:',options:['Gold','Silver','Bronze/Copper','Lead']},
+{id:59,text:'Timur\'s invasion of Delhi, which devastated the city and weakened the Tughlaq dynasty, took place in:',options:['AD 1398','AD 1351','AD 1414','AD 1526']},
+{id:60,text:'The medieval Bhakti saint-poet Kabir, known for blending Hindu and Islamic ideas, was primarily active around which city?',options:['Varanasi (Banaras)','Delhi','Ajmer','Pandharpur']},
+{id:61,text:'Akbar\'s court historian who authored the \'Akbarnama\' and \'Ain-i-Akbari\' was:',options:['Abul Fazl','Badauni','Faizi','Abdul Qadir']},
+{id:62,text:'After Muhammad Ghori\'s death, his Indian territories eventually passed to his trusted slave-general:',options:['Iltutmish','Qutb-ud-din Aibak','Balban','Bahram Shah']},
+{id:63,text:'Babur, founder of the Mughal Empire, was a descendant of which two great conquerors?',options:['Timur and Genghis Khan','Timur and Mahmud of Ghazni','Genghis Khan and Muhammad Ghori','Timur and Alexander']},
+{id:64,text:'The Mughal provincial administrative unit was called the \'Suba\', headed by a:',options:['Subedar (Governor)','Qazi','Kotwal','Wazir']},
+{id:65,text:'Muhammad bin Tughlaq\'s transfer of capital from Delhi to Daulatabad took place around:',options:['AD 1327','AD 1351','AD 1398','AD 1290']},
+{id:66,text:'Which Sultan of Delhi introduced the silver \'tanka\' and copper \'jital\' as standard coins?',options:['Qutb-ud-din Aibak','Iltutmish','Raziya Sultana','Ghiyas-ud-din Balban']},
+{id:67,text:'The founder of Sikhism, Guru Nanak, was a contemporary of which Mughal ruler\'s early reign / late Sultanate period?',options:['Babur','Akbar','Aurangzeb','Sher Shah Suri']},
+{id:68,text:'Mahmud of Ghazni\'s raid on the Somnath temple in Gujarat took place in:',options:['AD 1018','AD 1025','AD 1030','AD 1206']},
+{id:69,text:'Which Sultan introduced market control regulations (price control system) known as the \'Bazaar Islahat\'?',options:['Jalaluddin Khilji','Alauddin Khilji','Muhammad bin Tughlaq','Firuz Shah Tughlaq']},
+{id:70,text:'The Lodi dynasty, the last dynasty of the Delhi Sultanate, was founded by:',options:['Bahlul Lodi','Sikandar Lodi','Ibrahim Lodi','Daulat Khan Lodi']}
+];
+const K=atob('QUVKS05RVFZZQ0VKTE5SVVhaRUZKTVBSVllCRUdKTVBTVllCR0hMTlFUWFpDR0pNT1NVWUFESEtOUlNWWUNFSEtPUVVYWg==').split('').map((c,i)=>((c.charCodeAt(0)-65-3*i)%26+26)%26);
+const WHO={"1205810":["Anirudh Bhattacharjee","27CNS01"],"1209449":["Dev Desai","27CNS01"],"1222508":["Devarsh Dalal","27CNS01"],"1222832":["Dhwanit Shah","27CNS01"],"1209450":["Dwij Doshi","27CNS01"],"1222510":["Mahak Kotak","27CNS01"],"1223020":["Mahi Akani","27CNS01"],"1135414":["Manasvi Patel","27CNS01"],"1218565":["Mansi Gohel","27CNS01"],"1209448":["Mohit Shah","27CNS01"],"1223488":["Nilay Parmar","27CNS01"],"1223269":["Nisha Chokhavala","27CNS01"],"1189645":["Prinse Trapasiya","27CNS01"],"1223019":["Pushti Parikh","27CNS01"],"1210938":["Sakib Haradwala","27CNS01"],"1217365":["Samarthi Jain","27CNS01"],"1224146":["Soban Malek","27CNS01"],"1223013":["Ved Patel","27CNS01"],"1222562":["Archi Nai","27CNS02"],"1217245":["Bhagya Bhadra","27CNS02"],"1217244":["Dev Gopalani","27CNS02"],"1202521":["Dhruv Nesadiya","27CNS02"],"1222563":["Feni Belani","27CNS02"],"1230032":["Herit Parikh","27CNS02"],"1222803":["Jiya Katharotia","27CNS02"],"1181017":["Karan Raval","27CNS02"],"1218607":["Manan Desai","27CNS02"],"1233768":["Meet Kapse","27CNS02"],"1222791":["Nirmit Vaja","27CNS02"],"1217002":["Prasham Gotecha","27CNS02"],"1231491":["Prashant Yadav","27CNS02"],"1222806":["Pratik Jivrajani","27CNS02"],"1230861":["Pratyaksh Dharukawala","27CNS02"],"1223481":["Prit Jivrajani","27CNS02"],"1235243":["Richa Patel","27CNS02"],"1185346":["Ruchita Rawal","27CNS02"],"1219884":["Vaibhavi Boliya","27CNS02"],"1229890":["Aalay Shah","27CNS03"],"1171228":["Aman Patel","27CNS03"],"1235490":["Amrita Rajput","27CNS03"],"1232052":["Dhruv Soni","27CNS03"],"1235569":["Harpreet Nanra","27CNS03"],"1243680":["Kenil Kareliya","27CNS03"],"1229216":["Krish Kareliya","27CNS03"],"1237667":["Meet Dave","27CNS03"],"1235590":["Meet Ravaliya","27CNS03"],"1239002":["Parshva Shah","27CNS03"],"1240572":["Prapti Bhavsar","27CNS03"],"1235591":["Raj Patat","27CNS03"],"1235986":["Sanjay Baldaniya","27CNS03"],"1204149":["Shrut Patel","27CNS03"],"1222509":["Yash Bhuva","27CNS03"],"1240801":["Harsh Thakur","27CNS04"],"1243748":["Hrishit Godiawala","27CNS04"],"1158957":["Kavya Patel","27CNS04"],"1251643":["Mansi Satikuvar","27CNS04"],"1240449":["Meet Kayasth","27CNS04"],"1240799":["Meet Sachadiya","27CNS04"],"1244657":["Nihar Vyas","27CNS04"],"1245719":["Parth Parmar","27CNS04"],"1239620":["Pratham Saiwal","27CNS04"],"1128259":["Ariha Sheth","27CNS05"],"1243755":["Aryan Sheth","27CNS05"],"1246851":["Aryan Vaishnani","27CNS05"],"1243753":["Dhwani Prajapati","27CNS05"],"1252313":["Het Patel","27CNS05"],"1242538":["Hiya Mehta","27CNS05"],"1243437":["Khushboo Lakhyani","27CNS05"],"1240302":["Mohammed Kathiwala","27CNS05"],"1233429":["Neer Mehta","27CNS05"],"1245162":["Parth Jesani","27CNS05"],"1250697":["Rudra Patel","27CNS05"],"1244711":["Ruhi Prajapati","27CNS05"],"1241978":["Shrimad Patel","27CNS05"],"1245281":["Tirth Shah","27CNS05"],"1246852":["Vraj Jasani","27CNS05"],"1086929":["Vraj Shah","27CNS05"],"1247283":["Vrushank Prajapati","27CNS05"],"1251804":["Aarya Patel","27CNS06"],"1254625":["Aaryan Shilajiya","27CNS06"],"1112339":["Anshu Rohra","27CNS06"],"1266296":["Anushka Patel","27CNS06"],"1243006":["Arpita Parmar","27CNS06"],"1269301":["Dhairya Patadiya","27CNS06"],"1261490":["Dhimahi Thakkar","27CNS06"],"1242521":["Dhwanit Makwana","27CNS06"],"1257561":["Helly Shah","27CNS06"],"1262535":["Kanika Mistry","27CNS06"],"1244928":["Karan Pandey","27CNS06"],"1265523":["Keyuri Joshi","27CNS06"],"1268287":["Krisha Kotak","27CNS06"],"1269177":["Kush Panchal","27CNS06"],"1267640":["Mahi Patel","27CNS06"],"1260136":["Mandeep Gadhvi","27CNS06"],"1186480":["Mandip Parmar","27CNS06"],"1262833":["Mayank Shukla","27CNS06"],"1261821":["Navin Prajapati","27CNS06"],"1262836":["Neal Soni","27CNS06"],"1233068":["Neel Tank","27CNS06"],"1261238":["Nimisha Joshi","27CNS06"],"1242520":["Om Patel","27CNS06"],"1257179":["Prachi Thakkar","27CNS06"],"1242197":["Priyal Lalpuriya","27CNS06"],"1258713":["Prutha Brahmkshatriya","27CNS06"],"1092303":["Ragnya Dangi","27CNS06"],"1261308":["Riya Tripathi","27CNS06"],"1266019":["Rutik Shiroya","27CNS06"],"1270390":["Sandeep Singh Rathore","27CNS06"],"1261397":["Saurabh Yadav","27CNS06"],"1259260":["Urva Kadia","27CNS06"],"1237932":["Dhruv Ugharejiya","27CNS07"],"1262726":["Dhruvi Mehta","27CNS07"],"1271414":["Drashti Patel","27CNS07"],"1162886":["Hardavi Talpara .","27CNS07"],"1271416":["Heer Patel","27CNS07"],"1217680":["Het Panchal","27CNS07"],"1272576":["Janvi Karmatiya","27CNS07"],"1280269":["Jiya Modi","27CNS07"],"1271417":["Kathan Patel","27CNS07"],"1273293":["Kaushal Rathod","27CNS07"],"1276892":["Khushal Yadav","27CNS07"],"1276484":["Khushee Bhatt","27CNS07"],"1276910":["Mansi Kasundra","27CNS07"],"1279292":["Prince Patel","27CNS07"],"1275668":["Raj Savaliya","27CNS07"],"1276465":["Rutvi Thakkar","27CNS07"],"1276997":["Satyam Chauhan","27CNS07"],"1273693":["Shivraj Singh","27CNS07"],"1280626":["Shubhavi Maloo","27CNS07"],"1270972":["Sidhant Chevda","27CNS07"],"1274314":["Urvi Jethva","27CNS07"],"1273591":["Vishwas Shah","27CNS07"],"1276324":["Vrinda Chhabria","27CNS07"],"1283914":["Arav Kantibhai Maheriya","27CNS08"],"1284470":["Dev Majithia","27CNS08"],"1281840":["Devarsh Shah","27CNS08"],"1282635":["Dhruv Kathiriya","27CNS08"],"1283895":["Dhruvraj Ghediya","27CNS08"],"1276180":["Diya Maru","27CNS08"],"1281907":["Kabir Chandnani","27CNS08"],"1284053":["Katrina Rebello","27CNS08"],"1284331":["Kavya Parmar","27CNS08"],"1273173":["Mann Desai","27CNS08"],"1285157":["Manogya Jain","27CNS08"],"1282030":["Meet Patel","27CNS08"],"1281837":["Patel Dev Gaurangbhai","27CNS08"],"1276121":["Prisha Thakkar","27CNS08"],"1281355":["Rahul Suthar","27CNS08"],"1283907":["Riya Patel","27CNS08"],"1286147":["Rushabh Goswami","27CNS08"],"1162494":["Satveer Singh Jethra","27CNS08"],"1148611":["Shripad Shukla","27CNS08"],"1205432":["Sujal Nikam","27CNS08"],"1284296":["Tirth Sojitra","27CNS08"],"1282031":["Udit Swadia","27CNS08"]};
+const TOTAL=70,PLUS=4,MINUS=1,MAXM=280;
+let resp=[],hasCode=false;
+
+function again(){document.getElementById('entry-ov').style.display='flex';document.getElementById('inp-code').value='';document.getElementById('entry-err').textContent='';}
+
+function loadBlank(){
+  resp=new Array(TOTAL).fill(null);hasCode=false;
+  document.getElementById('h-student').textContent='Answer key view';
+  document.getElementById('entry-ov').style.display='none';
+  render();
+}
+
+function loadCode(){
+  const err=document.getElementById('entry-err');
+  let raw=document.getElementById('inp-code').value.trim().toUpperCase().replace(/\s+/g,'');
+  if(!raw){err.textContent='Please paste your response code.';return;}
+  const cut=raw.indexOf('-');
+  if(cut<1){err.textContent='That does not look like a response code. It should read like 1234567-ABDCA...';return;}
+  const tail=raw.slice(0,cut), letters=raw.slice(cut+1);
+  if(letters.length!==TOTAL){
+    err.textContent='This code has '+letters.length+' answers but the test had '+TOTAL+'. Please check you pasted the whole code.';return;
+  }
+  if(!/^[ABCD-]+$/.test(letters)){err.textContent='The code contains characters other than A, B, C, D and dashes.';return;}
+  resp=letters.split('').map(ch=>ch==='-'?null:L.indexOf(ch));
+  hasCode=true;
+  const rec=WHO[tail];
+  document.getElementById('h-student').textContent=rec?(rec[0]+'  \u00b7  '+rec[1]):('PIN '+tail);
+  document.getElementById('entry-ov').style.display='none';
+  render(rec,tail);
+}
+
+function render(rec,tail){
+  let correct=0,wrong=0,skip=0,total=0;
+  Q.forEach((q,i)=>{
+    const r=resp[i];
+    if(r===null||r===undefined){skip++;}
+    else if(r===K[i]){correct++;total+=PLUS;}
+    else{wrong++;total-=MINUS;}
+  });
+  total=Math.round(total*100)/100;
+  const acc=(correct+wrong)?Math.round(correct/(correct+wrong)*100):0;
+  const neg=Math.round(wrong*MINUS*100)/100;
+
+  const sum=document.getElementById('summary');
+  if(hasCode){
+    sum.innerHTML=
+      '<div class="s-strip">'+
+        '<span>&#128100; <strong>'+(rec?rec[0]:'PIN '+tail)+'</strong></span>'+
+        '<span>Batch: <strong>'+(rec?rec[1]:'&mdash;')+'</strong></span>'+
+        '<span>Attempted: <strong>'+(correct+wrong)+' of '+TOTAL+'</strong></span>'+
+      '</div>'+
+      '<div class="score-grid">'+
+        '<div class="sc"><div class="sc-label">Net Score</div><div class="sc-val blue">'+total+'</div><div style="font-size:10px;color:#888;margin-top:4px">out of '+MAXM+'</div></div>'+
+        '<div class="sc"><div class="sc-label">Accuracy</div><div class="sc-val gld">'+acc+'%</div><div style="font-size:10px;color:#888;margin-top:4px">'+correct+' of '+(correct+wrong)+'</div></div>'+
+        '<div class="sc"><div class="sc-label">Correct</div><div class="sc-val grn">+'+(correct*PLUS)+'</div><div style="font-size:10px;color:#888;margin-top:4px">'+correct+' questions</div></div>'+
+        '<div class="sc"><div class="sc-label">Wrong</div><div class="sc-val" style="color:var(--red)">&minus;'+neg+'</div><div style="font-size:10px;color:#888;margin-top:4px">'+wrong+' questions</div></div>'+
+      '</div>';
+    document.getElementById('n-wrong').textContent='('+wrong+')';
+    document.getElementById('n-skip').textContent='('+skip+')';
+    document.getElementById('n-correct').textContent='('+correct+')';
+    document.getElementById('rtabs').style.display='flex';
+  }else{
+    sum.innerHTML='<div class="banner">&#128273; <strong>Answer key view.</strong> Correct options are marked in green. To see which ones you personally got wrong, reload this page and paste your response code.</div>';
+    document.getElementById('rtabs').style.display='none';
+  }
+
+  document.getElementById('list').innerHTML=Q.map((q,i)=>{
+    const r=resp[i];
+    const st=(r===null||r===undefined)?'skip':(r===K[i]?'correct':'wrong');
+    const stTxt={correct:'Correct',wrong:'Incorrect',skip:'Not attempted'}[st];
+    const stCls={correct:'ok',wrong:'no',skip:'sk'}[st];
+    let opts='';
+    q.options.forEach((o,k)=>{
+      let cls='rq-o',tag='';
+      if(k===K[i]){cls+=' correct';tag='<span class="tagm g">Correct answer</span>';}
+      else if(hasCode&&k===r){cls+=' wrong';tag='<span class="tagm r">Your answer</span>';}
+      opts+='<div class="'+cls+'"><span class="lbl">'+L[k]+'.</span><span>'+o+'</span>'+tag+'</div>';
+    });
+    const hdr=hasCode
+      ? '<span style="font-size:11.5px;color:var(--subtext)">You marked: <strong style="color:var(--text)">'+((r===null||r===undefined)?'\u2014':L[r])+'</strong> &nbsp;&middot;&nbsp; Key: <strong style="color:var(--green)">'+L[K[i]]+'</strong></span><span class="rq-st '+stCls+'">'+stTxt+'</span>'
+      : '<span style="font-size:11.5px;color:var(--subtext)">Key: <strong style="color:var(--green)">'+L[K[i]]+'</strong></span>';
+    return '<div class="rq" data-st="'+st+'">'+
+             '<div class="rq-hdr"><span class="rq-num">Q.'+q.id+'</span>'+hdr+'</div>'+
+             '<div class="rq-q">'+q.text+'</div>'+opts+
+           '</div>';
+  }).join('');
+  setFilter('all',document.querySelector('.rtab'));
+  window.scrollTo(0,0);
+}
+
+function setFilter(f,btn){
+  document.querySelectorAll('.rtab').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  document.querySelectorAll('.rq').forEach(el=>{
+    el.style.display=(f==='all'||el.dataset.st===f)?'':'none';
+  });
+}
+
+document.getElementById('inp-code').addEventListener('keydown',e=>{if(e.key==='Enter')loadCode();});
+</script>
+</body>
+</html>
