@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VA GG Session 1 Registration — IMS Ahmedabad</title>
+<style>
+  :root{
+    --navy:#27404F;
+    --navy-deep:#1C2E3A;
+    --slate:#3D5A73;
+    --coral:#E76F51;
+    --coral-deep:#C85A3E;
+    --ice:#EEF2F5;
+    --ice-2:#DCE3E8;
+    --line:#C7D3DC;
+    --ink:#263238;
+    --error:#C0392B;
+    --white:#FFFFFF;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background:var(--ice);
+    font-family:Verdana, Geneva, "Segoe UI", sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:32px 16px 64px;
+  }
+
+  .card{
+    width:100%;
+    max-width:520px;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:32px 28px 28px;
+    box-shadow:0 1px 2px rgba(28,46,58,0.04), 0 8px 24px rgba(28,46,58,0.06);
+  }
+
+  .eyebrow{
+    color:var(--coral);
+    font-size:12.5px;
+    font-weight:bold;
+    letter-spacing:0.04em;
+    margin-bottom:8px;
+  }
+
+  h1{
+    color:var(--navy);
+    font-size:22px;
+    line-height:1.3;
+    margin:0 0 6px;
+  }
+
+  .subtitle{
+    color:var(--slate);
+    font-size:14px;
+    line-height:1.5;
+    margin:0 0 26px;
+  }
+
+  .section{
+    margin-bottom:20px;
+  }
+
+  label{
+    display:block;
+    font-size:13.5px;
+    font-weight:bold;
+    color:var(--navy-deep);
+    margin-bottom:7px;
+  }
+
+  .hint{
+    display:block;
+    font-size:12px;
+    font-weight:normal;
+    color:var(--slate);
+    margin-top:5px;
+  }
+
+  .req{
+    color:var(--coral-deep);
+    font-weight:bold;
+  }
+
+  input[type="text"],
+  select{
+    width:100%;
+    padding:11px 12px;
+    font-size:15px;
+    font-family:inherit;
+    color:var(--ink);
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+    appearance:none;
+    -webkit-appearance:none;
+  }
+
+  select{
+    background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%233D5A73'%3e%3cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.06l3.71-3.83a.75.75 0 111.08 1.04l-4.25 4.39a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3e%3c/svg%3e");
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+    background-size:18px;
+    padding-right:36px;
+  }
+
+  input[type="text"]:focus,
+  select:focus{
+    border-color:var(--coral);
+    box-shadow:0 0 0 3px rgba(231,111,81,0.15);
+  }
+
+  input[type="text"]:disabled{
+    background:var(--ice);
+    cursor:not-allowed;
+  }
+
+  input.readonly-field{
+    background:var(--ice);
+    color:var(--navy-deep);
+    font-weight:bold;
+    cursor:not-allowed;
+  }
+
+  .field-error input[type="text"],
+  .field-error select,
+  .field-error .combobox input[type="text"]{
+    border-color:var(--error);
+  }
+
+  .error{
+    color:var(--error);
+    font-size:12.5px;
+    margin-top:6px;
+    min-height:0;
+    display:none;
+  }
+
+  .field-error .error{
+    display:block;
+  }
+
+  /* Searchable Student Name combobox */
+  .combobox{
+    position:relative;
+  }
+
+  .combobox-list{
+    display:none;
+    position:absolute;
+    top:calc(100% + 6px);
+    left:0;
+    right:0;
+    max-height:220px;
+    overflow-y:auto;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    box-shadow:0 8px 20px rgba(28,46,58,0.12);
+    z-index:20;
+  }
+
+  .combobox-list.open{
+    display:block;
+  }
+
+  .combobox-option{
+    padding:10px 12px;
+    font-size:14.5px;
+    cursor:pointer;
+  }
+
+  .combobox-option:hover,
+  .combobox-option.active{
+    background:var(--ice);
+  }
+
+  .combobox-empty{
+    padding:10px 12px;
+    font-size:13.5px;
+    color:var(--slate);
+  }
+
+  /* Slot cards (date + time combined) */
+  .slot-cards{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .slot-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:inherit;
+    width:100%;
+    padding:13px 14px;
+    background:var(--white);
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    cursor:pointer;
+    text-align:left;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+  }
+
+  .slot-card:active{
+    transform:scale(0.99);
+  }
+
+  .slot-dot{
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    border:1.5px solid var(--line);
+    flex-shrink:0;
+    position:relative;
+    transition:border-color .15s ease;
+  }
+
+  .slot-dot::after{
+    content:"";
+    position:absolute;
+    inset:3px;
+    border-radius:50%;
+    background:var(--coral);
+    opacity:0;
+    transition:opacity .1s ease;
+  }
+
+  .slot-card.selected{
+    border-color:var(--coral);
+    background:rgba(231,111,81,0.08);
+  }
+
+  .slot-card.selected .slot-dot{
+    border-color:var(--coral);
+  }
+
+  .slot-card.selected .slot-dot::after{
+    opacity:1;
+  }
+
+  .slot-text .slot-date{
+    font-size:14.5px;
+    font-weight:bold;
+    color:var(--navy-deep);
+  }
+
+  .slot-text .slot-time{
+    font-size:13px;
+    color:var(--slate);
+    margin-top:2px;
+  }
+
+  /* Confirmation */
+  .checkbox-row{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    font-size:13.5px;
+    font-weight:normal;
+    color:var(--ink);
+    line-height:1.5;
+    cursor:pointer;
+  }
+
+  .checkbox-row input{
+    margin-top:3px;
+    width:17px;
+    height:17px;
+    accent-color:var(--coral);
+    flex-shrink:0;
+    cursor:pointer;
+  }
+
+  /* Banner */
+  .form-banner{
+    font-size:13.5px;
+    padding:11px 13px;
+    border-radius:8px;
+    margin-bottom:18px;
+  }
+
+  .form-banner.error{
+    background:#FBEAE8;
+    color:var(--error);
+    border:1px solid #F0C7C1;
+  }
+
+  /* Submit button */
+  .submit-btn{
+    width:100%;
+    font-family:inherit;
+    font-size:15.5px;
+    font-weight:bold;
+    color:var(--white);
+    background:var(--coral);
+    border:none;
+    border-radius:9px;
+    padding:14px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    transition:background .15s ease;
+  }
+
+  .submit-btn:hover{
+    background:var(--coral-deep);
+  }
+
+  .submit-btn:disabled{
+    background:var(--ice-2);
+    color:var(--slate);
+    cursor:not-allowed;
+  }
+
+  .spinner{
+    width:16px;
+    height:16px;
+    border:2px solid rgba(255,255,255,0.5);
+    border-top-color:var(--white);
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+  }
+
+  .submit-btn:disabled .spinner{
+    border:2px solid rgba(61,90,115,0.3);
+    border-top-color:var(--slate);
+  }
+
+  @keyframes spin{
+    to{ transform:rotate(360deg); }
+  }
+
+  /* Success state */
+  .success-state{
+    text-align:center;
+    padding:12px 4px 4px;
+  }
+
+  .success-icon{
+    width:52px;
+    height:52px;
+    margin:0 auto 16px;
+    border-radius:50%;
+    background:var(--navy);
+    color:var(--white);
+    font-size:26px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .success-state h2{
+    color:var(--navy);
+    font-size:19px;
+    margin:0 0 8px;
+  }
+
+  .success-state p{
+    color:var(--slate);
+    font-size:14px;
+    margin:0 0 18px;
+    line-height:1.5;
+  }
+
+  .success-summary{
+    text-align:left;
+    background:var(--ice);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+  }
+
+  .success-summary div{
+    display:flex;
+    justify-content:space-between;
+    font-size:13.5px;
+    padding:6px 0;
+    border-bottom:1px solid var(--ice-2);
+  }
+
+  .success-summary div:last-child{
+    border-bottom:none;
+  }
+
+  .success-summary span:first-child{
+    color:var(--slate);
+  }
+
+  .success-summary span:last-child{
+    color:var(--navy-deep);
+    font-weight:bold;
+    text-align:right;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="card">
+    <div class="eyebrow" id="lectureEyebrow"></div>
+    <h1 id="lectureTitle"></h1>
+    <p class="subtitle" id="lectureSubtitle"></p>
+
+    <form id="regForm" novalidate>
+
+      <div class="section" id="group-batch">
+        <label for="batch">Batch <span class="req">*</span></label>
+        <select id="batch" name="batch">
+          <option value="" disabled selected>Select your batch</option>
+        </select>
+        <div class="error" id="err-batch">Please select your batch.</div>
+      </div>
+
+      <div class="section" id="group-studentName">
+        <label for="nameSearch">Student Name <span class="req">*</span></label>
+        <div class="combobox" id="nameCombobox">
+          <input type="text" id="nameSearch" autocomplete="off" placeholder="Select your batch first" role="combobox" aria-expanded="false" aria-autocomplete="list" disabled>
+          <input type="hidden" id="studentName" name="studentName">
+          <div class="combobox-list" id="nameList" role="listbox"></div>
+        </div>
+        <div class="error" id="err-studentName">Please select your name from the list.</div>
+      </div>
+
+      <div class="section" id="group-imsPin">
+        <label for="imsPin">IMS PIN</label>
+        <input type="text" id="imsPin" name="imsPin" class="readonly-field" readonly placeholder="Auto-fills after you select your name">
+        <span class="hint">Fills in automatically once you select your name above.</span>
+      </div>
+
+      <div class="section" id="group-slot">
+        <label>Preferred Date &amp; Time <span class="req">*</span></label>
+        <div class="slot-cards" id="slotCards"></div>
+        <input type="hidden" id="preferredDate" name="preferredDate">
+        <input type="hidden" id="preferredTime" name="preferredTime">
+        <div class="error" id="err-slot">Please select one date &amp; time slot.</div>
+      </div>
+
+      <div class="section" id="group-confirmation">
+        <label class="checkbox-row" for="confirmation">
+          <input type="checkbox" id="confirmation" name="confirmation">
+          <span>I am booking this slot and confirm that I will attend the lecture at the selected date and time.</span>
+        </label>
+        <div class="error" id="err-confirmation">Please confirm before booking.</div>
+      </div>
+
+      <div class="form-banner error" id="formBanner" hidden></div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        <span class="btn-label">Book My Slot</span>
+        <span class="spinner" id="spinner" hidden></span>
+      </button>
+    </form>
+
+    <div class="success-state" id="successState" hidden>
+      <div class="success-icon">&#10003;</div>
+      <h2>Slot booked successfully!</h2>
+      <p>Please make a note of your selected date and time.</p>
+      <div class="success-summary" id="successSummary"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   CONFIGURATION — this is the only section you need to edit
+   ========================================================= */
+const CONFIG = {
+  // Your Google Form's submission endpoint (same form ID as the pre-fill link, /formResponse).
+  GOOGLE_FORM_ACTION_URL: "https://docs.google.com/forms/d/e/1FAIpQLSd-tTrI5a1A6NW4ksphT7GyjG1Nl3lG0Zg4dV-5eiG-EfR5lA/formResponse",
+
+  // Maps each field to its entry.XXXXX ID, taken from your pre-fill link.
+  ENTRY_IDS: {
+    studentName: "628146711",
+    batch: "1512132193",
+    imsPin: "760204784",
+    preferredDate: "2023915568",
+    preferredTime: "1016977442"
+  },
+
+  LECTURE_KEY: "va-gg-session-1",
+  LECTURE_EYEBROW: "IMS Ahmedabad · VA Growth Group",
+  LECTURE_TITLE: "VA GG Session 1: Subject Verb Agreement & Pronouns",
+  LECTURE_SUBTITLE: "",
+
+  // Student roster: Batch options are drawn from this list automatically.
+  // Selecting a batch filters the Name list; selecting a name auto-fills IMS PIN.
+  // Loaded from the roster file you shared (168 students).
+  ROSTER: [
+    { name: "Anirudh Bhattacharjee", pin: "STU0001205810", batch: "27CNS 01" },
+    { name: "Dev Desai", pin: "STU0001209449", batch: "27CNS 01" },
+    { name: "Devarsh Dalal", pin: "STU0001222508", batch: "27CNS 01" },
+    { name: "Dhwanit Shah", pin: "STU0001222832", batch: "27CNS 01" },
+    { name: "Dwij Doshi", pin: "STU0001209450", batch: "27CNS 01" },
+    { name: "Sakib Haradwala", pin: "STU0001210938", batch: "27CNS 01" },
+    { name: "Het Jani", pin: "STU0001227314", batch: "27CNS 01" },
+    { name: "Mahak Kotak", pin: "STU0001222510", batch: "27CNS 01" },
+    { name: "Mahi Akani", pin: "STU0001223020", batch: "27CNS 01" },
+    { name: "Manasvi Patel", pin: "IMS0001135414", batch: "27CNS 01" },
+    { name: "Mansi Gohel", pin: "STU0001218565", batch: "27CNS 01" },
+    { name: "Mohit Shah", pin: "STU0001209448", batch: "27CNS 01" },
+    { name: "Nidhish Patel", pin: "STU0001227441", batch: "27CNS 01" },
+    { name: "Nilay Parmar", pin: "STU0001223488", batch: "27CNS 01" },
+    { name: "Nisha Chokhavala", pin: "STU0001223269", batch: "27CNS 01" },
+    { name: "Parv khatri", pin: "STU0001227552", batch: "27CNS 01" },
+    { name: "Pal Dankhara", pin: "STU0001210863", batch: "27CNS 01" },
+    { name: "Pratham Jain", pin: "STU0001227553", batch: "27CNS 01" },
+    { name: "Prinse Trapasiya", pin: "STU0001189645", batch: "27CNS 01" },
+    { name: "Pushti Parikh", pin: "STU0001223019", batch: "27CNS 01" },
+    { name: "Pushti shah", pin: "STU0001227549", batch: "27CNS 01" },
+    { name: "Samarthi Jain", pin: "STU0001217365", batch: "27CNS 01" },
+    { name: "Soban Malek", pin: "STU0001224146", batch: "27CNS 01" },
+    { name: "Ved Patel", pin: "STU0001223013", batch: "27CNS 01" },
+    { name: "Archi Nai", pin: "STU0001222562", batch: "27CNS 02" },
+    { name: "Yaksh Virani", pin: "STU0001210864", batch: "27CNS 01" },
+    { name: "Bhagya Bhadra", pin: "STU0001217245", batch: "27CNS 02" },
+    { name: "Dev Gopalani", pin: "STU0001217244", batch: "27CNS 02" },
+    { name: "Dhruv Nesadiya", pin: "STU0001202521", batch: "27CNS 02" },
+    { name: "Feni Belani", pin: "STU0001222563", batch: "27CNS 02" },
+    { name: "herit parikh", pin: "STU0001230032", batch: "27CNS 02" },
+    { name: "Jayal Gorajiya", pin: "STU0001231972", batch: "27CNS 02" },
+    { name: "Jiya Katharotia", pin: "STU0001222803", batch: "27CNS 02" },
+    { name: "Karan Raval", pin: "STU0001181017", batch: "27CNS 02" },
+    { name: "Manan Desai", pin: "STU0001218607", batch: "27CNS 02" },
+    { name: "Meet Kapse", pin: "STU0001233768", batch: "27CNS 02" },
+    { name: "Nirmit Vaja", pin: "STU0001222791", batch: "27CNS 02" },
+    { name: "Prasham Gotecha", pin: "STU0001217002", batch: "27CNS 02" },
+    { name: "PRASHANT YADAV", pin: "STU0001231491", batch: "27CNS 02" },
+    { name: "Pratik Jivrajani", pin: "STU0001222806", batch: "27CNS 02" },
+    { name: "Pratyaksh Dharukawala", pin: "STU0001230861", batch: "27CNS 02" },
+    { name: "Prit Jivrajani", pin: "STU0001223481", batch: "27CNS 02" },
+    { name: "Raj Italiya", pin: "STU0001186390", batch: "27CNS 02" },
+    { name: "Richa Patel", pin: "STU0001235243", batch: "27CNS 02" },
+    { name: "Ruchita Rawal", pin: "STU0001185346", batch: "27CNS 02" },
+    { name: "Vaibhavi Boliya", pin: "STU0001219884", batch: "27CNS 02" },
+    { name: "Aalay Shah", pin: "STU0001229890", batch: "27CNS 03" },
+    { name: "Aman Patel", pin: "STU0001171228", batch: "27CNS 03" },
+    { name: "Amrita Rajput", pin: "STU0001235490", batch: "27CNS 03" },
+    { name: "Dhruv Soni", pin: "STU0001232052", batch: "27CNS 03" },
+    { name: "Harpreet Nanra", pin: "STU0001235569", batch: "27CNS 03" },
+    { name: "Kenil Kareliya", pin: "STU0001243680", batch: "27CNS 03" },
+    { name: "Krish Kareliya", pin: "STU0001229216", batch: "27CNS 03" },
+    { name: "Meet Dave", pin: "STU0001237667", batch: "27CNS 03" },
+    { name: "Meet Ravaliya", pin: "STU0001235590", batch: "27CNS 03" },
+    { name: "Parshva shah", pin: "STU0001239002", batch: "27CNS 03" },
+    { name: "Prapti Bhavsar", pin: "STU0001240572", batch: "27CNS 03" },
+    { name: "Raj Patat", pin: "STU0001235591", batch: "27CNS 03" },
+    { name: "Rishva Patel", pin: "STU0001234723", batch: "27CNS 03" },
+    { name: "Sanjay Baldaniya", pin: "STU0001235986", batch: "27CNS 03" },
+    { name: "Shrut Patel", pin: "STU0001204149", batch: "27CNS 03" },
+    { name: "Yash Bhuva", pin: "STU0001222509", batch: "27CNS 03" },
+    { name: "Dhruv Ugharejiya", pin: "STU0001237932", batch: "27CNS 07" },
+    { name: "Harsh Thakur", pin: "STU0001240801", batch: "27CNS 04" },
+    { name: "Kavya Patel", pin: "IMS0001158957", batch: "27CNS 04" },
+    { name: "Meet Kayasth", pin: "STU0001240449", batch: "27CNS 04" },
+    { name: "Meet Sachadiya", pin: "STU0001240799", batch: "27CNS 04" },
+    { name: "Mohammed Kathiwala", pin: "STU0001240302", batch: "27CNS 05" },
+    { name: "Pratham Saiwal", pin: "STU0001239620", batch: "27CNS 04" },
+    { name: "Nihar Vyas", pin: "STU0001244657", batch: "27CNS 04" },
+    { name: "Hrishit Godiawala", pin: "STU0001243748", batch: "27CNS 04" },
+    { name: "Parth Parmar", pin: "STU0001245719", batch: "27CNS 04" },
+    { name: "Mansi Satikuvar", pin: "STU0001251643", batch: "27CNS 04" },
+    { name: "Ariha Sheth", pin: "IMS0001128259", batch: "27CNS 05" },
+    { name: "Aarya Patel", pin: "STU0001251804", batch: "27CNS 06" },
+    { name: "Aryan Sheth", pin: "STU0001243755", batch: "27CNS 05" },
+    { name: "Aryan Vaishnani", pin: "STU0001246851", batch: "27CNS 05" },
+    { name: "Dhwani Prajapati", pin: "STU0001243753", batch: "27CNS 05" },
+    { name: "Hiya Mehta", pin: "STU0001242538", batch: "27CNS 05" },
+    { name: "Khushboo Lakhyani", pin: "STU0001243437", batch: "27CNS 05" },
+    { name: "Neer Mehta", pin: "STU0001233429", batch: "27CNS 05" },
+    { name: "Parth Jesani", pin: "STU0001245162", batch: "27CNS 05" },
+    { name: "Priyal lalpuriya", pin: "STU0001242197", batch: "27CNS 06" },
+    { name: "Ruhi Prajapati", pin: "STU0001244711", batch: "27CNS 05" },
+    { name: "Shrimad Patel", pin: "STU0001241978", batch: "27CNS 05" },
+    { name: "Tirth Shah", pin: "STU0001245281", batch: "27CNS 05" },
+    { name: "Vraj Jasani", pin: "STU0001246852", batch: "27CNS 05" },
+    { name: "Vraj Shah", pin: "IMS0001086929", batch: "27CNS 05" },
+    { name: "Vrushank Prajapati", pin: "STU0001247283", batch: "27CNS 05" },
+    { name: "Rudra Patel", pin: "STU0001250697", batch: "27CNS 05" },
+    { name: "Het Patel", pin: "STU0001252313", batch: "27CNS 05" },
+    { name: "Aaryan Shilajiya", pin: "STU0001254625", batch: "27CNS 06" },
+    { name: "Anshu Rohra", pin: "IMS0001112339", batch: "27CNS 06" },
+    { name: "Anushka Patel", pin: "STU0001266296", batch: "27CNS 06" },
+    { name: "Arpita Parmar", pin: "STU0001243006", batch: "27CNS 06" },
+    { name: "Dhairya Patadiya", pin: "STU0001269301", batch: "27CNS 06" },
+    { name: "Dhimahi Thakkar", pin: "STU0001261490", batch: "27CNS 06" },
+    { name: "Dhwanit Makwana", pin: "STU0001242521", batch: "27CNS 06" },
+    { name: "Helly Shah", pin: "STU0001257561", batch: "27CNS 06" },
+    { name: "Kanika Mistry", pin: "STU0001262535", batch: "27CNS 06" },
+    { name: "Karan Pandey", pin: "STU0001244928", batch: "27CNS 06" },
+    { name: "Keyuri Joshi", pin: "STU0001265523", batch: "27CNS 06" },
+    { name: "Krisha Kotak", pin: "STU0001268287", batch: "27CNS 06" },
+    { name: "Kush Panchal", pin: "STU0001269177", batch: "27CNS 06" },
+    { name: "Mahi Patel", pin: "STU0001267640", batch: "27CNS 06" },
+    { name: "MANDEEP GADHVI", pin: "STU0001260136", batch: "27CNS 06" },
+    { name: "Mandip Parmar", pin: "STU0001186480", batch: "27CNS 06" },
+    { name: "Mayank Shukla", pin: "STU0001262833", batch: "27CNS 06" },
+    { name: "Navin Prajapati", pin: "STU0001261821", batch: "27CNS 06" },
+    { name: "Neal Soni", pin: "STU0001262836", batch: "27CNS 06" },
+    { name: "Neel Tank", pin: "STU0001233068", batch: "27CNS 06" },
+    { name: "Nimisha Joshi", pin: "STU0001261238", batch: "27CNS 06" },
+    { name: "Om Patel", pin: "STU0001242520", batch: "27CNS 06" },
+    { name: "Prachi Thakkar", pin: "STU0001257179", batch: "27CNS 06" },
+    { name: "Prutha Brahmkshatriya", pin: "STU0001258713", batch: "27CNS 06" },
+    { name: "Ragnya Dangi", pin: "IMS0001092303", batch: "27CNS 06" },
+    { name: "Riya Tripathi", pin: "STU0001261308", batch: "27CNS 06" },
+    { name: "rutik shiroya", pin: "STU0001266019", batch: "27CNS 06" },
+    { name: "Saurabh Yadav", pin: "STU0001261397", batch: "27CNS 06" },
+    { name: "Urva Kadia", pin: "STU0001259260", batch: "27CNS 06" },
+    { name: "Sandeep Singh Rathore", pin: "STU0001270390", batch: "27CNS 06" },
+    { name: "Dhruvi Mehta", pin: "STU0001262726", batch: "27CNS 07" },
+    { name: "Drashti Patel", pin: "STU0001271414", batch: "27CNS 07" },
+    { name: "Heer Patel", pin: "STU0001271416", batch: "27CNS 07" },
+    { name: "Het Panchal", pin: "STU0001217680", batch: "27CNS 07" },
+    { name: "Janvi Karmatiya", pin: "STU0001272576", batch: "27CNS 07" },
+    { name: "Jiya Modi", pin: "STU0001280269", batch: "27CNS 07" },
+    { name: "Kathan Patel", pin: "STU0001271417", batch: "27CNS 07" },
+    { name: "KAUSHAL RATHOD", pin: "STU0001273293", batch: "27CNS 07" },
+    { name: "Khushal Yadav", pin: "STU0001276892", batch: "27CNS 07" },
+    { name: "Khushee Bhatt", pin: "STU0001276484", batch: "27CNS 07" },
+    { name: "Karan Bhagtani", pin: "STU0001276346", batch: "27CNS 07" },
+    { name: "MANSI KASUNDRA", pin: "STU0001276910", batch: "27CNS 07" },
+    { name: "Prince Patel", pin: "STU0001279292", batch: "27CNS 07" },
+    { name: "Rutvi Thakkar", pin: "STU0001276465", batch: "27CNS 07" },
+    { name: "Raj Savaliya", pin: "STU0001275668", batch: "27CNS 07" },
+    { name: "Satyam Chauhan", pin: "STU0001276997", batch: "27CNS 07" },
+    { name: "Shivraj Singh", pin: "STU0001273693", batch: "27CNS 07" },
+    { name: "Sidhant chevda", pin: "STU0001270972", batch: "27CNS 07" },
+    { name: "Urvi Jethva", pin: "STU0001274314", batch: "27CNS 07" },
+    { name: "Vishwas Shah", pin: "STU0001273591", batch: "27CNS 07" },
+    { name: "Vrinda Chhabria", pin: "STU0001276324", batch: "27CNS 07" },
+    { name: "Hardavi Talpara .", pin: "IMS0001162886", batch: "27CNS 07" },
+    { name: "Shubhavi Maloo", pin: "STU0001280626", batch: "27CNS 07" },
+    { name: "ARAV KANTIBHAI MAHERIYA", pin: "STU0001283914", batch: "27CNS 08" },
+    { name: "Devarsh Shah", pin: "STU0001281840", batch: "27CNS 08" },
+    { name: "Dhruv kathiriya", pin: "STU0001282635", batch: "27CNS 08" },
+    { name: "Dhruvraj Ghediya", pin: "STU0001283895", batch: "27CNS 08" },
+    { name: "Diya Maru", pin: "STU0001276180", batch: "27CNS 08" },
+    { name: "Kabir Chandnani", pin: "STU0001281907", batch: "27CNS 08" },
+    { name: "Katrina rebello", pin: "STU0001284053", batch: "27CNS 08" },
+    { name: "Kavya Parmar", pin: "STU0001284331", batch: "27CNS 08" },
+    { name: "Mann Desai", pin: "STU0001273173", batch: "27CNS 08" },
+    { name: "Meet patel", pin: "STU0001282030", batch: "27CNS 08" },
+    { name: "Patel Dev Gaurangbhai", pin: "STU0001281837", batch: "27CNS 08" },
+    { name: "Prisha Thakkar", pin: "STU0001276121", batch: "27CNS 08" },
+    { name: "RAHUL SUTHAR", pin: "STU0001281355", batch: "27CNS 08" },
+    { name: "Riya Patel", pin: "STU0001283907", batch: "27CNS 08" },
+    { name: "Satveer singh Jethra", pin: "IMS0001162494", batch: "27CNS 08" },
+    { name: "Shripad Shukla", pin: "IMS0001148611", batch: "27CNS 08" },
+    { name: "Tirth Sojitra", pin: "STU0001284296", batch: "27CNS 08" },
+    { name: "UDIT SWADIA", pin: "STU0001282031", batch: "27CNS 08" },
+    { name: "Vishwa Sharma", pin: "STU0001282088", batch: "27CNS 08" },
+    { name: "Dev Majithia", pin: "STU0001284470", batch: "27CNS 08" },
+    { name: "Sujal Nikam", pin: "STU0001205432", batch: "27CNS 08" },
+    { name: "Manogya jain", pin: "STU0001285157", batch: "27CNS 08" },
+    { name: "Rushabh Goswami", pin: "STU0001286147", batch: "27CNS 08" },
+    { name: "Haardh Dholakia", pin: "STU0001287297", batch: "27CNS 08" }
+  ],
+
+  // Each slot is one specific date + time combination — students pick ONE card.
+  SLOT_OPTIONS: [
+    { date: "2026-09-26", time: "1:00 PM – 3:00 PM" },
+    { date: "2026-09-26", time: "4:00 PM – 6:00 PM" }
+  ]
+};
+/* ========================================================= */
+
+document.getElementById("lectureEyebrow").textContent = CONFIG.LECTURE_EYEBROW;
+document.getElementById("lectureTitle").textContent = CONFIG.LECTURE_TITLE;
+document.getElementById("lectureSubtitle").textContent = CONFIG.LECTURE_SUBTITLE;
+if (!CONFIG.LECTURE_SUBTITLE) document.getElementById("lectureSubtitle").style.display = "none";
+
+function formatDate(iso){
+  const d = new Date(iso + "T00:00:00");
+  if (isNaN(d)) return iso;
+  return d.toLocaleDateString("en-IN", { weekday:"short", day:"numeric", month:"short", year:"numeric" });
+}
+
+// Populate Batch (unique values straight from the roster)
+const batchSelect = document.getElementById("batch");
+const uniqueBatches = [...new Set(CONFIG.ROSTER.map(r => r.batch))].sort();
+uniqueBatches.forEach(b => {
+  const opt = document.createElement("option");
+  opt.value = b; opt.textContent = b;
+  batchSelect.appendChild(opt);
+});
+
+// Student Name combobox — filtered by selected batch, auto-fills IMS PIN
+const nameInput = document.getElementById("nameSearch");
+const nameHidden = document.getElementById("studentName");
+const nameList = document.getElementById("nameList");
+const nameCombobox = document.getElementById("nameCombobox");
+const pinField = document.getElementById("imsPin");
+
+batchSelect.addEventListener("change", () => {
+  nameHidden.value = "";
+  nameInput.value = "";
+  pinField.value = "";
+  nameInput.disabled = !batchSelect.value;
+  nameInput.placeholder = batchSelect.value ? "Search and select your name" : "Select your batch first";
+  clearFieldError("batch");
+  clearFieldError("studentName");
+});
+
+function renderNameList(filter){
+  const b = batchSelect.value;
+  const f = filter.trim().toLowerCase();
+  const matches = CONFIG.ROSTER.filter(r => r.batch === b && r.name.toLowerCase().includes(f));
+  nameList.innerHTML = "";
+  if (matches.length === 0){
+    const empty = document.createElement("div");
+    empty.className = "combobox-empty";
+    empty.textContent = "No matching name found in this batch";
+    nameList.appendChild(empty);
+    return;
+  }
+  matches.slice(0, 50).forEach(r => {
+    const item = document.createElement("div");
+    item.className = "combobox-option";
+    item.setAttribute("role","option");
+    item.textContent = r.name;
+    item.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      selectStudent(r);
+    });
+    nameList.appendChild(item);
+  });
+}
+
+function selectStudent(entry){
+  nameHidden.value = entry.name;
+  nameInput.value = entry.name;
+  pinField.value = entry.pin;
+  closeNameList();
+  clearFieldError("studentName");
+}
+
+function openNameList(){
+  if (nameInput.disabled) return;
+  renderNameList(nameInput.value);
+  nameList.classList.add("open");
+}
+
+function closeNameList(){
+  nameList.classList.remove("open");
+}
+
+nameInput.addEventListener("focus", openNameList);
+nameInput.addEventListener("input", () => {
+  nameHidden.value = "";
+  pinField.value = "";
+  openNameList();
+});
+nameInput.addEventListener("blur", () => {
+  setTimeout(() => {
+    closeNameList();
+    if (nameInput.value !== nameHidden.value){
+      const match = CONFIG.ROSTER.find(r => r.batch === batchSelect.value && r.name === nameInput.value);
+      if (!match){
+        nameInput.value = nameHidden.value;
+      }
+    }
+  }, 150);
+});
+document.addEventListener("click", (e) => {
+  if (!nameCombobox.contains(e.target)) closeNameList();
+});
+
+// Slot cards (date + time combined)
+const slotCardsEl = document.getElementById("slotCards");
+const preferredDateHidden = document.getElementById("preferredDate");
+const preferredTimeHidden = document.getElementById("preferredTime");
+
+CONFIG.SLOT_OPTIONS.forEach((slot) => {
+  const card = document.createElement("button");
+  card.type = "button";
+  card.className = "slot-card";
+  card.dataset.date = slot.date;
+  card.dataset.time = slot.time;
+  card.innerHTML = `
+    <span class="slot-dot"></span>
+    <span class="slot-text">
+      <span class="slot-date">${formatDate(slot.date)}</span>
+      <span class="slot-time">${slot.time}</span>
+    </span>
+  `;
+  card.addEventListener("click", () => {
+    document.querySelectorAll(".slot-card").forEach(c => c.classList.remove("selected"));
+    card.classList.add("selected");
+    preferredDateHidden.value = slot.date;
+    preferredTimeHidden.value = slot.time;
+    clearFieldError("slot");
+  });
+  slotCardsEl.appendChild(card);
+});
+
+// Field error helpers
+function setFieldError(field){
+  document.getElementById("group-" + field).classList.add("field-error");
+}
+function clearFieldError(field){
+  document.getElementById("group-" + field).classList.remove("field-error");
+}
+function clearAllErrors(){
+  ["batch","studentName","slot","confirmation"].forEach(clearFieldError);
+}
+
+document.getElementById("confirmation").addEventListener("change", () => clearFieldError("confirmation"));
+
+// Validation
+function validate(){
+  clearAllErrors();
+  let firstInvalid = null;
+  const values = {
+    batch: batchSelect.value,
+    studentName: nameHidden.value,
+    imsPin: pinField.value,
+    preferredDate: preferredDateHidden.value,
+    preferredTime: preferredTimeHidden.value,
+    confirmation: document.getElementById("confirmation").checked
+  };
+
+  if (!values.batch){ setFieldError("batch"); firstInvalid = firstInvalid || "batch"; }
+  if (!values.studentName || !values.imsPin){ setFieldError("studentName"); firstInvalid = firstInvalid || "studentName"; }
+  if (!values.preferredDate || !values.preferredTime){ setFieldError("slot"); firstInvalid = firstInvalid || "slot"; }
+  if (!values.confirmation){ setFieldError("confirmation"); firstInvalid = firstInvalid || "confirmation"; }
+
+  if (firstInvalid){
+    document.getElementById("group-" + firstInvalid).scrollIntoView({ behavior:"smooth", block:"center" });
+    return null;
+  }
+  return values;
+}
+
+// Submit
+const form = document.getElementById("regForm");
+const submitBtn = document.getElementById("submitBtn");
+const btnLabel = submitBtn.querySelector(".btn-label");
+const spinner = document.getElementById("spinner");
+const formBanner = document.getElementById("formBanner");
+let isSubmitting = false;
+
+function setLoading(loading){
+  submitBtn.disabled = loading;
+  spinner.hidden = !loading;
+  btnLabel.textContent = loading ? "Booking..." : "Book My Slot";
+}
+
+function showBanner(message){
+  formBanner.textContent = message;
+  formBanner.hidden = false;
+}
+
+function hideBanner(){
+  formBanner.hidden = true;
+}
+
+// Silent submission into the Google Form via a hidden iframe.
+// A real cross-origin fetch() to Google's /formResponse endpoint can't have its
+// response read by the page, so this uses a genuine (invisible) form POST instead —
+// the standard, reliable way to feed an external page into a Google Form.
+let hiddenIframe = document.getElementById("hiddenFormTarget");
+if (!hiddenIframe) {
+  hiddenIframe = document.createElement("iframe");
+  hiddenIframe.name = "hiddenFormTarget";
+  hiddenIframe.id = "hiddenFormTarget";
+  hiddenIframe.style.display = "none";
+  document.body.appendChild(hiddenIframe);
+}
+
+function submitToGoogleForm(values){
+  return new Promise((resolve) => {
+    const gForm = document.createElement("form");
+    gForm.action = CONFIG.GOOGLE_FORM_ACTION_URL;
+    gForm.method = "POST";
+    gForm.target = "hiddenFormTarget";
+    gForm.style.display = "none";
+
+    const fieldValues = {
+      [CONFIG.ENTRY_IDS.studentName]: values.studentName,
+      [CONFIG.ENTRY_IDS.batch]: values.batch,
+      [CONFIG.ENTRY_IDS.imsPin]: values.imsPin,
+      [CONFIG.ENTRY_IDS.preferredDate]: values.preferredDate,
+      [CONFIG.ENTRY_IDS.preferredTime]: values.preferredTime
+    };
+
+    Object.entries(fieldValues).forEach(([entryId, value]) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = "entry." + entryId;
+      input.value = value;
+      gForm.appendChild(input);
+    });
+
+    document.body.appendChild(gForm);
+    gForm.submit();
+    document.body.removeChild(gForm);
+
+    // Google gives no readable cross-origin confirmation, so assume delivered
+    // once the request has had time to reach the server.
+    setTimeout(resolve, 1200);
+  });
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (isSubmitting) return;
+
+  hideBanner();
+  const values = validate();
+  if (!values) return;
+
+  isSubmitting = true;
+  setLoading(true);
+
+  try {
+    await submitToGoogleForm(values);
+
+    form.hidden = true;
+    const successState = document.getElementById("successState");
+    const summary = document.getElementById("successSummary");
+    summary.innerHTML = `
+      <div><span>Name</span><span>${values.studentName}</span></div>
+      <div><span>Batch</span><span>${values.batch}</span></div>
+      <div><span>Date</span><span>${formatDate(values.preferredDate)}</span></div>
+      <div><span>Time</span><span>${values.preferredTime}</span></div>
+    `;
+    successState.hidden = false;
+  } catch (err){
+    isSubmitting = false;
+    setLoading(false);
+    showBanner("We could not book your slot. Please check your internet connection and try again.");
+  }
+});
+</script>
+
+</body>
+</html>
