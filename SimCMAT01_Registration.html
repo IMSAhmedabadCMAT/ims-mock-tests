@@ -545,8 +545,7 @@ const CONFIG = {
   // Preferred Date options — a plain dropdown, independent of the time choice below.
   DATE_OPTIONS: [
     "2026-09-29",
-    "2026-09-30",
-    "2026-10-01"
+    "2026-09-30"
   ],
 
   // Preferred Time options — shown as selectable cards, independent of the date above.
@@ -843,6 +842,7 @@ const timeCardsEl = document.getElementById("timeCards");
 const preferredTimeHidden = document.getElementById("preferredTimeValue");
 const timeCardsByValue = {};
 let seatCounts = {};
+let seatsPerSlot = CONFIG.SEATS_PER_SLOT; // fallback until the server responds
 
 CONFIG.TIME_OPTIONS.forEach((timeValue) => {
   const card = document.createElement("button");
@@ -887,7 +887,7 @@ function renderTimeAvailability(){
 
     card.classList.remove("awaiting-date");
     const booked = seatCounts[slotKey(selectedDate, timeValue)] || 0;
-    const remaining = Math.max(0, CONFIG.SEATS_PER_SLOT - booked);
+    const remaining = Math.max(0, seatsPerSlot - booked);
 
     if (remaining <= 0){
       badge.textContent = "Full";
@@ -924,6 +924,9 @@ async function fetchSeatCounts(){
     const result = await res.json();
     if (result.status === "success"){
       seatCounts = result.counts || {};
+      if (typeof result.seatsPerSlot === "number"){
+        seatsPerSlot = result.seatsPerSlot;
+      }
       renderTimeAvailability();
     }
   } catch (err){
