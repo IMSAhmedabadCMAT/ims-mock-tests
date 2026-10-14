@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mentoring Slots · 27CNS 02</title>
+<style>
+  :root{
+    --navy:#27404F; --navy-deep:#1C2E3A; --slate:#3D5A73;
+    --coral:#E76F51; --coral-deep:#C85A3E;
+    --ice:#EEF2F5; --ice-2:#DCE3E8; --line:#C7D3DC; --ink:#263238;
+    --ok:#2E7D5B; --ok-bg:#E6F4EC; --warn-bg:#FDEEE9;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ice);color:var(--ink);
+       font-family:Verdana, "Segoe UI", system-ui, sans-serif;line-height:1.5}
+  .hero{background:var(--navy-deep);color:#fff;padding:28px 16px 64px;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;
+       border-radius:50%;background:var(--coral);opacity:.9}
+  .hero-inner{max-width:720px;margin:0 auto;position:relative;z-index:1}
+  .eyebrow{color:var(--coral);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold}
+  .hero .eyebrow{color:#F4A28C}
+  h1{margin:6px 0 6px;font-size:28px;line-height:1.2}
+  .sub{margin:0;opacity:.85;font-size:14px;max-width:460px}
+  .pill{display:inline-block;margin-top:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+        padding:5px 12px;border-radius:999px;font-size:12px}
+  main{max-width:720px;margin:-40px auto 40px;padding:0 16px;position:relative;z-index:2}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px;
+        box-shadow:0 2px 10px rgba(28,46,58,.06)}
+  .step{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .num{width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-size:13px;font-weight:bold;
+       display:grid;place-items:center;flex:none}
+  .step h2{margin:0;font-size:16px;color:var(--navy)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:560px){.grid2{grid-template-columns:1fr}}
+  label{display:block;font-size:12px;color:var(--slate);margin-bottom:5px;font-weight:bold}
+  select,input{width:100%;font:inherit;font-size:15px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;
+       background:#fff;color:var(--ink)}
+  select:focus,input:focus{outline:2px solid var(--coral);outline-offset:1px;border-color:var(--coral)}
+  input[readonly],select:disabled{background:var(--ice);color:var(--slate)}
+  .field-full{grid-column:1/-1}
+  .period{font-size:12px;font-weight:bold;color:var(--slate);text-transform:uppercase;letter-spacing:.1em;margin:4px 0 8px}
+  .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+  .slot{font:inherit;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:12px;
+        cursor:pointer;transition:border-color .15s, background .15s, transform .1s;color:var(--ink)}
+  .slot:hover:not(:disabled){border-color:var(--coral)}
+  .slot:active:not(:disabled){transform:scale(.98)}
+  .slot .t{font-weight:bold;font-size:15px;color:var(--navy)}
+  .slot .s{font-size:12px;color:var(--ok);margin-top:2px}
+  .slot.sel{border-color:var(--coral);background:var(--warn-bg);box-shadow:0 0 0 2px var(--coral) inset}
+  .slot.sel .s{color:var(--coral-deep)}
+  .slot:disabled{cursor:not-allowed;background:var(--ice);border-style:dashed}
+  .slot:disabled .t{color:#8A9BA8;text-decoration:line-through}
+  .slot:disabled .s{color:#8A9BA8}
+  .btn{font:inherit;width:100%;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:bold;cursor:pointer;
+       background:var(--coral);color:#fff;transition:background .15s}
+  .btn:hover:not(:disabled){background:var(--coral-deep)}
+  .btn:disabled{background:#C9D2D9;cursor:not-allowed}
+  .msg{border-radius:10px;padding:12px 14px;font-size:14px;margin-bottom:14px;display:none}
+  .msg.show{display:block}
+  .msg.err{background:var(--warn-bg);color:var(--coral-deep);border:1px solid #F3C3B5}
+  .msg.info{background:var(--ice);color:var(--slate);border:1px solid var(--line)}
+  .msg.okm{background:var(--ok-bg);color:var(--ok);border:1px solid #B9DEC9}
+  .done{text-align:center;padding:28px 20px}
+  .tick{width:64px;height:64px;border-radius:50%;background:var(--ok);color:#fff;font-size:34px;display:grid;place-items:center;margin:0 auto 12px}
+  .done h2{color:var(--navy);margin:0 0 6px}
+  .done .when{display:inline-block;margin:10px 0 6px;background:var(--ice);border:1px solid var(--line);border-radius:10px;
+       padding:10px 16px;font-weight:bold;color:var(--navy)}
+  .muted{color:var(--slate);font-size:13px}
+  .loading{color:var(--slate);font-size:14px;padding:6px 0 14px}
+  .hidden{display:none}
+  footer{text-align:center;font-size:12px;color:var(--slate);padding:0 16px 30px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">CNS'27 · 27CNS 02</div>
+    <h1>Mentoring Slots</h1>
+    <p class="sub">One-on-one mentoring sessions. Slots are first come, first served — one slot per student.</p>
+    <span class="pill" id="datePill">Loading dates…</span>
+  </div>
+</header>
+
+<main>
+  <div class="msg info" id="setupNote">
+    <b>Preview mode.</b> The booking backend URL isn't set yet, so bookings won't be saved. Paste the Web app URL into
+    <code>WEB_APP_URL</code> at the bottom of this file.
+  </div>
+
+  <section id="bookingView">
+    <div class="card">
+      <div class="step"><span class="num">1</span><h2>Who are you?</h2></div>
+      <div class="grid2">
+        <div>
+          <label for="batch">Batch</label>
+          <select id="batch" disabled><option>27CNS 02</option></select>
+        </div>
+        <div>
+          <label for="pin">IMS PIN</label>
+          <input id="pin" readonly placeholder="Auto-filled">
+        </div>
+        <div class="field-full">
+          <label for="name">Name</label>
+          <select id="name"><option value="">Select your name</option></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="step"><span class="num">2</span><h2>Pick your slot</h2></div>
+      <div class="msg" id="msg"></div>
+      <div class="loading" id="loading">Checking which slots are still free…</div>
+      <div id="slotWrap"></div>
+      <button class="btn" id="bookBtn" disabled>Select your name and a slot</button>
+    </div>
+  </section>
+
+  <section id="doneView" class="card done hidden">
+    <div class="tick">✓</div>
+    <h2 id="doneTitle">Your slot is booked</h2>
+    <div class="when" id="doneWhen"></div>
+    <p class="muted" id="doneNote">Please be on time — the next student's session starts right after yours.<br>
+      If you can't make it, let us know early so we can open the slot for someone else.</p>
+  </section>
+</main>
+
+<footer>IMS Ahmedabad · CNS'27 Mentoring</footer>
+
+<script>
+/* ===== CONFIG ===== */
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz50z9mnewfAEhqrCc8n2FKmyuFlZxXcs5XeoyN7bg_fOZWchHMJ8y0zz0fAWja23DbEQ/exec';
+const BATCH = '27CNS 02';
+
+/* Preview-only slot list. Live slots come from the "Mentoring" events on the Google Calendar via the backend. */
+const FALLBACK_SLOTS = [
+  { id:'2026-10-15T19:00', date:'2026-10-15', start:'19:00', end:'20:00' },
+  { id:'2026-10-15T20:00', date:'2026-10-15', start:'20:00', end:'21:00' },
+  { id:'2026-10-16T07:00', date:'2026-10-16', start:'07:00', end:'08:00' },
+  { id:'2026-10-16T08:00', date:'2026-10-16', start:'08:00', end:'09:00' },
+  { id:'2026-10-16T19:00', date:'2026-10-16', start:'19:00', end:'20:00' },
+  { id:'2026-10-16T20:00', date:'2026-10-16', start:'20:00', end:'21:00' },
+  { id:'2026-10-17T11:30', date:'2026-10-17', start:'11:30', end:'12:30' },
+  { id:'2026-10-17T12:30', date:'2026-10-17', start:'12:30', end:'13:30' },
+  { id:'2026-10-17T19:00', date:'2026-10-17', start:'19:00', end:'20:00' },
+  { id:'2026-10-17T20:00', date:'2026-10-17', start:'20:00', end:'21:00' },
+  { id:'2026-10-18T14:00', date:'2026-10-18', start:'14:00', end:'15:00' },
+  { id:'2026-10-18T15:00', date:'2026-10-18', start:'15:00', end:'16:00' },
+  { id:'2026-10-18T16:30', date:'2026-10-18', start:'16:30', end:'17:30' },
+  { id:'2026-10-18T17:30', date:'2026-10-18', start:'17:30', end:'18:30' },
+];
+
+/* 27CNS 02 — active students (AHD : CNS'27 Mastersheet) */
+const ROSTER = [
+  ['Archi Nai','STU0001222562'],
+  ['Bhagya Bhadra','STU0001217245'],
+  ['Dev Gopalani','STU0001217244'],
+  ['Dhruv Nesadiya','STU0001202521'],
+  ['Feni Belani','STU0001222563'],
+  ['Herit Parikh','STU0001230032'],
+  ['Jiya Katharotia','STU0001222803'],
+  ['Karan Raval','STU0001181017'],
+  ['Manan Desai','STU0001218607'],
+  ['Meet Kapse','STU0001233768'],
+  ['Nirmit Vaja','STU0001222791'],
+  ['Prasham Gotecha','STU0001217002'],
+  ['Prashant Yadav','STU0001231491'],
+  ['Pratik Jivrajani','STU0001222806'],
+  ['Pratyaksh Dharukawala','STU0001230861'],
+  ['Prit Jivrajani','STU0001223481'],
+  ['Ruchita Rawal','STU0001185346'],
+  ['Vaibhavi Boliya','STU0001219884'],
+];
+
+/* ===== STATE ===== */
+const LIVE = /^https:\/\/script\.google\.com\//.test(WEB_APP_URL);
+let state = null;          // {slots:[...], bookedBy:{pin:slotId}}
+let selectedSlot = null;
+let busy = false;
+let pollTimer = null;
+
+const $ = id => document.getElementById(id);
+const nameSel = $('name'), pinIn = $('pin'), bookBtn = $('bookBtn');
+
+/* ===== FORMATTING ===== */
+const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DAYS_L = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONS_L = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function parts(d){ const [y,m,dd]=d.split('-').map(Number); const dt=new Date(Date.UTC(y,m-1,dd)); return {y,m,dd,w:dt.getUTCDay()}; }
+function t12(hm){ let [h,m]=hm.split(':').map(Number); const ap=h>=12?'PM':'AM'; h=h%12||12; return {txt:h+':'+String(m).padStart(2,'0'),ap}; }
+function timeRange(s){ const a=t12(s.start), b=t12(s.end); return a.ap===b.ap ? `${a.txt} – ${b.txt} ${b.ap}` : `${a.txt} ${a.ap} – ${b.txt} ${b.ap}`; }
+function dayShort(d){ const p=parts(d); return `${DAYS[p.w]}, ${p.dd} ${MONS[p.m-1]}`; }
+function dayLong(d){ const p=parts(d); return `${DAYS_L[p.w]}, ${p.dd} ${MONS_L[p.m-1]} ${p.y}`; }
+function dateRange(a,b){ const p=parts(a), q=parts(b);
+  return p.m===q.m ? `${p.dd}–${q.dd} ${MONS_L[q.m-1]} ${q.y}` : `${p.dd} ${MONS[p.m-1]} – ${q.dd} ${MONS[q.m-1]} ${q.y}`; }
+function fullLabel(s){ return `${dayShort(s.date)} · ${timeRange(s)}`; }
+
+/* ===== UI ===== */
+function showMsg(text, kind){ const m=$('msg'); m.className='msg show '+kind; m.innerHTML=text; }
+function clearMsg(){ $('msg').className='msg'; }
+
+ROSTER.forEach(([n,p])=>{ const o=document.createElement('option'); o.value=p; o.textContent=n; nameSel.appendChild(o); });
+
+nameSel.addEventListener('change', ()=>{
+  pinIn.value = nameSel.value || '';
+  clearMsg();
+  render();
+});
+
+function myBooking(){
+  if(!state || !pinIn.value) return null;
+  const id = state.bookedBy && state.bookedBy[pinIn.value];
+  return id ? state.slots.find(s=>s.id===id) || {id} : null;
+}
+
+function render(){
+  const wrap = $('slotWrap');
+  if(!state){ wrap.innerHTML=''; return; }
+  $('loading').classList.add('hidden');
+
+  const dates = [...new Set(state.slots.map(s=>s.date))];
+  $('datePill').textContent = !dates.length ? 'New slots coming soon'
+    : dates.length===1 ? dayLong(dates[0]) : dateRange(dates[0], dates[dates.length-1]);
+
+  const mine = myBooking();
+  if(mine){
+    showMsg(`You already have a slot booked: <b>${mine.date?fullLabel(mine):mine.id}</b>. One slot per student — if you need to change it, please message us.`, 'okm');
+  }
+
+  let html = '';
+  dates.forEach(d=>{
+    const daySlots = state.slots.filter(s=>s.date===d);
+    const groups = [
+      ['Morning', daySlots.filter(s=>+s.start.slice(0,2) < 12)],
+      ['Afternoon', daySlots.filter(s=>+s.start.slice(0,2) >= 12 && +s.start.slice(0,2) < 17)],
+      ['Evening', daySlots.filter(s=>+s.start.slice(0,2) >= 17)],
+    ];
+    groups.forEach(([g, list])=>{
+      if(!list.length) return;
+      html += `<div class="period">${dates.length>1 ? dayShort(d)+' · ' : ''}${g}</div><div class="slots">`;
+      list.forEach(s=>{
+        const off = s.status!=='open' || !!mine;
+        const status = s.status==='booked' ? 'Booked' : s.status==='closed' ? 'Closed' : 'Available';
+        const sel = selectedSlot===s.id && !off ? ' sel' : '';
+        html += `<button type="button" class="slot${sel}" data-id="${s.id}" ${off?'disabled':''}>
+                   <div class="t">${timeRange(s)}</div><div class="s">${sel?'Selected':status}</div></button>`;
+      });
+      html += `</div>`;
+    });
+  });
+  const openCount = state.slots.filter(s=>s.status==='open').length;
+  if(!state.slots.length) html += `<div class="msg info show">No mentoring slots are open right now. We'll share new slots soon.</div>`;
+  else if(!openCount) html += `<div class="msg info show">All slots are booked for now. We'll share more slots soon.</div>`;
+  wrap.innerHTML = html;
+  wrap.querySelectorAll('.slot:not(:disabled)').forEach(b=>b.addEventListener('click', ()=>{
+    selectedSlot = b.dataset.id; if(!myBooking()) clearMsg(); render();
+  }));
+
+  // drop a selection that is no longer open
+  if(selectedSlot){ const s=state.slots.find(x=>x.id===selectedSlot); if(!s||s.status!=='open') selectedSlot=null; }
+  updateButton();
+}
+
+function updateButton(){
+  const mine = myBooking();
+  const s = state && state.slots.find(x=>x.id===selectedSlot);
+  if(busy){ bookBtn.disabled=true; bookBtn.textContent='Booking your slot…'; return; }
+  if(mine){ bookBtn.disabled=true; bookBtn.textContent='Already booked'; return; }
+  if(!pinIn.value){ bookBtn.disabled=true; bookBtn.textContent = s ? 'Select your name' : 'Select your name and a slot'; return; }
+  if(!s){ bookBtn.disabled=true; bookBtn.textContent='Pick a slot'; return; }
+  bookBtn.disabled=false; bookBtn.textContent=`Book ${timeRange(s)}`;
+}
+
+/* ===== DATA ===== */
+function previewState(){
+  const now = Date.now();
+  return { slots: FALLBACK_SLOTS.map(s=>({...s, status: new Date(`${s.date}T${s.start}:00+05:30`).getTime()<=now?'closed':'open'})), bookedBy:{} };
+}
+
+async function loadState(silent){
+  if(!LIVE){ state = previewState(); render(); return; }
+  try{
+    const r = await fetch(WEB_APP_URL + '?t=' + Date.now());
+    const j = await r.json();
+    if(j && j.ok){ state = j; render(); }
+    else throw new Error();
+  }catch(e){
+    if(!silent){ $('loading').classList.add('hidden'); showMsg('Could not load the slots. Please check your internet and refresh the page.', 'err'); }
+  }
+}
+
+bookBtn.addEventListener('click', async ()=>{
+  const s = state.slots.find(x=>x.id===selectedSlot);
+  if(!s || !pinIn.value) return;
+  const name = nameSel.options[nameSel.selectedIndex].textContent;
+  if(!confirm(`Book this mentoring slot?\n\n${name}\n${fullLabel(s)}`)) return;
+
+  if(!LIVE){ showMsg('Preview mode — this booking was not saved. Add the Web app URL to go live.', 'info'); return; }
+
+  busy = true; updateButton(); clearMsg();
+  try{
+    const r = await fetch(WEB_APP_URL, { method:'POST', body: JSON.stringify({ batch:BATCH, name, pin:pinIn.value, slotId:s.id }) });
+    const j = await r.json();
+    if(j.ok){
+      clearInterval(pollTimer);
+      $('doneTitle').textContent = `${name.split(' ')[0]}, your slot is booked`;
+      $('doneWhen').textContent = fullLabel(s);
+      $('bookingView').classList.add('hidden');
+      $('setupNote').classList.remove('show');
+      $('doneView').classList.remove('hidden');
+      window.scrollTo({top:0,behavior:'smooth'});
+      return;
+    }
+    if(j.state) state = j.state;
+    selectedSlot = null;
+    busy = false; render();
+    if(j.code!=='ALREADY') showMsg(j.error || 'Booking failed. Please try again.', 'err');
+  }catch(e){
+    busy = false; updateButton();
+    showMsg('Something went wrong while booking. Please refresh the page and check if your slot shows as booked before trying again.', 'err');
+  }
+});
+
+/* ===== START ===== */
+if(!LIVE) $('setupNote').classList.add('show');
+loadState(false);
+if(LIVE) pollTimer = setInterval(()=>{ if(!busy) loadState(true); }, 20000);
+</script>
+</body>
+</html>
