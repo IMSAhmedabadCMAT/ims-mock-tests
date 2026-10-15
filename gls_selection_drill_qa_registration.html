@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selection Drill (QA) Registration — IMS Ahmedabad</title>
+<style>
+  :root{
+    --navy:#27404F;
+    --navy-deep:#1C2E3A;
+    --slate:#3D5A73;
+    --coral:#E76F51;
+    --coral-deep:#C85A3E;
+    --ice:#EEF2F5;
+    --ice-2:#DCE3E8;
+    --line:#C7D3DC;
+    --ink:#263238;
+    --error:#C0392B;
+    --white:#FFFFFF;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background:var(--ice);
+    font-family:Verdana, Geneva, "Segoe UI", sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:32px 16px 64px;
+  }
+
+  .card{
+    width:100%;
+    max-width:520px;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:32px 28px 28px;
+    box-shadow:0 1px 2px rgba(28,46,58,0.04), 0 8px 24px rgba(28,46,58,0.06);
+  }
+
+  .eyebrow{
+    color:var(--coral);
+    font-size:12.5px;
+    font-weight:bold;
+    letter-spacing:0.04em;
+    margin-bottom:8px;
+  }
+
+  h1{
+    color:var(--navy);
+    font-size:22px;
+    line-height:1.3;
+    margin:0 0 6px;
+  }
+
+  .subtitle{
+    color:var(--slate);
+    font-size:14px;
+    line-height:1.5;
+    margin:0 0 20px;
+  }
+
+  /* Fixed event info + live seat counter */
+  .event-info{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    background:var(--ice);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:13px 14px;
+    margin-bottom:22px;
+  }
+
+  .event-info-text{
+    font-size:13.5px;
+    color:var(--navy-deep);
+    line-height:1.6;
+  }
+
+  .seats-badge{
+    flex-shrink:0;
+    font-size:12px;
+    font-weight:bold;
+    color:var(--slate);
+    padding:5px 11px;
+    border-radius:999px;
+    background:var(--white);
+    border:1px solid var(--line);
+    white-space:nowrap;
+  }
+
+  .seats-badge.low{
+    color:var(--coral-deep);
+    background:rgba(231,111,81,0.12);
+    border-color:transparent;
+  }
+
+  .seats-badge.full{
+    color:var(--error);
+    background:#FBEAE8;
+    border-color:transparent;
+  }
+
+  .section{
+    margin-bottom:20px;
+  }
+
+  label{
+    display:block;
+    font-size:13.5px;
+    font-weight:bold;
+    color:var(--navy-deep);
+    margin-bottom:7px;
+  }
+
+  .hint{
+    display:block;
+    font-size:12px;
+    font-weight:normal;
+    color:var(--slate);
+    margin-top:5px;
+  }
+
+  .req{
+    color:var(--coral-deep);
+    font-weight:bold;
+  }
+
+  input[type="text"]{
+    width:100%;
+    padding:11px 12px;
+    font-size:15px;
+    font-family:inherit;
+    color:var(--ink);
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+    appearance:none;
+    -webkit-appearance:none;
+  }
+
+  input[type="text"]:focus{
+    border-color:var(--coral);
+    box-shadow:0 0 0 3px rgba(231,111,81,0.15);
+  }
+
+  .field-error input[type="text"]{
+    border-color:var(--error);
+  }
+
+  .error{
+    color:var(--error);
+    font-size:12.5px;
+    margin-top:6px;
+    min-height:0;
+    display:none;
+  }
+
+  .field-error .error{
+    display:block;
+  }
+
+  /* Confirmation */
+  .checkbox-row{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    font-size:13.5px;
+    font-weight:normal;
+    color:var(--ink);
+    line-height:1.5;
+    cursor:pointer;
+  }
+
+  .checkbox-row input{
+    margin-top:3px;
+    width:17px;
+    height:17px;
+    accent-color:var(--coral);
+    flex-shrink:0;
+    cursor:pointer;
+  }
+
+  /* Banner */
+  .form-banner{
+    font-size:13.5px;
+    padding:11px 13px;
+    border-radius:8px;
+    margin-bottom:18px;
+  }
+
+  .form-banner.error{
+    background:#FBEAE8;
+    color:var(--error);
+    border:1px solid #F0C7C1;
+  }
+
+  /* Submit button */
+  .submit-btn{
+    width:100%;
+    font-family:inherit;
+    font-size:15.5px;
+    font-weight:bold;
+    color:var(--white);
+    background:var(--coral);
+    border:none;
+    border-radius:9px;
+    padding:14px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    transition:background .15s ease;
+  }
+
+  .submit-btn:hover{
+    background:var(--coral-deep);
+  }
+
+  .submit-btn:disabled{
+    background:var(--ice-2);
+    color:var(--slate);
+    cursor:not-allowed;
+  }
+
+  .spinner{
+    width:16px;
+    height:16px;
+    border:2px solid rgba(255,255,255,0.5);
+    border-top-color:var(--white);
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+  }
+
+  .submit-btn:disabled .spinner{
+    border:2px solid rgba(61,90,115,0.3);
+    border-top-color:var(--slate);
+  }
+
+  @keyframes spin{
+    to{ transform:rotate(360deg); }
+  }
+
+  /* Success state */
+  .success-state{
+    text-align:center;
+    padding:12px 4px 4px;
+  }
+
+  .success-icon{
+    width:52px;
+    height:52px;
+    margin:0 auto 16px;
+    border-radius:50%;
+    background:var(--navy);
+    color:var(--white);
+    font-size:26px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .success-state h2{
+    color:var(--navy);
+    font-size:19px;
+    margin:0 0 8px;
+  }
+
+  .success-state p{
+    color:var(--slate);
+    font-size:14px;
+    margin:0 0 18px;
+    line-height:1.5;
+  }
+
+  .success-summary{
+    text-align:left;
+    background:var(--ice);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+  }
+
+  .success-summary div{
+    display:flex;
+    justify-content:space-between;
+    font-size:13.5px;
+    padding:6px 0;
+    border-bottom:1px solid var(--ice-2);
+  }
+
+  .success-summary div:last-child{
+    border-bottom:none;
+  }
+
+  .success-summary span:first-child{
+    color:var(--slate);
+  }
+
+  .success-summary span:last-child{
+    color:var(--navy-deep);
+    font-weight:bold;
+    text-align:right;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="card">
+    <div class="eyebrow">IMS Ahmedabad · GLS CAT Aspirants</div>
+    <h1>Selection Drill (QA)</h1>
+    <p class="subtitle">Register below to book your seat. Seats are limited and first come, first served.</p>
+
+    <div class="event-info">
+      <div class="event-info-text">
+        📅 22 October 2026 (Thursday)<br>
+        ⏰ 9:00 AM – 12:00 Noon<br>
+        📍 Phenom
+      </div>
+      <span class="seats-badge" id="seatsBadge" data-seats-badge>Checking…</span>
+    </div>
+
+    <form id="regForm" novalidate>
+
+      <div class="section" id="group-studentName">
+        <label for="studentName">Full Name <span class="req">*</span></label>
+        <input type="text" id="studentName" name="studentName" autocomplete="off" placeholder="Enter your full name">
+        <div class="error" id="err-studentName">Please enter your full name.</div>
+      </div>
+
+      <div class="section" id="group-batch">
+        <label for="batch">Batch <span class="req">*</span></label>
+        <input type="text" id="batch" name="batch" autocomplete="off" placeholder="Enter your batch">
+        <div class="error" id="err-batch">Please enter your batch.</div>
+      </div>
+
+      <div class="section" id="group-imsPin">
+        <label for="imsPin">IMS PIN <span class="req">*</span></label>
+        <input type="text" id="imsPin" name="imsPin" autocomplete="off" placeholder="Enter your IMS PIN">
+        <div class="error" id="err-imsPin">Please enter your IMS PIN.</div>
+      </div>
+
+      <div class="section" id="group-confirmation">
+        <label class="checkbox-row" for="confirmation">
+          <input type="checkbox" id="confirmation" name="confirmation">
+          <span>I am booking this seat and confirm that I will attend the Selection Drill (QA) at Phenom on 22 October, 9:00 AM to 12:00 Noon.</span>
+        </label>
+        <div class="error" id="err-confirmation">Please confirm before booking.</div>
+      </div>
+
+      <div class="form-banner error" id="formBanner" hidden></div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        <span class="btn-label">Book My Seat</span>
+        <span class="spinner" id="spinner" hidden></span>
+      </button>
+    </form>
+
+    <div class="success-state" id="successState" hidden>
+      <div class="success-icon">&#10003;</div>
+      <h2>Seat booked!</h2>
+      <p>We'll see you at Phenom on 22 October, 9:00 AM to 12:00 Noon.</p>
+      <div class="success-summary" id="successSummary"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   CONFIGURATION
+   ========================================================= */
+const CONFIG = {
+  // This form has its OWN new Google Sheet and its OWN separate Apps
+  // Script deployment (Code_gls_selection_drill_qa.gs) — it does NOT use
+  // the shared SimCMAT script. Paste your deployed Web App URL here once
+  // you've created the new Sheet, added the script, and deployed it
+  // (Deploy -> New deployment -> Web app -> Execute as: Me, Who has
+  // access: Anyone -> Deploy). Use the /exec URL, not /dev.
+  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyOsp_eZvDKJ3Yx6E1SH47hFXD7U5YFvjamDlMiCW4uoCip3Y9XXF3WMM1NeuQUy2eU/exec",
+
+  // This drill has only ONE fixed date+time (no choice for the student),
+  // so these are sent as-is with every submission. Must match EXACTLY
+  // (including spacing/punctuation) EVENT_DATE / EVENT_TIME in
+  // Code_gls_selection_drill_qa.gs, since the seat count is keyed on this
+  // exact date+time string pair.
+  EVENT_DATE: "2026-10-22",
+  EVENT_TIME: "9:00 AM – 12:00 Noon",
+
+  TOTAL_SEATS: 140
+};
+/* ========================================================= */
+
+function slotKey(date, time){
+  return date + "|" + time;
+}
+
+// Live seat counter — this drill has a single slot, so there's just one
+// badge to update rather than a grid of cards.
+const seatsBadge = document.getElementById("seatsBadge");
+let remainingSeats = null;
+
+function renderSeatsBadge(booked, cap){
+  const remaining = Math.max(0, cap - booked);
+  remainingSeats = remaining;
+  if (remaining <= 0){
+    seatsBadge.textContent = "Full";
+    seatsBadge.classList.add("full");
+    seatsBadge.classList.remove("low");
+    submitBtn.disabled = true;
+  } else {
+    seatsBadge.textContent = remaining + " of " + cap + " seats left";
+    seatsBadge.classList.remove("full");
+    seatsBadge.classList.toggle("low", remaining <= 15);
+    submitBtn.disabled = false;
+  }
+}
+
+async function fetchSeatCount(){
+  try {
+    const res = await fetch(CONFIG.APPS_SCRIPT_URL, { method: "GET" });
+    const result = await res.json();
+    if (result.status === "success"){
+      const key = slotKey(CONFIG.EVENT_DATE, CONFIG.EVENT_TIME);
+      const booked = (result.counts && result.counts[key]) || 0;
+      let cap = CONFIG.TOTAL_SEATS;
+      if (Array.isArray(result.slots)){
+        const match = result.slots.find(s => slotKey(s.date, s.time) === key);
+        if (match && typeof match.cap === "number") cap = match.cap;
+      }
+      renderSeatsBadge(booked, cap);
+    }
+  } catch (err){
+    seatsBadge.textContent = "";
+    // server still enforces the real cap when the form is submitted
+  }
+}
+
+// Field error helpers
+function setFieldError(field){
+  document.getElementById("group-" + field).classList.add("field-error");
+}
+function clearFieldError(field){
+  document.getElementById("group-" + field).classList.remove("field-error");
+}
+function clearAllErrors(){
+  ["studentName","batch","imsPin","confirmation"].forEach(clearFieldError);
+}
+
+document.getElementById("studentName").addEventListener("input", () => clearFieldError("studentName"));
+document.getElementById("batch").addEventListener("input", () => clearFieldError("batch"));
+document.getElementById("imsPin").addEventListener("input", () => clearFieldError("imsPin"));
+document.getElementById("confirmation").addEventListener("change", () => clearFieldError("confirmation"));
+
+// Validation
+function validate(){
+  clearAllErrors();
+  let firstInvalid = null;
+  const values = {
+    studentName: document.getElementById("studentName").value.trim(),
+    batch: document.getElementById("batch").value.trim(),
+    imsPin: document.getElementById("imsPin").value.trim(),
+    confirmation: document.getElementById("confirmation").checked
+  };
+
+  if (!values.studentName){ setFieldError("studentName"); firstInvalid = firstInvalid || "studentName"; }
+  if (!values.batch){ setFieldError("batch"); firstInvalid = firstInvalid || "batch"; }
+  if (!values.imsPin){ setFieldError("imsPin"); firstInvalid = firstInvalid || "imsPin"; }
+  if (!values.confirmation){ setFieldError("confirmation"); firstInvalid = firstInvalid || "confirmation"; }
+
+  if (firstInvalid){
+    document.getElementById("group-" + firstInvalid).scrollIntoView({ behavior:"smooth", block:"center" });
+    return null;
+  }
+  return values;
+}
+
+// Submit
+const form = document.getElementById("regForm");
+const submitBtn = document.getElementById("submitBtn");
+const btnLabel = submitBtn.querySelector(".btn-label");
+const spinner = document.getElementById("spinner");
+const formBanner = document.getElementById("formBanner");
+let isSubmitting = false;
+
+function setLoading(loading){
+  submitBtn.disabled = loading;
+  spinner.hidden = !loading;
+  btnLabel.textContent = loading ? "Booking..." : "Book My Seat";
+}
+
+function showBanner(message){
+  formBanner.textContent = message;
+  formBanner.hidden = false;
+}
+
+function hideBanner(){
+  formBanner.hidden = true;
+}
+
+async function submitToAppsScript(values){
+  const res = await fetch(CONFIG.APPS_SCRIPT_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({
+      studentName: values.studentName,
+      batch: values.batch,
+      imsPin: values.imsPin,
+      preferredDate: CONFIG.EVENT_DATE,
+      preferredTime: CONFIG.EVENT_TIME
+    })
+  });
+  return res.json();
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (isSubmitting) return;
+
+  hideBanner();
+  const values = validate();
+  if (!values) return;
+
+  isSubmitting = true;
+  setLoading(true);
+
+  try {
+    const result = await submitToAppsScript(values);
+
+    if (result.status === "full"){
+      showBanner("All seats for this drill have just been filled.");
+      fetchSeatCount();
+      isSubmitting = false;
+      setLoading(false);
+      return;
+    }
+
+    if (result.status === "error"){
+      throw new Error(result.message || "Something went wrong.");
+    }
+
+    form.hidden = true;
+    const successState = document.getElementById("successState");
+    const summary = document.getElementById("successSummary");
+    summary.innerHTML = `
+      <div><span>Name</span><span>${values.studentName}</span></div>
+      <div><span>Batch</span><span>${values.batch}</span></div>
+      <div><span>IMS PIN</span><span>${values.imsPin}</span></div>
+      <div><span>Date</span><span>22 Oct 2026</span></div>
+      <div><span>Time</span><span>9:00 AM – 12:00 Noon</span></div>
+      <div><span>Venue</span><span>Phenom</span></div>
+    `;
+    successState.hidden = false;
+  } catch (err){
+    isSubmitting = false;
+    setLoading(false);
+    showBanner("We could not book your seat. Please check your internet connection and try again.");
+  }
+});
+
+fetchSeatCount();
+</script>
+
+</body>
+</html>
