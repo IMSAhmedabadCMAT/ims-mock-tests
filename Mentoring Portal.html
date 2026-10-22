@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mentoring · Mukul Sir · CNS'27</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=bespoke-serif@400,500,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e14; --bg-2:#0f141c;
+    --glass:rgba(255,255,255,.03); --glass-2:rgba(255,255,255,.05);
+    --border:rgba(255,255,255,.08); --border-2:rgba(255,255,255,.14);
+    --text:#ffffff; --text-2:#aab4c3; --text-3:#6b7a90;
+    --gold:#d4af37; --gold-2:#f9d976;
+    --gold-grad:linear-gradient(135deg,#d4af37 0%,#f9d976 50%,#d4af37 100%);
+    --gold-soft:rgba(212,175,55,.10); --gold-line:rgba(212,175,55,.45);
+    --ok:#7dd3a8; --ok-soft:rgba(125,211,168,.10);
+    --bad:#f2a08f; --bad-soft:rgba(242,160,143,.10);
+    --ease:cubic-bezier(.16,1,.3,1);
+    --serif:'Bespoke Serif', 'BespokeSerif', Georgia, 'Times New Roman', serif;
+    --sans:'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.55;
+       min-height:100vh;
+       background-image:
+         radial-gradient(900px 500px at 85% -10%, rgba(212,175,55,.08), transparent 60%),
+         radial-gradient(700px 500px at -10% 40%, rgba(99,102,241,.06), transparent 60%);
+       background-attachment:fixed}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  @media (max-width:640px){ .wrap{padding:0 16px} }
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(15px);animation:reveal .8s var(--ease) forwards;animation-delay:var(--d,0s)}
+  @keyframes reveal{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){ .reveal{animation:none;opacity:1;transform:none} *{transition:none!important} }
+
+  /* ---------- top bar ---------- */
+  .topbar{position:sticky;top:0;z-index:20;height:72px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+          background:rgba(10,14,20,.72);border-bottom:1px solid var(--border)}
+  .topbar-in{height:100%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .logo{width:36px;height:36px;border-radius:10px;background:var(--gold-grad);color:var(--bg);display:grid;place-items:center;
+        font-weight:800;font-size:12px;letter-spacing:.04em;flex:none}
+  .brand-text{font-family:var(--serif);font-size:20px;font-weight:500;white-space:nowrap}
+  .brand-text span{color:var(--text-3);font-family:var(--sans);font-size:12px;letter-spacing:.15em;text-transform:uppercase;margin-left:10px}
+  .mentor{display:flex;align-items:center;gap:10px}
+  .avatar{width:36px;height:36px;border-radius:50%;background:var(--glass-2);border:1px solid var(--gold-line);color:var(--gold);
+          display:grid;place-items:center;font-weight:700;font-size:13px;position:relative;flex:none}
+  .avatar::after{content:"";position:absolute;right:-1px;bottom:-1px;width:10px;height:10px;border-radius:50%;background:var(--ok);border:2px solid var(--bg)}
+  .m-name{font-weight:700;font-size:14px;line-height:1.2}
+  .m-sub{font-size:12px;color:var(--text-3)}
+  @media (max-width:560px){ .brand-text span{display:none} .m-sub{display:none} }
+
+  /* ---------- glass ---------- */
+  .glass{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:28px}
+
+  /* ---------- hero ---------- */
+  .hero{margin:28px 0 20px;padding:36px;display:grid;grid-template-columns:1.35fr 1fr;gap:32px;align-items:center;position:relative;overflow:hidden;
+        background:
+          radial-gradient(circle at 80% 20%, rgba(212,175,55,.15) 0%, transparent 40%),
+          radial-gradient(circle at 20% 80%, rgba(99,102,241,.10) 0%, transparent 40%),
+          var(--glass)}
+  .tag{display:inline-block;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+  .hero h1{font-family:var(--serif);font-weight:500;font-size:44px;line-height:1.08;margin:12px 0 12px;letter-spacing:-.01em}
+  .hero h1 em{font-style:normal;white-space:nowrap;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{margin:0;color:var(--text-2);max-width:520px}
+  .hero-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:22px;padding:22px}
+  .hs-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+  .hs-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.15em;font-weight:600;margin-bottom:4px}
+  .hs-val{font-size:20px;font-weight:700;line-height:1.25}
+  .hs-of{color:var(--text-3);font-weight:500;font-size:15px}
+  .bar{height:6px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden}
+  .bar-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(135deg,#d4af37,#f9d976);
+            box-shadow:0 0 15px rgba(212,175,55,.4);transition:width 2s var(--ease)}
+  .bar-cap{margin-top:8px;font-size:12px;color:var(--text-3)}
+  .bar-cap b{color:var(--gold);font-weight:700}
+  @media (max-width:860px){ .hero{grid-template-columns:1fr;padding:28px;gap:22px} .hero h1{font-size:36px} }
+  @media (max-width:480px){ .hero{padding:22px;border-radius:24px} .hero h1{font-size:30px} }
+
+  /* ---------- notes / messages ---------- */
+  .note{border-radius:16px;padding:12px 16px;font-size:14px;margin-bottom:20px;border:1px solid var(--gold-line);background:var(--gold-soft);color:var(--gold-2)}
+  .note code{background:rgba(0,0,0,.3);padding:1px 6px;border-radius:6px}
+  .msg{border-radius:14px;padding:12px 14px;font-size:14px;margin-bottom:16px;display:none;border:1px solid}
+  .msg.show{display:block}
+  .msg.err{background:var(--bad-soft);border-color:rgba(242,160,143,.35);color:var(--bad)}
+  .msg.info{background:var(--glass-2);border-color:var(--border);color:var(--text-2)}
+  .msg.okm{background:var(--ok-soft);border-color:rgba(125,211,168,.35);color:var(--ok)}
+
+  /* ---------- layout ---------- */
+  .layout{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:20px;align-items:start;margin-bottom:48px;
+          grid-template-areas:"details slots" "summary slots"}
+  .a-details{grid-area:details} .a-slots{grid-area:slots} .a-summary{grid-area:summary;position:sticky;top:92px}
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr;grid-template-areas:"details" "slots" "summary"}
+    .a-summary{position:static}
+  }
+  .card{padding:28px}
+  @media (max-width:480px){ .card{padding:20px;border-radius:24px} }
+  .card-h{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .num{width:30px;height:30px;border-radius:10px;background:var(--gold-soft);border:1px solid var(--gold-line);color:var(--gold);
+       font-weight:700;font-size:13px;display:grid;place-items:center;flex:none}
+  .card-h h2{margin:0;font-family:var(--serif);font-weight:500;font-size:22px;letter-spacing:-.005em}
+  .card-h .aside{margin-left:auto;font-size:12px;color:var(--text-3)}
+  .sub-h{display:flex;align-items:center;gap:12px;margin:26px 0 16px;padding-top:22px;border-top:1px solid var(--border)}
+  .sub-h h2{margin:0;font-family:var(--serif);font-weight:500;font-size:22px}
+
+  /* ---------- fields ---------- */
+  .fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .full{grid-column:1/-1}
+  @media (max-width:420px){ .fields{grid-template-columns:1fr} }
+  label{display:block;font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-3);margin-bottom:7px}
+  .control{width:100%;font:inherit;font-size:15px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--border);
+           border-radius:14px;padding:13px 14px;outline:none;transition:border-color .25s var(--ease), box-shadow .25s var(--ease), background .25s}
+  .control:hover:not(:disabled):not([readonly]){border-color:var(--border-2)}
+  .control:focus{border-color:var(--gold-line);box-shadow:0 0 0 3px rgba(212,175,55,.12);background:rgba(255,255,255,.06)}
+  .control::placeholder{color:var(--text-3)}
+  select.control{appearance:none;-webkit-appearance:none;padding-right:42px;cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23d4af37' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 16px center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  select.control option{background:var(--bg-2);color:var(--text)}
+  select.control:disabled{cursor:not-allowed;opacity:.5}
+  .control[readonly]{color:var(--text-2);background:rgba(255,255,255,.02);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+  .hint{font-size:12px;color:var(--text-3);margin-top:7px}
+  #otherWrap{margin-top:14px}
+
+  /* ---------- slots ---------- */
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--text-3);margin:-6px 0 18px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid var(--border-2)}
+  .legend .l-sel{background:var(--gold);border-color:var(--gold)}
+  .legend .l-off{background:rgba(255,255,255,.06);border-style:dashed}
+  .loading{color:var(--text-3);font-size:14px;padding:4px 0 8px}
+  .day{margin-bottom:22px}
+  .day:last-child{margin-bottom:4px}
+  .day-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}
+  .day-h b{font-weight:700;font-size:14px}
+  .day-h span{font-size:12px;color:var(--text-3)}
+  .day-h span.has{color:var(--gold)}
+  .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(164px,1fr));gap:10px}
+  @media (max-width:400px){ .slots{grid-template-columns:1fr 1fr} .slot{padding:12px} .slot .t{font-size:14px} }
+  .slot{font:inherit;text-align:left;color:var(--text);background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:16px;
+        padding:12px 14px;cursor:pointer;transition:transform .35s var(--ease), border-color .25s, box-shadow .35s var(--ease), background .25s}
+  .slot .t{font-weight:700;font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .slot .s{font-size:12px;color:var(--ok);margin-top:2px}
+  .slot:hover:not(:disabled){transform:translateY(-5px);border-color:var(--gold-line);box-shadow:0 0 20px rgba(212,175,55,.08)}
+  .slot.sel{background:var(--gold-soft);border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset, 0 0 24px rgba(212,175,55,.12)}
+  .slot.sel .t{color:var(--gold-2)} .slot.sel .s{color:var(--gold)}
+  .slot:disabled{cursor:not-allowed;background:transparent;border-style:dashed}
+  .slot:disabled .t{color:var(--text-3);text-decoration:line-through;text-decoration-color:rgba(255,255,255,.25)}
+  .slot:disabled .s{color:var(--text-3)}
+  .empty{text-align:center;padding:28px 12px;color:var(--text-2)}
+  .empty b{display:block;font-family:var(--serif);font-weight:500;font-size:20px;color:var(--text);margin-bottom:4px}
+
+  /* ---------- summary ---------- */
+  .summary dl{margin:0 0 22px;display:grid;grid-template-columns:auto 1fr;gap:12px 18px}
+  .summary dt{font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-3);padding-top:2px}
+  .summary dd{margin:0;font-weight:600;font-size:14px;text-align:right;overflow-wrap:anywhere}
+  .summary dd.pending{color:var(--text-3);font-weight:500}
+  .summary dd.gold{color:var(--gold-2)}
+
+  /* ---------- shimmer button ---------- */
+  .btn{position:relative;overflow:hidden;width:100%;border:0;border-radius:999px;padding:16px 22px;font:inherit;font-weight:700;font-size:15px;
+       letter-spacing:.02em;color:var(--bg);background:#d4af37;background-image:var(--gold-grad);background-size:200% 100%;cursor:pointer;
+       transition:transform .35s var(--ease), box-shadow .35s var(--ease), opacity .25s}
+  .btn::after{content:"";position:absolute;top:0;left:-100%;width:50%;height:100%;
+              background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-25deg);
+              animation:shimmer 4s infinite}
+  @keyframes shimmer{0%{left:-100%}60%,100%{left:200%}}
+  .btn:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 10px 30px rgba(212,175,55,.25)}
+  .btn:disabled{cursor:not-allowed;background:rgba(255,255,255,.06);background-image:none;color:var(--text-3);box-shadow:none}
+  .btn:disabled::after{display:none}
+  .fine{font-size:12px;color:var(--text-3);text-align:center;margin:12px 0 0}
+
+  /* ---------- done ---------- */
+  .done{max-width:640px;margin:0 auto 56px;padding:44px 36px;text-align:center}
+  .tick{width:72px;height:72px;border-radius:50%;background:var(--gold-grad);color:var(--bg);display:grid;place-items:center;margin:0 auto 18px;
+        box-shadow:0 0 40px rgba(212,175,55,.3)}
+  .done h2{font-family:var(--serif);font-weight:500;font-size:32px;margin:0 0 6px}
+  .done p{color:var(--text-2);margin:0}
+  .ticket{margin:26px 0 22px;padding:20px 22px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid var(--border);text-align:left}
+  .ticket dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 18px}
+  .ticket dt{font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-3);padding-top:2px}
+  .ticket dd{margin:0;font-weight:600;text-align:right;overflow-wrap:anywhere}
+  .ticket dd.gold{color:var(--gold-2)}
+  @media (max-width:480px){ .done{padding:32px 20px} .done h2{font-size:26px} }
+
+  .hidden{display:none!important}
+  footer{text-align:center;font-size:12px;color:var(--text-3);padding:0 16px 36px;letter-spacing:.05em}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <div class="brand">
+      <span class="logo">IMS</span>
+      <span class="brand-text">Mentoring<span>CNS'27 · Ahmedabad</span></span>
+    </div>
+    <div class="mentor">
+      <span class="avatar">MA</span>
+      <div><div class="m-name">Mukul Arora</div><div class="m-sub">Your mentor</div></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="glass hero reveal" style="--d:.05s">
+    <div>
+      <span class="tag">One-on-one mentoring · 27CNS 01–08</span>
+      <h1>Book your session with <em>Mukul Sir</em></h1>
+      <p>Choose your batch and name, tell us what you'd like to discuss, and lock your slot.
+         Slots are first come, first served — one upcoming slot per student.</p>
+    </div>
+    <div class="hero-card">
+      <div class="hs-row">
+        <div><div class="hs-label">Sessions on</div><div class="hs-val" id="datePill">Loading…</div></div>
+        <div><div class="hs-label">Open slots</div><div class="hs-val"><span id="openCount">–</span><span class="hs-of"> / <span id="totalCount">–</span></span></div></div>
+      </div>
+      <div class="bar"><div class="bar-fill" id="fillBar"></div></div>
+      <div class="bar-cap"><b id="filledPct">0%</b> of slots already booked</div>
+    </div>
+  </section>
+
+  <div class="note reveal hidden" id="setupNote" style="--d:.1s">
+    <b>Preview mode.</b> The booking backend isn't connected yet, so bookings won't be saved.
+    Paste the Web app URL into <code>WEB_APP_URL</code> near the bottom of this file.
+  </div>
+
+  <section id="bookingView" class="layout">
+    <!-- details + agenda -->
+    <div class="glass card a-details reveal" style="--d:.15s">
+      <div class="card-h"><span class="num">1</span><h2>Your details</h2></div>
+      <div class="fields">
+        <div>
+          <label for="batch">Batch</label>
+          <select id="batch" class="control"><option value="">Select batch</option></select>
+        </div>
+        <div>
+          <label for="pin">IMS PIN</label>
+          <input id="pin" class="control" readonly placeholder="Auto-filled" tabindex="-1">
+        </div>
+        <div class="full">
+          <label for="name">Name</label>
+          <select id="name" class="control" disabled><option value="">Select your batch first</option></select>
+        </div>
+      </div>
+
+      <div class="sub-h"><span class="num">2</span><h2>Agenda</h2></div>
+      <label for="agenda">What would you like to discuss?</label>
+      <select id="agenda" class="control"><option value="">Select an agenda</option></select>
+      <div id="otherWrap" class="hidden">
+        <label for="otherText">Your agenda</label>
+        <input id="otherText" class="control" maxlength="200" placeholder="e.g. Time management in Quant">
+        <div class="hint">A few words are enough — it helps Mukul Sir prepare for your session.</div>
+      </div>
+    </div>
+
+    <!-- slots -->
+    <div class="glass card a-slots reveal" style="--d:.22s">
+      <div class="card-h"><span class="num">3</span><h2>Choose a slot</h2><span class="aside" id="slotAside"></span></div>
+      <div class="legend"><span><i></i>Available</span><span><i class="l-sel"></i>Selected</span><span><i class="l-off"></i>Booked / closed</span></div>
+      <div class="msg" id="msg"></div>
+      <div class="loading" id="loading">Checking which slots are still free…</div>
+      <div id="slotWrap"></div>
+    </div>
+
+    <!-- summary -->
+    <aside class="glass card summary a-summary reveal" style="--d:.29s">
+      <div class="card-h"><span class="num">✓</span><h2>Your booking</h2></div>
+      <dl>
+        <dt>Student</dt><dd id="sumName" class="pending">Not selected</dd>
+        <dt>Batch</dt><dd id="sumBatch" class="pending">—</dd>
+        <dt>Agenda</dt><dd id="sumAgenda" class="pending">Not selected</dd>
+        <dt>Slot</dt><dd id="sumSlot" class="pending">Not selected</dd>
+      </dl>
+      <button class="btn" id="bookBtn" disabled>Select your batch and name</button>
+      <p class="fine">Can't make it after booking? Inform Mukul Sir early so the slot can go to someone else.</p>
+    </aside>
+  </section>
+
+  <section id="doneView" class="glass done hidden">
+    <div class="tick"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h2 id="doneTitle">You're booked</h2>
+    <p>Your mentoring session with Mukul Sir is confirmed.</p>
+    <div class="ticket">
+      <dl>
+        <dt>Student</dt><dd id="tName"></dd>
+        <dt>Batch</dt><dd id="tBatch"></dd>
+        <dt>When</dt><dd id="tWhen" class="gold"></dd>
+        <dt>Agenda</dt><dd id="tAgenda"></dd>
+      </dl>
+    </div>
+    <p>Please be on time — the next student's session starts right after yours.</p>
+  </section>
+</main>
+
+<footer>IMS Ahmedabad · CNS'27 Mentoring</footer>
+
+<script>
+/* ===== CONFIG ===== */
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzYZSPReaviVqiHH5GX9w6JgWKplJs2DLNxq8Y4XPE5jg2DklDUWxln9vzAvh6OXeD_/exec';
+const BATCHES = ['27CNS 01','27CNS 02','27CNS 03','27CNS 04','27CNS 05','27CNS 06','27CNS 07','27CNS 08'];
+/* Agenda options — the live list comes from the backend; this is only the fallback */
+let AGENDAS = ['SimCMAT 3 Analysis (Targeting SimCMAT 5)','SimCMAT 5 Analysis','SimCMAT 8 Analysis','Acing SimCMAT 11','D-Day Mindset'];
+const OTHER = 'Other';
+
+/* Preview-only slot list (tomorrow). Live slots come from the "Mentoring" events on the Google Calendar via the backend. */
+const FALLBACK_SLOTS = (()=>{ const d=new Date(Date.now()+864e5+5.5*36e5).toISOString().slice(0,10);
+  return [['10:00','10:30'],['10:30','11:00'],['11:00','11:30'],['19:00','19:30'],['19:30','20:00']].map(([a,b])=>({id:d+'T'+a,date:d,start:a,end:b})); })();
+
+/* 27CNS 01–08 — active students (AHD : CNS'27 Mastersheet): [batch, name, IMS PIN] */
+const ROSTER = [
+  ["27CNS 01", "Anirudh Bhattacharjee", "STU0001205810"],
+  ["27CNS 01", "Dev Desai", "STU0001209449"],
+  ["27CNS 01", "Devarsh Dalal", "STU0001222508"],
+  ["27CNS 01", "Dhwanit Shah", "STU0001222832"],
+  ["27CNS 01", "Dwij Doshi", "STU0001209450"],
+  ["27CNS 01", "Mahak Kotak", "STU0001222510"],
+  ["27CNS 01", "Mahi Akani", "STU0001223020"],
+  ["27CNS 01", "Manasvi Patel", "IMS0001135414"],
+  ["27CNS 01", "Mansi Gohel", "STU0001218565"],
+  ["27CNS 01", "Mohit Shah", "STU0001209448"],
+  ["27CNS 01", "Nilay Parmar", "STU0001223488"],
+  ["27CNS 01", "Nisha Chokhavala", "STU0001223269"],
+  ["27CNS 01", "Prinse Trapasiya", "STU0001189645"],
+  ["27CNS 01", "Pushti Parikh", "STU0001223019"],
+  ["27CNS 01", "Sakib Haradwala", "STU0001210938"],
+  ["27CNS 01", "Samarthi Jain", "STU0001217365"],
+  ["27CNS 01", "Soban Malek", "STU0001224146"],
+  ["27CNS 01", "Ved Patel", "STU0001223013"],
+  ["27CNS 02", "Archi Nai", "STU0001222562"],
+  ["27CNS 02", "Bhagya Bhadra", "STU0001217245"],
+  ["27CNS 02", "Dev Gopalani", "STU0001217244"],
+  ["27CNS 02", "Dhruv Nesadiya", "STU0001202521"],
+  ["27CNS 02", "Feni Belani", "STU0001222563"],
+  ["27CNS 02", "Herit Parikh", "STU0001230032"],
+  ["27CNS 02", "Jiya Katharotia", "STU0001222803"],
+  ["27CNS 02", "Karan Raval", "STU0001181017"],
+  ["27CNS 02", "Manan Desai", "STU0001218607"],
+  ["27CNS 02", "Meet Kapse", "STU0001233768"],
+  ["27CNS 02", "Nirmit Vaja", "STU0001222791"],
+  ["27CNS 02", "Prasham Gotecha", "STU0001217002"],
+  ["27CNS 02", "Prashant Yadav", "STU0001231491"],
+  ["27CNS 02", "Pratik Jivrajani", "STU0001222806"],
+  ["27CNS 02", "Pratyaksh Dharukawala", "STU0001230861"],
+  ["27CNS 02", "Prit Jivrajani", "STU0001223481"],
+  ["27CNS 02", "Ruchita Rawal", "STU0001185346"],
+  ["27CNS 02", "Vaibhavi Boliya", "STU0001219884"],
+  ["27CNS 03", "Aalay Shah", "STU0001229890"],
+  ["27CNS 03", "Aman Patel", "STU0001171228"],
+  ["27CNS 03", "Amrita Rajput", "STU0001235490"],
+  ["27CNS 03", "Dhruv Soni", "STU0001232052"],
+  ["27CNS 03", "Harpreet Nanra", "STU0001235569"],
+  ["27CNS 03", "Kenil Kareliya", "STU0001243680"],
+  ["27CNS 03", "Krish Kareliya", "STU0001229216"],
+  ["27CNS 03", "Meet Dave", "STU0001237667"],
+  ["27CNS 03", "Meet Ravaliya", "STU0001235590"],
+  ["27CNS 03", "Parshva Shah", "STU0001239002"],
+  ["27CNS 03", "Prapti Bhavsar", "STU0001240572"],
+  ["27CNS 03", "Raj Patat", "STU0001235591"],
+  ["27CNS 03", "Sanjay Baldaniya", "STU0001235986"],
+  ["27CNS 03", "Shrut Patel", "STU0001204149"],
+  ["27CNS 03", "Yash Bhuva", "STU0001222509"],
+  ["27CNS 04", "Harsh Thakur", "STU0001240801"],
+  ["27CNS 04", "Hrishit Godiawala", "STU0001243748"],
+  ["27CNS 04", "Kavya Patel", "IMS0001158957"],
+  ["27CNS 04", "Mansi Satikuvar", "STU0001251643"],
+  ["27CNS 04", "Meet Kayasth", "STU0001240449"],
+  ["27CNS 04", "Meet Sachadiya", "STU0001240799"],
+  ["27CNS 04", "Nihar Vyas", "STU0001244657"],
+  ["27CNS 04", "Parth Parmar", "STU0001245719"],
+  ["27CNS 04", "Pratham Saiwal", "STU0001239620"],
+  ["27CNS 05", "Ariha Sheth", "IMS0001128259"],
+  ["27CNS 05", "Aryan Sheth", "STU0001243755"],
+  ["27CNS 05", "Aryan Vaishnani", "STU0001246851"],
+  ["27CNS 05", "Dhwani Prajapati", "STU0001243753"],
+  ["27CNS 05", "Het Patel", "STU0001252313"],
+  ["27CNS 05", "Hiya Mehta", "STU0001242538"],
+  ["27CNS 05", "Khushboo Lakhyani", "STU0001243437"],
+  ["27CNS 05", "Mohammed Kathiwala", "STU0001240302"],
+  ["27CNS 05", "Neer Mehta", "STU0001233429"],
+  ["27CNS 05", "Parth Jesani", "STU0001245162"],
+  ["27CNS 05", "Rudra Patel", "STU0001250697"],
+  ["27CNS 05", "Ruhi Prajapati", "STU0001244711"],
+  ["27CNS 05", "Shrimad Patel", "STU0001241978"],
+  ["27CNS 05", "Tirth Shah", "STU0001245281"],
+  ["27CNS 05", "Vraj Jasani", "STU0001246852"],
+  ["27CNS 05", "Vraj Shah", "IMS0001086929"],
+  ["27CNS 05", "Vrushank Prajapati", "STU0001247283"],
+  ["27CNS 06", "Aarya Patel", "STU0001251804"],
+  ["27CNS 06", "Aaryan Shilajiya", "STU0001254625"],
+  ["27CNS 06", "Anshu Rohra", "IMS0001112339"],
+  ["27CNS 06", "Anushka Patel", "STU0001266296"],
+  ["27CNS 06", "Arpita Parmar", "STU0001243006"],
+  ["27CNS 06", "Dhairya Patadiya", "STU0001269301"],
+  ["27CNS 06", "Dhimahi Thakkar", "STU0001261490"],
+  ["27CNS 06", "Dhwanit Makwana", "STU0001242521"],
+  ["27CNS 06", "Helly Shah", "STU0001257561"],
+  ["27CNS 06", "Kanika Mistry", "STU0001262535"],
+  ["27CNS 06", "Karan Pandey", "STU0001244928"],
+  ["27CNS 06", "Keyuri Joshi", "STU0001265523"],
+  ["27CNS 06", "Krisha Kotak", "STU0001268287"],
+  ["27CNS 06", "Kush Panchal", "STU0001269177"],
+  ["27CNS 06", "Mahi Patel", "STU0001267640"],
+  ["27CNS 06", "Mandeep Gadhvi", "STU0001260136"],
+  ["27CNS 06", "Mandip Parmar", "STU0001186480"],
+  ["27CNS 06", "Mayank Shukla", "STU0001262833"],
+  ["27CNS 06", "Navin Prajapati", "STU0001261821"],
+  ["27CNS 06", "Neal Soni", "STU0001262836"],
+  ["27CNS 06", "Neel Tank", "STU0001233068"],
+  ["27CNS 06", "Nimisha Joshi", "STU0001261238"],
+  ["27CNS 06", "Om Patel", "STU0001242520"],
+  ["27CNS 06", "Prachi Thakkar", "STU0001257179"],
+  ["27CNS 06", "Priyal Lalpuriya", "STU0001242197"],
+  ["27CNS 06", "Prutha Brahmkshatriya", "STU0001258713"],
+  ["27CNS 06", "Ragnya Dangi", "IMS0001092303"],
+  ["27CNS 06", "Riya Tripathi", "STU0001261308"],
+  ["27CNS 06", "Rutik Shiroya", "STU0001266019"],
+  ["27CNS 06", "Sandeep Singh Rathore", "STU0001270390"],
+  ["27CNS 06", "Saurabh Yadav", "STU0001261397"],
+  ["27CNS 06", "Urva Kadia", "STU0001259260"],
+  ["27CNS 07", "Dhruv Ugharejiya", "STU0001237932"],
+  ["27CNS 07", "Dhruvi Mehta", "STU0001262726"],
+  ["27CNS 07", "Drashti Patel", "STU0001271414"],
+  ["27CNS 07", "Hardavi Talpara", "IMS0001162886"],
+  ["27CNS 07", "Heer Patel", "STU0001271416"],
+  ["27CNS 07", "Het Panchal", "STU0001217680"],
+  ["27CNS 07", "Janvi Karmatiya", "STU0001272576"],
+  ["27CNS 07", "Jiya Modi", "STU0001280269"],
+  ["27CNS 07", "Kathan Patel", "STU0001271417"],
+  ["27CNS 07", "Kaushal Rathod", "STU0001273293"],
+  ["27CNS 07", "Khushal Yadav", "STU0001276892"],
+  ["27CNS 07", "Khushee Bhatt", "STU0001276484"],
+  ["27CNS 07", "Mansi Kasundra", "STU0001276910"],
+  ["27CNS 07", "Prince Patel", "STU0001279292"],
+  ["27CNS 07", "Raj Savaliya", "STU0001275668"],
+  ["27CNS 07", "Rutvi Thakkar", "STU0001276465"],
+  ["27CNS 07", "Satyam Chauhan", "STU0001276997"],
+  ["27CNS 07", "Shivraj Singh", "STU0001273693"],
+  ["27CNS 07", "Shubhavi Maloo", "STU0001280626"],
+  ["27CNS 07", "Sidhant Chevda", "STU0001270972"],
+  ["27CNS 07", "Urvi Jethva", "STU0001274314"],
+  ["27CNS 07", "Vishwas Shah", "STU0001273591"],
+  ["27CNS 07", "Vrinda Chhabria", "STU0001276324"],
+  ["27CNS 08", "Arav Kantibhai Maheriya", "STU0001283914"],
+  ["27CNS 08", "Dev Majithia", "STU0001284470"],
+  ["27CNS 08", "Devarsh Shah", "STU0001281840"],
+  ["27CNS 08", "Dhruv Kathiriya", "STU0001282635"],
+  ["27CNS 08", "Dhruvraj Ghediya", "STU0001283895"],
+  ["27CNS 08", "Diya Maru", "STU0001276180"],
+  ["27CNS 08", "Garima Agarwal", "STU0001290011"],
+  ["27CNS 08", "Haardh Dholakia", "STU0001287297"],
+  ["27CNS 08", "Het Kariya", "STU0001285272"],
+  ["27CNS 08", "Kabir Chandnani", "STU0001281907"],
+  ["27CNS 08", "Katrina Rebello", "STU0001284053"],
+  ["27CNS 08", "Kavya Parmar", "STU0001284331"],
+  ["27CNS 08", "Khatri Vruddhi Mayankkumar", "STU0001286738"],
+  ["27CNS 08", "Mann Desai", "STU0001273173"],
+  ["27CNS 08", "Manogya Jain", "STU0001285157"],
+  ["27CNS 08", "Meet Patel", "STU0001282030"],
+  ["27CNS 08", "Nabhag Prajapati", "STU0001289772"],
+  ["27CNS 08", "Patel Dev Gaurangbhai", "STU0001281837"],
+  ["27CNS 08", "Prisha Thakkar", "STU0001276121"],
+  ["27CNS 08", "Riya Patel", "STU0001283907"],
+  ["27CNS 08", "Rushabh Goswami", "STU0001286147"],
+  ["27CNS 08", "Satveer Singh Jethra", "IMS0001162494"],
+  ["27CNS 08", "Shripad Shukla", "IMS0001148611"],
+  ["27CNS 08", "Sujal Nikam", "STU0001205432"],
+  ["27CNS 08", "Tirth Sojitra", "STU0001284296"],
+  ["27CNS 08", "Udit Swadia", "STU0001282031"]
+];
+
+/* ===== STATE ===== */
+const LIVE = /^https:\/\/script\.google\.com\//.test(WEB_APP_URL);
+let state = null, selectedSlot = null, busy = false, pollTimer = null;
+
+const $ = id => document.getElementById(id);
+const batchSel = $('batch'), nameSel = $('name'), pinIn = $('pin'), agendaSel = $('agenda'), otherIn = $('otherText'), bookBtn = $('bookBtn');
+
+/* ===== FORMATTING ===== */
+const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DAYS_L = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function parts(d){ const [y,m,dd]=d.split('-').map(Number); const dt=new Date(Date.UTC(y,m-1,dd)); return {y,m,dd,w:dt.getUTCDay()}; }
+function t12(hm){ let [h,m]=hm.split(':').map(Number); const ap=h>=12?'PM':'AM'; h=h%12||12; return {txt:h+':'+String(m).padStart(2,'0'),ap}; }
+function timeRange(s){ const a=t12(s.start), b=t12(s.end); return a.ap===b.ap ? `${a.txt} – ${b.txt} ${b.ap}` : `${a.txt} ${a.ap} – ${b.txt} ${b.ap}`; }
+function dayShort(d){ const p=parts(d); return `${DAYS[p.w]}, ${p.dd} ${MONS[p.m-1]}`; }
+function dayLong(d){ const p=parts(d); return `${DAYS_L[p.w]}, ${p.dd} ${MONS[p.m-1]}`; }
+function dateRange(a,b){ const p=parts(a), q=parts(b);
+  return p.m===q.m ? `${p.dd}–${q.dd} ${MONS[q.m-1]}` : `${p.dd} ${MONS[p.m-1]} – ${q.dd} ${MONS[q.m-1]}`; }
+function fullLabel(s){ return `${dayShort(s.date)} · ${timeRange(s)}`; }
+function esc(t){ return String(t).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ===== MESSAGES ===== */
+function showMsg(html, kind){ const m=$('msg'); m.className='msg show '+kind; m.innerHTML=html; }
+function clearMsg(){ $('msg').className='msg'; }
+
+/* ===== STEP 1: batch → name → PIN ===== */
+BATCHES.forEach(b=>{ const o=document.createElement('option'); o.value=b; o.textContent=b; batchSel.appendChild(o); });
+batchSel.addEventListener('change', ()=>{
+  nameSel.innerHTML = '';
+  const first = document.createElement('option'); first.value='';
+  first.textContent = batchSel.value ? 'Select your name' : 'Select your batch first'; nameSel.appendChild(first);
+  ROSTER.filter(r=>r[0]===batchSel.value).forEach(([b,n,p])=>{
+    const o=document.createElement('option'); o.value=p; o.textContent=n; nameSel.appendChild(o); });
+  nameSel.disabled = !batchSel.value;
+  pinIn.value = '';
+  clearMsg(); render();
+});
+nameSel.addEventListener('change', ()=>{ pinIn.value = nameSel.value || ''; clearMsg(); render(); });
+
+/* ===== STEP 2: agenda dropdown ===== */
+function fillAgendas(){
+  const keep = agendaSel.value;
+  agendaSel.innerHTML = '<option value="">Select an agenda</option>' +
+    AGENDAS.map(a=>`<option value="${esc(a)}">${esc(a)}</option>`).join('') +
+    `<option value="${OTHER}">Other — I'll write my own</option>`;
+  if (keep && (keep===OTHER || AGENDAS.includes(keep))) agendaSel.value = keep;
+  $('otherWrap').classList.toggle('hidden', agendaSel.value!==OTHER);
+}
+fillAgendas();
+agendaSel.addEventListener('change', ()=>{
+  $('otherWrap').classList.toggle('hidden', agendaSel.value!==OTHER);
+  if (agendaSel.value===OTHER) otherIn.focus();
+  updateButton();
+});
+otherIn.addEventListener('input', updateButton);
+function agendaReady(){ return !!agendaSel.value && (agendaSel.value!==OTHER || otherIn.value.trim().length>0); }
+function agendaText(){ return agendaSel.value===OTHER ? 'Other: '+otherIn.value.trim() : agendaSel.value; }
+
+/* ===== STEP 3: slots ===== */
+function myBooking(){
+  if(!state || !pinIn.value) return null;
+  const id = state.bookedBy && state.bookedBy[pinIn.value];
+  return id ? state.slots.find(s=>s.id===id) || {id} : null;
+}
+
+function renderHero(){
+  const slots = state ? state.slots : [];
+  const dates = [...new Set(slots.map(s=>s.date))];
+  $('datePill').textContent = !dates.length ? 'Coming soon' : dates.length===1 ? dayLong(dates[0]) : dateRange(dates[0], dates[dates.length-1]);
+  const open = slots.filter(s=>s.status==='open').length, booked = slots.filter(s=>s.status==='booked').length;
+  $('openCount').textContent = open; $('totalCount').textContent = slots.length;
+  const pct = slots.length ? Math.round(booked*100/slots.length) : 0;
+  $('filledPct').textContent = pct + '%';
+  requestAnimationFrame(()=>{ $('fillBar').style.width = pct + '%'; });
+}
+
+function render(){
+  const wrap = $('slotWrap');
+  if(!state){ wrap.innerHTML=''; updateButton(); return; }
+  $('loading').classList.add('hidden');
+  renderHero();
+
+  const mine = myBooking();
+  if(mine) showMsg(`You already have an upcoming slot: <b>${mine.date?fullLabel(mine):esc(mine.id)}</b>. One upcoming slot per student — to change it, please message Mukul Sir.`, 'okm');
+
+  // drop a selection that is no longer open
+  if(selectedSlot){ const s=state.slots.find(x=>x.id===selectedSlot); if(!s||s.status!=='open') selectedSlot=null; }
+
+  const dates = [...new Set(state.slots.map(s=>s.date))];
+  const openTotal = state.slots.filter(s=>s.status==='open').length;
+  $('slotAside').textContent = state.slots.length ? `${openTotal} open` : '';
+
+  if(!state.slots.length){
+    wrap.innerHTML = `<div class="empty"><b>No slots open right now</b>New mentoring slots will appear here as soon as they're opened.</div>`;
+  } else {
+    let html = '';
+    dates.forEach(d=>{
+      const list = state.slots.filter(s=>s.date===d);
+      const open = list.filter(s=>s.status==='open').length;
+      html += `<div class="day"><div class="day-h"><b>${dayLong(d)}</b><span class="${open?'has':''}">${open ? open+' open' : 'Full'}</span></div><div class="slots">`;
+      list.forEach(s=>{
+        const off = s.status!=='open' || !!mine;
+        const sel = selectedSlot===s.id && !off;
+        const status = sel ? 'Selected' : s.status==='booked' ? 'Booked' : s.status==='closed' ? 'Closed' : 'Available';
+        html += `<button type="button" class="slot${sel?' sel':''}" data-id="${esc(s.id)}" ${off?'disabled':''} aria-pressed="${sel}">
+                   <div class="t">${timeRange(s)}</div><div class="s">${status}</div></button>`;
+      });
+      html += `</div></div>`;
+    });
+    if(!openTotal) html += `<div class="msg info show" style="margin:6px 0 0">All slots are booked for now. New slots will be shared soon.</div>`;
+    wrap.innerHTML = html;
+    wrap.querySelectorAll('.slot:not(:disabled)').forEach(b=>b.addEventListener('click', ()=>{
+      selectedSlot = b.dataset.id; if(!myBooking()) clearMsg(); render();
+    }));
+  }
+  updateButton();
+}
+
+/* ===== SUMMARY + BUTTON ===== */
+function setSum(id, val, placeholder, gold){
+  const el=$(id); el.textContent = val || placeholder; el.className = val ? (gold?'gold':'') : 'pending';
+}
+function updateButton(){
+  const s = state && state.slots.find(x=>x.id===selectedSlot);
+  const name = nameSel.value ? nameSel.options[nameSel.selectedIndex].textContent : '';
+  setSum('sumName', name, 'Not selected');
+  setSum('sumBatch', batchSel.value, '—');
+  setSum('sumAgenda', agendaReady() ? agendaText() : '', agendaSel.value===OTHER ? 'Write your agenda' : 'Not selected');
+  setSum('sumSlot', s ? fullLabel(s) : '', 'Not selected', true);
+
+  const mine = myBooking();
+  let label, ok = false;
+  if(busy) label = 'Booking your slot…';
+  else if(mine) label = 'You already have a slot';
+  else if(!pinIn.value) label = batchSel.value ? 'Select your name' : 'Select your batch and name';
+  else if(!agendaReady()) label = agendaSel.value===OTHER ? 'Write your agenda' : 'Choose your agenda';
+  else if(!s) label = 'Choose a slot';
+  else { label = 'Confirm booking'; ok = true; }
+  bookBtn.disabled = !ok; bookBtn.textContent = label;
+}
+
+/* ===== DATA ===== */
+function previewState(){
+  const now = Date.now();
+  return { slots: FALLBACK_SLOTS.map(s=>({...s, status: new Date(`${s.date}T${s.start}:00+05:30`).getTime()<=now?'closed':'open'})), bookedBy:{} };
+}
+async function loadState(silent){
+  if(!LIVE){ state = previewState(); render(); return; }
+  try{
+    const r = await fetch(WEB_APP_URL + '?t=' + Date.now());
+    const j = await r.json();
+    if(!(j && j.ok)) throw new Error();
+    state = j;
+    if(Array.isArray(j.agendas) && j.agendas.length && j.agendas.join('|')!==AGENDAS.join('|')){ AGENDAS = j.agendas; fillAgendas(); }
+    render();
+  }catch(e){
+    if(!silent){ $('loading').classList.add('hidden'); showMsg('Could not load the slots. Please check your internet connection and refresh the page.', 'err'); }
+  }
+}
+
+bookBtn.addEventListener('click', async ()=>{
+  const s = state && state.slots.find(x=>x.id===selectedSlot);
+  if(!s || !pinIn.value || !agendaReady()) return;
+  const name = nameSel.options[nameSel.selectedIndex].textContent;
+
+  if(!LIVE){ showMsg('Preview mode — this booking was not saved. Connect the backend URL to go live.', 'info'); return; }
+
+  busy = true; updateButton(); clearMsg();
+  try{
+    const r = await fetch(WEB_APP_URL, { method:'POST', body: JSON.stringify({
+      batch: batchSel.value, name, pin: pinIn.value, slotId: s.id,
+      agenda: agendaSel.value, agendaOther: agendaSel.value===OTHER ? otherIn.value.trim() : '' }) });
+    const j = await r.json();
+    if(j.ok){
+      clearInterval(pollTimer);
+      $('doneTitle').textContent = `You're booked, ${name.split(' ')[0]}`;
+      $('tName').textContent = name; $('tBatch').textContent = batchSel.value;
+      $('tWhen').textContent = fullLabel(s); $('tAgenda').textContent = agendaText();
+      $('bookingView').classList.add('hidden'); $('setupNote').classList.add('hidden');
+      $('doneView').classList.remove('hidden'); $('doneView').classList.add('reveal');
+      window.scrollTo({top:0, behavior:'smooth'});
+      return;
+    }
+    if(j.state) state = j.state;
+    selectedSlot = null; busy = false; render();
+    if(j.code!=='ALREADY') showMsg(esc(j.error || 'Booking failed. Please try again.'), 'err');
+  }catch(e){
+    busy = false; updateButton();
+    showMsg('Something went wrong while booking. Please refresh the page and check whether your slot shows as booked before trying again.', 'err');
+  }
+});
+
+/* ===== START ===== */
+if(!LIVE) $('setupNote').classList.remove('hidden');
+loadState(false);
+if(LIVE) pollTimer = setInterval(()=>{ if(!busy) loadState(true); }, 20000);
+</script>
+</body>
+</html>
