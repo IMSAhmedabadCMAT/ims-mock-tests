@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mentoring Admin · Mukul Sir</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=bespoke-serif@400,500,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e14; --bg-2:#0f141c;
+    --glass:rgba(255,255,255,.03); --glass-2:rgba(255,255,255,.05);
+    --border:rgba(255,255,255,.08); --border-2:rgba(255,255,255,.14);
+    --text:#fff; --text-2:#aab4c3; --text-3:#6b7a90;
+    --gold:#d4af37; --gold-2:#f9d976;
+    --gold-grad:linear-gradient(135deg,#d4af37 0%,#f9d976 50%,#d4af37 100%);
+    --gold-soft:rgba(212,175,55,.10); --gold-line:rgba(212,175,55,.45);
+    --ok:#7dd3a8; --ok-soft:rgba(125,211,168,.12);
+    --bad:#f2a08f; --bad-soft:rgba(242,160,143,.12);
+    --warn:#f5c26b; --warn-soft:rgba(245,194,107,.12);
+    --blue:#93a8ff; --blue-soft:rgba(147,168,255,.12);
+    --ease:cubic-bezier(.16,1,.3,1);
+    --serif:'Bespoke Serif','BespokeSerif',Georgia,'Times New Roman',serif;
+    --sans:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5;min-height:100vh;
+       background-image:radial-gradient(900px 500px at 85% -10%,rgba(212,175,55,.07),transparent 60%),
+                        radial-gradient(700px 500px at -10% 40%,rgba(99,102,241,.05),transparent 60%);
+       background-attachment:fixed}
+  button{font:inherit;color:inherit}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 24px}
+  @media (max-width:640px){.wrap{padding:0 14px}}
+  .reveal{opacity:0;transform:translateY(15px);animation:reveal .8s var(--ease) forwards;animation-delay:var(--d,0s)}
+  @keyframes reveal{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1;transform:none}*{transition:none!important}}
+  .hidden{display:none!important}
+  .glass{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:24px}
+
+  /* top bar */
+  .topbar{position:sticky;top:0;z-index:30;height:68px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+          background:rgba(10,14,20,.78);border-bottom:1px solid var(--border)}
+  .topbar-in{height:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .logo{width:34px;height:34px;border-radius:10px;background:var(--gold-grad);color:var(--bg);display:grid;place-items:center;font-weight:800;font-size:12px;flex:none}
+  .brand-text{font-family:var(--serif);font-size:19px;font-weight:500;white-space:nowrap}
+  .brand-text span{color:var(--gold);font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-left:10px;
+                   border:1px solid var(--gold-line);border-radius:999px;padding:3px 9px;vertical-align:3px}
+  .top-r{display:flex;align-items:center;gap:10px;min-width:0}
+  .cal-chip{font-size:12px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px}
+  .cal-chip b{color:var(--text-2);font-weight:600}
+  @media (max-width:700px){.cal-chip{display:none}}
+
+  /* buttons */
+  .btn{position:relative;overflow:hidden;border:0;border-radius:999px;padding:11px 20px;font-weight:700;font-size:14px;cursor:pointer;
+       color:var(--bg);background:#d4af37;background-image:var(--gold-grad);background-size:200% 100%;
+       transition:transform .35s var(--ease),box-shadow .35s var(--ease),opacity .2s;white-space:nowrap}
+  .btn::after{content:"";position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
+              transform:skewX(-25deg);animation:shimmer 4s infinite}
+  @keyframes shimmer{0%{left:-100%}60%,100%{left:200%}}
+  .btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 26px rgba(212,175,55,.25)}
+  .btn:disabled{cursor:not-allowed;background:rgba(255,255,255,.06);background-image:none;color:var(--text-3);box-shadow:none}
+  .btn:disabled::after{display:none}
+  .ghost{border:1px solid var(--border-2);background:rgba(255,255,255,.03);border-radius:999px;padding:9px 16px;font-weight:600;font-size:13px;cursor:pointer;
+         color:var(--text-2);transition:border-color .2s,color .2s,background .2s,transform .3s var(--ease);white-space:nowrap}
+  .ghost:hover:not(:disabled){border-color:var(--gold-line);color:var(--text)}
+  .ghost:disabled{opacity:.4;cursor:not-allowed}
+  .ghost.danger{color:var(--bad);border-color:rgba(242,160,143,.35)}
+  .ghost.danger:hover{background:var(--bad-soft);border-color:var(--bad)}
+  .icon-btn{width:38px;height:38px;border-radius:12px;border:1px solid var(--border-2);background:rgba(255,255,255,.03);cursor:pointer;display:grid;place-items:center;color:var(--text-2);
+            transition:border-color .2s,color .2s}
+  .icon-btn:hover:not(:disabled){border-color:var(--gold-line);color:var(--gold)}
+  .icon-btn:disabled{opacity:.35;cursor:not-allowed}
+
+  /* lock screen */
+  .lock{min-height:calc(100vh - 68px);display:grid;place-items:center;padding:32px 0}
+  .lock-card{width:min(440px,100%);padding:36px;
+             background:radial-gradient(circle at 85% 10%,rgba(212,175,55,.14) 0%,transparent 45%),var(--glass)}
+  .lock-card h1{font-family:var(--serif);font-weight:500;font-size:32px;margin:10px 0 6px;line-height:1.1}
+  .lock-card p{color:var(--text-2);margin:0 0 22px}
+  .tag{color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+  label.l{display:block;font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-3);margin-bottom:7px}
+  .control{width:100%;font:inherit;font-size:15px;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:13px 14px;outline:none;
+           transition:border-color .25s,box-shadow .25s}
+  .control:focus{border-color:var(--gold-line);box-shadow:0 0 0 3px rgba(212,175,55,.12)}
+  .check{display:flex;align-items:center;gap:9px;margin:14px 0 20px;color:var(--text-2);font-size:13px;cursor:pointer;user-select:none}
+  .check input{accent-color:var(--gold);width:16px;height:16px;margin:0}
+  .lock-card .btn{width:100%;padding:14px}
+  .err{color:var(--bad);font-size:13px;margin-top:12px;min-height:20px}
+
+  /* header */
+  .head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin:28px 0 18px}
+  .head h1{font-family:var(--serif);font-weight:500;font-size:34px;line-height:1.1;margin:8px 0 6px;letter-spacing:-.01em}
+  .head h1 em{font-style:normal;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .head p{margin:0;color:var(--text-2);max-width:620px}
+  .stats{display:flex;gap:10px;flex-wrap:wrap}
+  .stat{min-width:104px;padding:12px 16px;border-radius:18px;background:var(--glass);border:1px solid var(--border)}
+  .stat .k{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
+  .stat .v{font-size:22px;font-weight:800;line-height:1.2;font-variant-numeric:tabular-nums}
+  .stat.gold .v{color:var(--gold-2)} .stat.warn .v{color:var(--warn)}
+  @media (max-width:640px){.head h1{font-size:28px}.stat{min-width:0;flex:1}}
+
+  /* toolbar */
+  .toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:14px 16px;margin-bottom:14px;border-radius:20px}
+  .weeknav{display:flex;align-items:center;gap:8px}
+  .weeklabel{font-weight:700;font-size:15px;min-width:170px;text-align:center;font-variant-numeric:tabular-nums}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--text-3)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:4px;border:1px solid var(--border-2);display:inline-block}
+  .sw.open{background:var(--gold);border-color:var(--gold)}
+  .sw.booked{background:var(--ok-soft);border-color:var(--ok)}
+  .sw.busy{background:repeating-linear-gradient(135deg,rgba(255,255,255,.12) 0 3px,transparent 3px 6px)}
+  .sw.clash{background:var(--warn-soft);border-color:var(--warn)}
+  .sw.held{background:var(--blue-soft);border-color:var(--blue)}
+  .tb-r{display:flex;gap:8px;align-items:center}
+  @media (max-width:560px){
+    .toolbar{padding:12px}
+    .weeknav{width:100%}
+    .weeklabel{min-width:0;flex:1;font-size:14px}
+    .weeknav .ghost{padding:8px 12px}
+    .legend{gap:10px}
+  }
+
+  /* grid */
+  .grid-card{padding:0;overflow:hidden;position:relative}
+  .grid-scroll{overflow:auto;max-height:calc(100vh - 150px)}
+  .grid{display:grid;grid-template-columns:78px repeat(7,minmax(126px,1fr));min-width:960px;user-select:none;-webkit-user-select:none}
+  .gh{position:sticky;top:0;z-index:3;background:rgba(14,19,27,.96);border-bottom:1px solid var(--border);padding:12px 10px 10px;text-align:center}
+  .gh.corner{left:0;z-index:4;text-align:left;font-size:11px;color:var(--text-3);font-weight:600;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:flex-end}
+  .gh .dn{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
+  .gh .dd{font-family:var(--serif);font-size:24px;line-height:1.15}
+  .gh.today .dn,.gh.today .dd{color:var(--gold)}
+  .gh.today{box-shadow:inset 0 -2px 0 var(--gold)}
+  .gh .dact{margin-top:6px;font-size:11px;color:var(--text-3);background:none;border:1px solid var(--border);border-radius:999px;padding:2px 10px;cursor:pointer}
+  .gh .dact:hover{color:var(--gold);border-color:var(--gold-line)}
+  .gh .dact:disabled{visibility:hidden}
+  .tl{position:sticky;left:0;z-index:2;background:rgba(12,16,23,.97);border-right:1px solid var(--border);border-bottom:1px solid rgba(255,255,255,.04);
+      padding:0 10px;display:flex;align-items:center;justify-content:flex-end;font-size:12px;color:var(--text-3);font-variant-numeric:tabular-nums;
+      cursor:pointer;white-space:nowrap}
+  .tl:hover{color:var(--gold)}
+  .tl.hour{color:var(--text-2);font-weight:600}
+  .cell{position:relative;height:54px;border:0;border-bottom:1px solid rgba(255,255,255,.04);border-left:1px solid rgba(255,255,255,.04);
+        background:transparent;padding:6px 8px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:8px;min-width:0;
+        transition:background .15s}
+  .cell.today-col{background:rgba(212,175,55,.025)}
+  .cell:hover:not(.na){background:rgba(255,255,255,.035)}
+  .cell:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+  .box{width:18px;height:18px;border-radius:6px;border:1.5px solid var(--border-2);flex:none;display:grid;place-items:center;transition:all .2s var(--ease)}
+  .box svg{opacity:0}
+  .ct{min-width:0;overflow:hidden}
+  .c1{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+  .c2{font-size:11px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+  /* states */
+  .cell.free .c1{color:var(--text-3);font-weight:500}
+  .cell.open .box,.cell.clash .box{background:var(--gold);border-color:var(--gold)} .cell.open .box svg,.cell.clash .box svg{opacity:1;color:var(--bg)}
+  .cell.open .c1{color:var(--gold-2)}
+  .cell.clash{background:var(--warn-soft)} .cell.clash .box{background:var(--warn);border-color:var(--warn)} .cell.clash .c1{color:var(--warn)}
+  .cell.p-open .box{border-color:var(--gold);border-style:dashed;background:var(--gold-soft)} .cell.p-open .box svg{opacity:1;color:var(--gold)}
+  .cell.p-open{background:rgba(212,175,55,.07)} .cell.p-open .c1{color:var(--gold)}
+  .cell.p-close .box{background:transparent;border-color:var(--bad);border-style:dashed} .cell.p-close .box svg{opacity:0}
+  .cell.p-close{background:var(--bad-soft)} .cell.p-close .c1{color:var(--bad);text-decoration:line-through}
+  .cell.booked{background:var(--ok-soft);box-shadow:inset 3px 0 0 var(--ok)} .cell.booked .c1{color:#fff} .cell.booked .c2{color:var(--ok)}
+  .cell.held{background:var(--blue-soft);box-shadow:inset 3px 0 0 var(--blue)} .cell.held .c1{color:var(--blue)}
+  .cell.busy{cursor:not-allowed;background:repeating-linear-gradient(135deg,rgba(255,255,255,.035) 0 6px,transparent 6px 12px)}
+  .cell.busy .c1{color:var(--text-3);font-weight:600}
+  .cell.past{opacity:.38}
+  .cell.past.free,.cell.past.open,.cell.past.clash,.cell.busy{cursor:default}
+  .cell.booked .box,.cell.held .box,.cell.busy .box{display:none}
+  .grid-loading{position:absolute;inset:0;background:rgba(10,14,20,.55);display:grid;place-items:center;z-index:6;font-size:13px;color:var(--text-2)}
+  .spin{width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.12);border-top-color:var(--gold);animation:sp .8s linear infinite;margin:0 auto 8px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  @media (max-width:560px){
+    .grid{grid-template-columns:58px repeat(7,minmax(92px,1fr));min-width:702px}
+    .cell{height:48px;padding:5px 6px;gap:6px} .c2{display:none} .box{width:16px;height:16px}
+    .tl{padding:0 6px;font-size:11px} .gh{padding:10px 4px 8px} .gh .dd{font-size:20px}
+  }
+  .hint-row{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-3);padding:12px 16px;border-top:1px solid var(--border)}
+
+  /* bookings list */
+  .section{margin:22px 0 120px;padding:24px}
+  .section h2{margin:0 0 4px;font-family:var(--serif);font-weight:500;font-size:22px}
+  .section .sub{color:var(--text-3);font-size:13px;margin-bottom:16px}
+  .blist{display:grid;gap:8px}
+  .brow{display:grid;grid-template-columns:170px 1.2fr 90px 1.4fr 90px;gap:14px;align-items:center;padding:12px 14px;border-radius:14px;
+        background:rgba(255,255,255,.03);border:1px solid var(--border);cursor:pointer;text-align:left;width:100%;transition:border-color .2s,transform .3s var(--ease)}
+  .brow:hover{border-color:var(--gold-line);transform:translateY(-2px)}
+  .brow .when{font-weight:700;font-variant-numeric:tabular-nums}
+  .brow .nm{font-weight:600} .brow .bt{color:var(--text-2)} .brow .ag{color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pill{font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;justify-self:start;border:1px solid var(--border-2);color:var(--text-3)}
+  .pill.present{color:var(--ok);border-color:rgba(125,211,168,.4);background:var(--ok-soft)}
+  .pill.absent{color:var(--bad);border-color:rgba(242,160,143,.4);background:var(--bad-soft)}
+  .pill.up{color:var(--gold);border-color:var(--gold-line);background:var(--gold-soft)}
+  .empty{color:var(--text-3);padding:18px 4px}
+  @media (max-width:820px){.brow{grid-template-columns:1fr auto;gap:4px 12px}.brow .bt,.brow .ag{grid-column:1}.brow .pill{grid-row:1;grid-column:2}}
+
+  /* save bar */
+  .savebar{position:fixed;left:50%;bottom:22px;transform:translate(-50%,140%);z-index:40;display:flex;align-items:center;gap:14px;
+           padding:10px 10px 10px 20px;border-radius:999px;background:rgba(15,20,28,.92);border:1px solid var(--gold-line);
+           backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 18px 50px rgba(0,0,0,.45);transition:transform .5s var(--ease);
+           max-width:calc(100vw - 24px)}
+  .savebar.show{transform:translate(-50%,0)}
+  .savebar .sum{font-size:13px;color:var(--text-2);white-space:nowrap}
+  .savebar .sum b{color:var(--gold-2)} .savebar .sum i{font-style:normal;color:var(--bad);font-weight:700}
+  @media (max-width:520px){.savebar{left:12px;right:12px;transform:translateY(140%);bottom:12px;border-radius:20px;flex-wrap:wrap;justify-content:space-between;padding:12px}
+    .savebar.show{transform:none}.savebar .sum{width:100%}}
+
+  /* drawer */
+  .scrim{position:fixed;inset:0;background:rgba(5,8,12,.6);z-index:50;opacity:0;pointer-events:none;transition:opacity .3s}
+  .scrim.show{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,100%);z-index:51;background:#0d121a;border-left:1px solid var(--border);
+          transform:translateX(100%);transition:transform .45s var(--ease);display:flex;flex-direction:column;padding:28px}
+  .drawer.show{transform:none}
+  .drawer .x{position:absolute;top:18px;right:18px}
+  .drawer h3{font-family:var(--serif);font-weight:500;font-size:26px;margin:10px 0 4px}
+  .drawer .when{color:var(--gold-2);font-weight:700;margin-bottom:20px}
+  .drawer dl{margin:0 0 24px;display:grid;grid-template-columns:auto 1fr;gap:12px 18px}
+  .drawer dt{font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-3);padding-top:2px}
+  .drawer dd{margin:0;font-weight:600;text-align:right;overflow-wrap:anywhere}
+  .drawer .acts{display:grid;gap:10px;margin-top:auto}
+  .drawer .note{font-size:12px;color:var(--text-3);margin:0 0 12px}
+
+  /* toast */
+  .toast{position:fixed;top:84px;right:22px;z-index:60;width:min(380px,calc(100vw - 28px));padding:14px 16px;border-radius:16px;background:rgba(15,20,28,.96);
+         border:1px solid var(--border-2);box-shadow:0 18px 50px rgba(0,0,0,.45);transform:translateY(-12px);opacity:0;pointer-events:none;
+         transition:all .4s var(--ease);font-size:13px}
+  .toast.show{opacity:1;transform:none;pointer-events:auto}
+  .toast.ok{border-color:rgba(125,211,168,.45)} .toast.err{border-color:rgba(242,160,143,.5)}
+  .toast b{display:block;font-size:14px;margin-bottom:2px}
+  .toast ul{margin:8px 0 0;padding-left:18px;color:var(--text-2);max-height:160px;overflow:auto}
+  .demo{font-size:12px;color:var(--gold-2);background:var(--gold-soft);border:1px solid var(--gold-line);border-radius:12px;padding:8px 12px;margin-top:14px}
+  footer{text-align:center;font-size:12px;color:var(--text-3);padding:0 16px 30px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <div class="brand"><span class="logo">IMS</span><span class="brand-text">Mentoring<span>Admin</span></span></div>
+    <div class="top-r">
+      <span class="cal-chip hidden" id="calChip">Calendar · <b id="calName"></b></span>
+      <button class="ghost hidden" id="lockBtn" title="Lock this page">Lock</button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= LOCK ================= -->
+<main id="lockView" class="wrap lock">
+  <div class="glass lock-card reveal">
+    <span class="tag">Mukul Sir · Admin</span>
+    <h1>Mentoring slots</h1>
+    <p>Enter the admin key to open slots, see bookings and manage the calendar.</p>
+    <label class="l" for="keyIn">Admin key</label>
+    <input id="keyIn" class="control" type="password" autocomplete="current-password" placeholder="Enter admin key">
+    <label class="check"><input type="checkbox" id="remember" checked> Remember on this device</label>
+    <button class="btn" id="unlockBtn">Unlock</button>
+    <div class="err" id="lockErr"></div>
+    <div class="demo hidden" id="demoNote">Demo mode — no backend connected. Any key works and nothing is saved.</div>
+  </div>
+</main>
+
+<!-- ================= APP ================= -->
+<main id="appView" class="wrap hidden">
+  <section class="head reveal">
+    <div>
+      <span class="tag">Mentoring admin · 30-minute slots</span>
+      <h1>Open slots for <em>Mukul Sir</em></h1>
+      <p>Tick the cells you want to open and press <b>Save</b>. Drag across cells to select several at once, or use a day's
+         <b>Select all</b> and the time labels. Slots that clash with another event are blocked automatically.</p>
+    </div>
+    <div class="stats">
+      <div class="stat gold"><div class="k">Open</div><div class="v" id="stOpen">0</div></div>
+      <div class="stat"><div class="k">Booked</div><div class="v" id="stBooked">0</div></div>
+      <div class="stat warn hidden" id="stClashWrap"><div class="k">Clash</div><div class="v" id="stClash">0</div></div>
+    </div>
+  </section>
+
+  <div class="glass toolbar reveal" style="--d:.06s">
+    <div class="weeknav">
+      <button class="icon-btn" id="prevWk" aria-label="Previous week"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="weeklabel" id="weekLabel">—</div>
+      <button class="icon-btn" id="nextWk" aria-label="Next week"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+      <button class="ghost" id="todayBtn">This week</button>
+    </div>
+    <div class="legend">
+      <span><i class="sw"></i>Free</span><span><i class="sw open"></i>Open</span><span><i class="sw booked"></i>Booked</span>
+      <span><i class="sw held"></i>Reserved</span><span><i class="sw busy"></i>Busy (calendar)</span><span><i class="sw clash"></i>Clash — hidden</span>
+    </div>
+    <div class="tb-r"><button class="ghost" id="refreshBtn">Refresh</button></div>
+  </div>
+
+  <div class="glass grid-card reveal" style="--d:.12s">
+    <div class="grid-scroll" id="gridScroll"><div class="grid" id="grid"></div></div>
+    <div class="grid-loading hidden" id="gridLoading"><div><div class="spin"></div>Loading calendar…</div></div>
+    <div class="hint-row">
+      <span>Each cell is a 30-minute slot. Saving updates the calendar and the students' booking page within a minute.</span>
+      <span id="rangeNote"></span>
+    </div>
+  </div>
+
+  <section class="glass section reveal" style="--d:.18s">
+    <h2>Bookings this week</h2>
+    <div class="sub">Click a booking for details or to cancel it. Attendance is marked in the Bookings sheet.</div>
+    <div class="blist" id="blist"></div>
+  </section>
+</main>
+
+<!-- save bar -->
+<div class="savebar" id="savebar">
+  <span class="sum" id="saveSum"></span>
+  <button class="ghost" id="discardBtn">Discard</button>
+  <button class="btn" id="saveBtn">Save changes</button>
+</div>
+
+<!-- drawer -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <button class="icon-btn x" id="drawerX" aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <span class="tag" id="dTag">Booking</span>
+  <h3 id="dTitle">—</h3>
+  <div class="when" id="dWhen"></div>
+  <dl id="dList"></dl>
+  <div class="acts" id="dActs"></div>
+</aside>
+
+<div class="toast" id="toast"></div>
+<footer>IMS Ahmedabad · CNS'27 Mentoring · Admin</footer>
+
+<script>
+/* ===== CONFIG ===== */
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzYZSPReaviVqiHH5GX9w6JgWKplJs2DLNxq8Y4XPE5jg2DklDUWxln9vzAvh6OXeD_/exec';
+const DEMO = !/^https:\/\/script\.google\.com\//.test(WEB_APP_URL) || new URLSearchParams(location.search).has('demo');
+const STORE_KEY = 'mentoringAdminKey:' + WEB_APP_URL;
+
+/* ===== STATE ===== */
+let KEY = '', data = null, loading = false, weekStart = null, autoTimer = null;
+const pending = { open: new Set(), close: new Set() };
+let drag = null, suppressClick = false;
+
+const $ = id => document.getElementById(id);
+const esc = t => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ===== DATES (all in IST) ===== */
+const DN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], MN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const istToday = () => new Date(Date.now() + 5.5 * 36e5).toISOString().slice(0, 10);
+const ymd = s => s.split('-').map(Number);
+const addDays = (s, n) => { const [y, m, d] = ymd(s); return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10); };
+const dow = s => { const [y, m, d] = ymd(s); return new Date(Date.UTC(y, m - 1, d)).getUTCDay(); };
+const sundayOf = s => addDays(s, -dow(s));
+const startMs = id => Date.parse(id + ':00+05:30');
+const toMin = hm => { const [h, m] = hm.split(':').map(Number); return h * 60 + m; };
+const hm = min => String(Math.floor(min / 60)).padStart(2, '0') + ':' + String(min % 60).padStart(2, '0');
+const t12 = h_m => { let [h, m] = h_m.split(':').map(Number); const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12; return h + ':' + String(m).padStart(2, '0') + ' ' + ap; };
+const dayLabel = s => { const [y, m, d] = ymd(s); return `${DN[dow(s)]}, ${d} ${MN[m - 1]}`; };
+const slotLabel = id => { const d = id.slice(0, 10), st = id.slice(11), en = hm(toMin(st) + step()); return `${dayLabel(d)} · ${t12(st)} – ${t12(en)}`; };
+const step = () => (data && data.step) || 30;
+const isPast = id => startMs(id) <= Date.now();
+
+/* ===== API ===== */
+async function api(payload) {
+  if (DEMO) return demoApi(payload);
+  const r = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(Object.assign({ key: KEY }, payload)) });
+  return r.json();
+}
+
+/* ===== LOCK ===== */
+function saveKey(k) { try { if ($('remember').checked) localStorage.setItem(STORE_KEY, k); else localStorage.removeItem(STORE_KEY); } catch (e) {} }
+function loadKey() { try { return localStorage.getItem(STORE_KEY) || ''; } catch (e) { return ''; } }
+function forgetKey() { try { localStorage.removeItem(STORE_KEY); } catch (e) {} }
+
+async function unlock(k, silent) {
+  KEY = k; $('lockErr').textContent = '';
+  $('unlockBtn').disabled = true; $('unlockBtn').textContent = 'Checking…';
+  weekStart = weekStart || sundayOf(istToday());
+  try {
+    const j = await api({ action: 'adminState', from: weekStart, days: 7 });
+    if (!j.ok) {
+      if (!silent) $('lockErr').textContent = j.code === 'KEY' ? 'That key is not correct.' : (j.error || 'Could not connect.');
+      if (j.code === 'KEY') forgetKey();
+      return;
+    }
+    if (!silent) saveKey(k);
+    data = j; showApp();
+  } catch (e) {
+    if (!silent) $('lockErr').textContent = 'Could not reach the backend. Check your internet and try again.';
+  } finally {
+    $('unlockBtn').disabled = false; $('unlockBtn').textContent = 'Unlock';
+  }
+}
+function showApp() {
+  $('lockView').classList.add('hidden'); $('appView').classList.remove('hidden');
+  $('lockBtn').classList.remove('hidden'); $('calChip').classList.remove('hidden');
+  render(); startAuto();
+}
+function lock() {
+  if (pendingCount() && !confirm('Discard unsaved changes and lock?')) return;
+  forgetKey(); KEY = ''; data = null; pending.open.clear(); pending.close.clear();
+  clearInterval(autoTimer); closeDrawer(); updateSaveBar();
+  $('appView').classList.add('hidden'); $('lockView').classList.remove('hidden');
+  $('lockBtn').classList.add('hidden'); $('calChip').classList.add('hidden');
+  $('keyIn').value = ''; $('keyIn').focus();
+}
+$('unlockBtn').addEventListener('click', () => { const k = $('keyIn').value.trim(); if (k) unlock(k, false); else $('keyIn').focus(); });
+$('keyIn').addEventListener('keydown', e => { if (e.key === 'Enter') $('unlockBtn').click(); });
+$('lockBtn').addEventListener('click', lock);
+
+/* ===== LOAD WEEK ===== */
+async function loadWeek(quiet) {
+  if (loading) return;
+  loading = true; if (!quiet) $('gridLoading').classList.remove('hidden');
+  try {
+    const j = await api({ action: 'adminState', from: weekStart, days: 7 });
+    if (!j.ok) { if (j.code === 'KEY') { lock(); return; } toast('err', 'Could not load', j.error); return; }
+    data = j; render();
+  } catch (e) {
+    if (!quiet) toast('err', 'Could not load the calendar', 'Check your internet connection and press Refresh.');
+  } finally { loading = false; $('gridLoading').classList.add('hidden'); }
+}
+function startAuto() {
+  clearInterval(autoTimer);
+  autoTimer = setInterval(() => { if (!document.hidden && !pendingCount() && !$('drawer').classList.contains('show')) loadWeek(true); }, 60000);
+}
+
+/* ===== CELL STATE ===== */
+function base(id) { return (data && data.cells && data.cells[id]) || { s: 'free' }; }
+function view(id) {
+  const c = base(id), past = isPast(id);
+  let s = c.s;
+  if (!past && s === 'free' && pending.open.has(id)) s = 'p-open';
+  if (!past && (s === 'open' || s === 'clash') && pending.close.has(id)) s = 'p-close';
+  return { c, s, past };
+}
+const toggleable = id => { const c = base(id); return !isPast(id) && (c.s === 'free' || c.s === 'open' || c.s === 'clash'); };
+function modeFor(id) {
+  const c = base(id);
+  if (c.s === 'free') return pending.open.has(id) ? 'unopen' : 'open';
+  return pending.close.has(id) ? 'unclose' : 'close';
+}
+function apply(id, mode) {
+  if (!toggleable(id)) return;
+  const free = base(id).s === 'free';
+  if (mode === 'open' && free) pending.open.add(id);
+  else if (mode === 'unopen' && free) pending.open.delete(id);
+  else if (mode === 'close' && !free) pending.close.add(id);
+  else if (mode === 'unclose' && !free) pending.close.delete(id);
+}
+
+/* ===== RENDER ===== */
+const CHECK = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+function days() { return Array.from({ length: 7 }, (_, i) => addDays(weekStart, i)); }
+function rows() {
+  const a = toMin((data && data.dayStart) || '08:00'), b = toMin((data && data.dayEnd) || '21:00'), out = [];
+  for (let t = a; t + step() <= b; t += step()) out.push(hm(t));
+  return out;
+}
+function render() {
+  if (!data) return;
+  $('calName').textContent = data.calendar || data.mentor || '';
+  const ds = days(), today = istToday();
+  const first = ds[0], last = ds[6], [y1, m1, d1] = ymd(first), [y2, m2, d2] = ymd(last);
+  $('weekLabel').textContent = m1 === m2 ? `${d1} – ${d2} ${MN[m2 - 1]} ${y2}` : `${d1} ${MN[m1 - 1]} – ${d2} ${MN[m2 - 1]} ${y2}`;
+  $('prevWk').disabled = weekStart <= sundayOf(today);
+  $('rangeNote').textContent = `Grid ${t12(data.dayStart)} – ${t12(data.dayEnd)}`;
+
+  let h = '<div class="gh corner">IST</div>';
+  ds.forEach(d => {
+    const [, , dd] = ymd(d), anyFree = rows().some(r => { const id = d + 'T' + r; return toggleable(id) && base(id).s === 'free'; });
+    h += `<div class="gh${d === today ? ' today' : ''}"><div class="dn">${DN[dow(d)]}</div><div class="dd">${dd}</div>
+          <button class="dact" data-day="${d}" ${anyFree ? '' : 'disabled'}>${dayAllSelected(d) ? 'Clear' : 'Select all'}</button></div>`;
+  });
+  let nOpen = 0, nBooked = 0, nClash = 0;
+  rows().forEach(r => {
+    h += `<div class="tl${r.endsWith(':00') ? ' hour' : ''}" data-row="${r}" title="Select this time across the week">${t12(r)}</div>`;
+    ds.forEach(d => {
+      const id = d + 'T' + r, v = view(id), c = v.c;
+      if (c.s === 'open') nOpen++; if (c.s === 'booked') nBooked++; if (c.s === 'clash' && !v.past) nClash++;
+      let c1 = '', c2 = '';
+      switch (v.s) {
+        case 'free': c1 = v.past ? '' : 'Free'; break;
+        case 'p-open': c1 = 'Will open'; break;
+        case 'open': c1 = 'Open'; break;
+        case 'p-close': c1 = 'Will close'; break;
+        case 'clash': c1 = 'Clash · hidden'; c2 = c.t; break;
+        case 'booked': c1 = c.n; c2 = (c.b || '') + (c.att ? ' · ' + c.att : ''); break;
+        case 'held': c1 = 'Reserved'; c2 = c.t; break;
+        case 'busy': c1 = c.t; break;
+      }
+      const na = (v.s === 'busy') || (v.past && v.s !== 'booked' && v.s !== 'held');
+      const tip = v.s === 'busy' ? `Busy: ${c.t}` : v.s === 'booked' ? `${c.n} (${c.b}) — ${c.a || ''}` : v.s === 'clash' ? `Open, but clashes with "${c.t}" — hidden from students` : '';
+      h += `<button class="cell ${v.s}${v.past ? ' past' : ''}${na ? ' na' : ''}${d === today ? ' today-col' : ''}" data-id="${id}" ${na ? 'tabindex="-1"' : ''} title="${esc(tip)}">
+              <span class="box">${CHECK}</span><span class="ct"><div class="c1">${esc(c1)}</div>${c2 ? `<div class="c2">${esc(c2)}</div>` : ''}</span></button>`;
+    });
+  });
+  $('grid').innerHTML = h;
+  $('stOpen').textContent = nOpen; $('stBooked').textContent = nBooked;
+  $('stClash').textContent = nClash; $('stClashWrap').classList.toggle('hidden', !nClash);
+  renderBookings(); updateSaveBar();
+}
+function dayAllSelected(d) {
+  const ids = rows().map(r => d + 'T' + r).filter(id => toggleable(id) && base(id).s === 'free');
+  return ids.length > 0 && ids.every(id => pending.open.has(id));
+}
+function renderBookings() {
+  const list = (data && data.bookings) || [];
+  if (!list.length) { $('blist').innerHTML = '<div class="empty">No bookings in this week yet.</div>'; return; }
+  $('blist').innerHTML = list.map(b => {
+    const att = (b.attendance || '').toLowerCase();
+    const pill = att === 'present' ? '<span class="pill present">Present</span>' : att === 'absent' ? '<span class="pill absent">Absent</span>'
+               : isPast(b.id) ? '<span class="pill">To mark</span>' : '<span class="pill up">Upcoming</span>';
+    return `<button class="brow" data-bid="${esc(b.id)}"><span class="when">${esc(shortWhen(b.id))}</span><span class="nm">${esc(b.name)}</span>
+            <span class="bt">${esc(b.batch)}</span><span class="ag">${esc(b.agenda || '—')}</span>${pill}</button>`;
+  }).join('');
+}
+const shortWhen = id => { const d = id.slice(0, 10), [, , dd] = ymd(d), [, mm] = ymd(d); return `${DN[dow(d)]} ${dd} ${MN[mm - 1]} · ${t12(id.slice(11))}`; };
+
+/* ===== SAVE BAR ===== */
+const pendingCount = () => pending.open.size + pending.close.size;
+function updateSaveBar() {
+  const o = pending.open.size, c = pending.close.size;
+  $('saveSum').innerHTML = [o ? `<b>${o}</b> to open` : '', c ? `<i>${c}</i> to close` : ''].filter(Boolean).join(' · ');
+  $('savebar').classList.toggle('show', o + c > 0);
+}
+$('discardBtn').addEventListener('click', () => { pending.open.clear(); pending.close.clear(); render(); });
+$('saveBtn').addEventListener('click', async () => {
+  const btn = $('saveBtn'); btn.disabled = true; btn.textContent = 'Saving…';
+  try {
+    const j = await api({ action: 'adminSave', open: [...pending.open], close: [...pending.close] });
+    if (!j.ok) { if (j.code === 'KEY') { lock(); return; } toast('err', 'Could not save', j.error); return; }
+    pending.open.clear(); pending.close.clear();
+    const parts = [j.opened ? `${j.opened} slot${j.opened > 1 ? 's' : ''} opened` : '', j.closed ? `${j.closed} closed` : ''].filter(Boolean);
+    const skipped = (j.skipped || []).map(s => `${shortWhen(s.id)} — ${s.reason}`);
+    toast(skipped.length ? 'err' : 'ok', parts.join(' · ') || 'Nothing changed', skipped.length ? 'Not changed:' : 'The calendar and the students\' page are updated.', skipped);
+    await loadWeek(true);
+  } catch (e) { toast('err', 'Could not save', 'Check your internet connection and try again.'); }
+  finally { btn.disabled = false; btn.textContent = 'Save changes'; }
+});
+window.addEventListener('beforeunload', e => { if (pendingCount()) { e.preventDefault(); e.returnValue = ''; } });
+
+/* ===== GRID INTERACTION ===== */
+const grid = $('grid');
+function cellFrom(el) { return el && el.closest ? el.closest('.cell') : null; }
+function openOrToggle(cell) {
+  const id = cell.dataset.id, c = base(id);
+  if (c.s === 'booked' || c.s === 'held') { openDrawer(id); return false; }
+  if (!toggleable(id)) return false;
+  apply(id, modeFor(id)); render(); return true;
+}
+grid.addEventListener('pointerdown', e => {
+  if (e.pointerType !== 'mouse' || e.button !== 0) return;
+  const dayBtn = e.target.closest('.dact'), row = e.target.closest('.tl');
+  if (dayBtn || row) return;
+  const cell = cellFrom(e.target); if (!cell) return;
+  suppressClick = true;
+  const id = cell.dataset.id, c = base(id);
+  if (c.s === 'booked' || c.s === 'held') { openDrawer(id); return; }
+  if (!toggleable(id)) return;
+  drag = { mode: modeFor(id), last: id };
+  apply(id, drag.mode); render();
+  e.preventDefault();
+});
+// While the button is held the browser keeps targeting the first cell, so find the cell under the pointer ourselves
+window.addEventListener('pointermove', e => {
+  if (!drag || e.pointerType !== 'mouse') return;
+  if (!(e.buttons & 1)) { drag = null; return; }
+  const cell = cellFrom(document.elementFromPoint(e.clientX, e.clientY));
+  if (!cell || cell.dataset.id === drag.last) return;
+  drag.last = cell.dataset.id;
+  const id = cell.dataset.id, before = pending.open.has(id) + ':' + pending.close.has(id);
+  apply(id, drag.mode);
+  if (before !== pending.open.has(id) + ':' + pending.close.has(id)) render();
+});
+window.addEventListener('pointerup', () => { drag = null; });
+grid.addEventListener('click', e => {
+  const dayBtn = e.target.closest('.dact');
+  if (dayBtn) { toggleDay(dayBtn.dataset.day); return; }
+  const row = e.target.closest('.tl');
+  if (row) { toggleRow(row.dataset.row); return; }
+  if (suppressClick) { suppressClick = false; return; }
+  const cell = cellFrom(e.target); if (cell) openOrToggle(cell);
+});
+function toggleDay(d) {
+  const ids = rows().map(r => d + 'T' + r).filter(id => toggleable(id) && base(id).s === 'free');
+  const all = ids.every(id => pending.open.has(id));
+  ids.forEach(id => all ? pending.open.delete(id) : pending.open.add(id)); render();
+}
+function toggleRow(r) {
+  const ids = days().map(d => d + 'T' + r).filter(id => toggleable(id) && base(id).s === 'free');
+  if (!ids.length) return;
+  const all = ids.every(id => pending.open.has(id));
+  ids.forEach(id => all ? pending.open.delete(id) : pending.open.add(id)); render();
+}
+
+/* ===== WEEK NAV ===== */
+$('prevWk').addEventListener('click', () => { weekStart = addDays(weekStart, -7); loadWeek(); });
+$('nextWk').addEventListener('click', () => { weekStart = addDays(weekStart, 7); loadWeek(); });
+$('todayBtn').addEventListener('click', () => { weekStart = sundayOf(istToday()); loadWeek(); });
+$('refreshBtn').addEventListener('click', () => loadWeek());
+
+/* ===== DRAWER ===== */
+let drawerId = null;
+function openDrawer(id) {
+  drawerId = id; $('toast').classList.remove('show');
+  const c = base(id), b = ((data && data.bookings) || []).find(x => x.id === id) || {}, past = isPast(id);
+  $('dWhen').textContent = slotLabel(id);
+  let rowsHtml = '', acts = '';
+  if (c.s === 'booked') {
+    $('dTag').textContent = 'Booking'; $('dTitle').textContent = c.n || b.name || 'Student';
+    rowsHtml = [['Batch', c.b || b.batch], ['IMS PIN', b.pin], ['Agenda', c.a || b.agenda], ['Attendance', c.att || b.attendance || (past ? 'Not marked yet' : 'Upcoming')], ['Remarks', b.remarks]]
+      .filter(r => r[1]).map(r => `<dt>${r[0]}</dt><dd>${esc(r[1])}</dd>`).join('');
+    acts = past ? '<p class="note">This session has passed. Mark attendance in the Bookings sheet.</p>'
+      : `<p class="note">Cancelling marks the booking "Cancelled" in the sheet. Tell the student before you cancel.</p>
+         <button class="ghost danger" data-act="reopen">Cancel booking · reopen slot</button>
+         <button class="ghost danger" data-act="remove">Cancel booking · remove slot</button>`;
+  } else {
+    $('dTag').textContent = 'Reserved in calendar'; $('dTitle').textContent = 'Reserved slot';
+    rowsHtml = `<dt>Calendar title</dt><dd>${esc(c.t)}</dd>`;
+    acts = past ? '' : `<p class="note">This was reserved by hand in Google Calendar (not booked through the page).</p>
+         <button class="ghost" data-act="reopen">Make it an open slot</button>
+         <button class="ghost danger" data-act="remove">Remove from calendar</button>`;
+  }
+  $('dList').innerHTML = rowsHtml; $('dActs').innerHTML = acts;
+  $('drawer').classList.add('show'); $('scrim').classList.add('show'); $('drawer').setAttribute('aria-hidden', 'false');
+}
+function closeDrawer() { $('drawer').classList.remove('show'); $('scrim').classList.remove('show'); $('drawer').setAttribute('aria-hidden', 'true'); drawerId = null; }
+$('drawerX').addEventListener('click', closeDrawer); $('scrim').addEventListener('click', closeDrawer);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+$('blist').addEventListener('click', e => { const r = e.target.closest('.brow'); if (r) openDrawer(r.dataset.bid); });
+$('dActs').addEventListener('click', async e => {
+  const btn = e.target.closest('button[data-act]'); if (!btn || !drawerId) return;
+  if (!btn.dataset.armed) {                       // two-step confirm
+    btn.dataset.armed = '1'; const t = btn.textContent; btn.textContent = 'Click again to confirm';
+    setTimeout(() => { if (btn.isConnected) { delete btn.dataset.armed; btn.textContent = t; } }, 4000); return;
+  }
+  btn.disabled = true; btn.textContent = 'Working…';
+  try {
+    const j = await api({ action: 'adminCancel', id: drawerId, reopen: btn.dataset.act === 'reopen' });
+    if (!j.ok) { if (j.code === 'KEY') { lock(); return; } toast('err', 'Could not cancel', j.error); return; }
+    closeDrawer();
+    toast('ok', j.cancelled ? 'Booking cancelled' : 'Reservation updated',
+      j.calendar === 'reopened' ? 'The slot is open again for students.' : j.calendar === 'removed' ? 'The slot was removed from the calendar.' : '');
+    await loadWeek(true);
+  } catch (err) { toast('err', 'Could not cancel', 'Check your internet connection and try again.'); }
+});
+
+/* ===== TOAST ===== */
+let toastT = null;
+function toast(kind, title, msg, items) {
+  const t = $('toast');
+  t.className = 'toast show ' + kind;
+  t.innerHTML = `<b>${esc(title)}</b>${msg ? esc(msg) : ''}${items && items.length ? '<ul>' + items.map(i => `<li>${esc(i)}</li>`).join('') + '</ul>' : ''}`;
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), items && items.length ? 9000 : 4500);
+}
+
+/* ===== DEMO BACKEND (only when no backend URL is set, or ?demo in the address) ===== */
+const demo = { cells: {}, made: {} };
+function demoSeed(from) {
+  for (let i = 0; i < 7; i++) {
+    const d = addDays(from, i); if (demo.made[d]) continue; demo.made[d] = 1;
+    const w = dow(d), put = (a, b, c) => { for (let t = toMin(a); t < toMin(b); t += 30) demo.cells[d + 'T' + hm(t)] = Object.assign({}, c); };
+    if (w === 1 || w === 3 || w === 5) put('16:30', '18:30', { s: 'busy', t: '27CNS06 - QA class' });
+    if (w === 6) put('09:00', '11:00', { s: 'busy', t: '27CNS02+04 - Math Reboot' });
+    if (w === 2) put('12:00', '14:00', { s: 'open' });
+    if (w === 4) { put('10:00', '12:00', { s: 'open' }); demo.cells[d + 'T10:30'] = { s: 'booked', n: 'Neer Mehta', b: '27CNS 05', a: 'SimCMAT 8 Analysis' };
+                   demo.cells[d + 'T11:30'] = { s: 'clash', t: 'Q2 Acads Review' }; }
+    if (w === 0) demo.cells[d + 'T10:00'] = { s: 'held', t: 'Mentoring - Riya' };
+  }
+}
+async function demoApi(p) {
+  await new Promise(r => setTimeout(r, 250));
+  if (p.action === 'adminState') {
+    demoSeed(p.from); const cells = {}, bookings = [];
+    for (let i = 0; i < 7; i++) { const d = addDays(p.from, i);
+      Object.keys(demo.cells).filter(k => k.startsWith(d)).forEach(k => { cells[k] = demo.cells[k];
+        if (demo.cells[k].s === 'booked') bookings.push({ id: k, name: demo.cells[k].n, batch: demo.cells[k].b, pin: 'STU0001233429', agenda: demo.cells[k].a, attendance: '' }); }); }
+    return { ok: true, mentor: 'Mukul Arora', calendar: 'Demo calendar', from: p.from, days: 7, dayStart: '08:00', dayEnd: '21:00', step: 30, cells, bookings };
+  }
+  if (p.action === 'adminSave') {
+    let opened = 0, closed = 0; const skipped = [];
+    (p.close || []).forEach(id => { const c = demo.cells[id]; if (c && (c.s === 'open' || c.s === 'clash')) { delete demo.cells[id]; closed++; } });
+    (p.open || []).forEach(id => { if (isPast(id)) skipped.push({ id, reason: 'time has passed' }); else if (!demo.cells[id]) { demo.cells[id] = { s: 'open' }; opened++; } });
+    return { ok: true, opened, closed, skipped };
+  }
+  if (p.action === 'adminCancel') {
+    const c = demo.cells[p.id]; if (c) { if (p.reopen) demo.cells[p.id] = { s: 'open' }; else delete demo.cells[p.id]; }
+    return { ok: true, cancelled: c && c.s === 'booked' ? 1 : 0, calendar: p.reopen ? 'reopened' : 'removed' };
+  }
+  return { ok: false, error: 'Unknown action' };
+}
+
+/* ===== START ===== */
+if (DEMO) $('demoNote').classList.remove('hidden');
+weekStart = sundayOf(istToday());
+const saved = loadKey();
+if (saved) { $('keyIn').value = saved; unlock(saved, true); } else { $('keyIn').focus(); }
+</script>
+</body>
+</html>
